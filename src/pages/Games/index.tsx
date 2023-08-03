@@ -15,6 +15,7 @@ export type GameContentType = {
   thumbnailBig?: string;
   iframeUrl?: string;
   description?: string;
+  link?: string;
 };
 
 const Games = () => {
@@ -45,7 +46,9 @@ const Games = () => {
                 onClick={() => {
                   localStorage.setItem("iframeID", String(index + 1));
                   dispatch(setIframeMode({ iframeMode: false }));
-                  navigate("/subbetting");
+                  const linkAddr = String(GAME_CONTENTS[index].link);
+                  navigate(linkAddr);
+                  // navigate(string(GAME_CONTENTS[index].link));
                 }}
               >
                 <div className="img-hover-zoom--brightness overflow-hidden w-full rounded-t-2xl">

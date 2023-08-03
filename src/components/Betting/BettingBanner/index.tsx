@@ -13,6 +13,7 @@ export type BettingBannerType = {
   button?: string;
   path?: string;
   iframeUrl?: string;
+  link?: string;
 };
 
 const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
@@ -72,7 +73,8 @@ const BettingBanner = (props: BettingBannerType) => {
                 // dispatch(setIframeID({ iframeID: props.index }));
                 // dispatch(setIframeMode({ iframeMode: true }));
                 localStorage.setItem("iframeID", String(props.index));
-                navigate("/subbetting");
+                navigate(String(props.link));
+                // console.log(props.link, props.index);
               }}
             >
               {props.button}

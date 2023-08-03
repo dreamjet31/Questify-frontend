@@ -595,6 +595,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 1,
     title: "Tetrisk",
+    link: "/tetrisk",
     thumbnail: "/images/games/thumbnail/Tetris.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "https://questify-tetrisk.web.app",
@@ -604,6 +605,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 2,
     title: "Subway Surfing",
+    link: "/subway",
     thumbnail: "/images/games/thumbnail/subway.png",
     iframeUrl: "https://subway-surfers.org/surf-fantasy-fest",
     thumbnailBig: "/images/betting/sub-bet.png",
@@ -612,6 +614,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 3,
     title: "Tower Building",
+    link: "/towerbuilding",
     thumbnail: "/images/games/thumbnail/Tower.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "https://iamkun.github.io/tower_game/",
@@ -620,6 +623,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 4,
     title: "2048",
+    link: "/2048",
     thumbnail: "/images/games/thumbnail/2048.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "https://play2048.co/",
@@ -628,6 +632,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 5,
     title: "Candy Crush",
+    link: "/candycrush",
     thumbnail: "/images/games/thumbnail/CandyCrush.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "https://www.gamesgames.com/game/super-candy-jewels",
@@ -636,6 +641,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 6,
     title: "Flappy Bird",
+    link: "/flappybird",
     thumbnail: "/images/games/thumbnail/flappy.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -644,6 +650,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 7,
     title: "Chess",
+    link: "/chess",
     thumbnail: "/images/games/thumbnail/Chess.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -653,6 +660,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 8,
     title: "Aavegotchi",
+    link: "/aavegotchi",
     thumbnail: "/images/games/thumbnail/aavegotchi.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -661,6 +669,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 9,
     title: "World Wide Webb",
+    link: "/wwweb",
     thumbnail: "/images/games/thumbnail/WorldWideWebb.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -669,6 +678,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 10,
     title: "Double Jump",
+    link: "/doublejump",
     thumbnail: "/images/games/thumbnail/DoubleJump.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -677,6 +687,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 11,
     title: "Decentraland",
+    link: "/decentraland",
     thumbnail: "/images/games/thumbnail/Decentraland.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -685,6 +696,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 12,
     title: "Halo",
+    link: "/halo",
     thumbnail: "/images/games/thumbnail/Halo.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -693,6 +705,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 13,
     title: "ALR",
+    link: "/alr",
     thumbnail: "/images/games/thumbnail/ALR.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -701,6 +714,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 14,
     title: "Mixmob",
+    link: "/mixmob",
     thumbnail: "/images/games/thumbnail/Mixmob.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -709,6 +723,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 15,
     title: "MiniRoyale",
+    link: "/miniroyale",
     thumbnail: "/images/games/thumbnail/MiniRoyale.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -717,6 +732,7 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 16,
     title: "Heroes & Empires",
+    link: "/heros&empires",
     thumbnail: "/images/games/thumbnail/HeroesEmpires.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "",
@@ -733,6 +749,7 @@ export const BETTING_BANNER_ITEMS: BettingBannerType[] = [
       "Damage with Legendary Weapons. Play now to earn infinite rewards, and claim your airdrop!",
     button: "Launch Now",
     iframeUrl: "https://questify-tetrisk.web.app",
+    link: "/tetrisk",
   },
   {
     index: 2,
@@ -742,6 +759,7 @@ export const BETTING_BANNER_ITEMS: BettingBannerType[] = [
       "Damage with Legendary Weapons. Play now to earn infinite rewards, and claim your airdrop!",
     button: "Launch Now",
     iframeUrl: "https://subway-surfers.org/surf-fantasy-fest/",
+    link: "/subway",
   },
   {
     index: 3,
@@ -751,6 +769,7 @@ export const BETTING_BANNER_ITEMS: BettingBannerType[] = [
       "Damage with Legendary Weapons. Play now to earn infinite rewards, and claim your airdrop!",
     button: "Launch Now",
     iframeUrl: "https://iamkun.github.io/tower_game/",
+    link: "/towerbuilding",
   },
   {
     index: 4,
@@ -760,6 +779,7 @@ export const BETTING_BANNER_ITEMS: BettingBannerType[] = [
       "Damage with Legendary Weapons. Play now to earn infinite rewards, and claim your airdrop!",
     button: "Launch Now",
     iframeUrl: "https://play2048.co/",
+    link: "/2048",
   },
 ];
 

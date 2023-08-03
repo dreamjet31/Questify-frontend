@@ -83,6 +83,7 @@ const Betting = () => {
         content={item.content}
         button={item.button}
         index={Number(index) + 1}
+        link={item.link}
       />
     </div>
   ));
