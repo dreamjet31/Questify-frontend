@@ -991,3 +991,76 @@ export const COMPASS_BOX_COMPASS: CompassBoxType[] = [
     inactiveThumbnail: "/images/quests/compass_box/test_false.png",
   },
 ];
+
+export const LOOTBOX_CARD: any = [
+  {
+    id: 1,
+    img: "/images/logos/logo.png",
+    name: "Questify Token",
+    value: "10 $QST",
+    selected: false,
+  },
+  {
+    id: 2,
+    img: "/images/logos/logo.png",
+    name: "Questify Token",
+    value: "20 $QST",
+    selected: false,
+  },
+  {
+    id: 3,
+    img: "/images/logos/logo.png",
+    name: "Questify Token",
+    value: "30 $QST",
+    selected: false,
+  },
+  {
+    id: 4,
+    img: "/images/logos/logo.png",
+    name: "Questify Token",
+    value: "40 $QST",
+    selected: false,
+  },
+  {
+    id: 5,
+    img: "/images/logos/logo.png",
+    name: "Questify Token",
+    value: "50 $QST",
+    selected: false,
+  },
+  {
+    id: 6,
+    img: "/images/logos/logo.png",
+    name: "Questify Token",
+    value: "60 $QST",
+    selected: false,
+  },
+  {
+    id: 7,
+    img: "/images/logos/logo.png",
+    name: "Questify Token",
+    value: "70 $QST",
+    selected: false,
+  },
+  {
+    id: 8,
+    img: "/images/logos/logo.png",
+    name: "Questify Token",
+    value: "80 $QST",
+    selected: false,
+  },
+  {
+    id: 9,
+    img: "/images/logos/logo.png",
+    name: "Questify Token",
+    value: "90 $QST",
+    selected: false,
+  },
+  {
+    id: 10,
+    img: "/images/logos/logo.png",
+    name: "Questify Token",
+    value: "100 $QST",
+    selected: false,
+  },
+];
