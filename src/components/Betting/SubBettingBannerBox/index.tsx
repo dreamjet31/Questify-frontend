@@ -4,10 +4,14 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setIframeID, setIframeMode } from "../../../redux/slices/tetrisSlice";
 import { GameContentType } from "../../../pages/Games";
+import { useNavigate } from "react-router-dom";
 
 const SubBettingBannerBox = (props: GameContentType) => {
   const dispatch = useDispatch();
   const [totalUser, setTotalUser] = useState(0);
+
+  const navigate = useNavigate();
+
   const fetchTotalUser = async () => {
     try {
       var result = await apiCaller.get("tetrises/fetchTotalUser");
@@ -18,9 +22,9 @@ const SubBettingBannerBox = (props: GameContentType) => {
     }
   };
 
-  const { iframeMode } = useSelector((state: any) => ({
+  const { iframeID, iframeMode } = useSelector((state: any) => ({
     iframeMode: state.tetris.iframeMode,
-    // iframeID: state.tetris.iframeID,
+    iframeID: state.tetris.iframeID,
   }));
 
   useEffect(() => {
@@ -54,7 +58,8 @@ const SubBettingBannerBox = (props: GameContentType) => {
           <div
             className="bg-[#29B080] text-black rounded-[20px] w-[80px] h-[30px] cursor-pointer text-[16px] flex items-center justify-center"
             onClick={() => {
-              dispatch(setIframeMode({ iframeMode: true }));
+              // dispatch(setIframeMode({ iframeMode: true }));
+              window.open("https://questify-tetrisk.web.app");
             }}
           >
             Play
