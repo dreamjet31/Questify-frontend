@@ -22,11 +22,11 @@ const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
 const QuestBanner = (props: QuestBannerProps) => {
   const dispatch = useDispatch();
 
-  const [questStatus, setQuestStatus] = useState(new Array(16).fill(0));
+  const [questStatus, setQuestStatus] = useState(new Array(15).fill(0));
 
   const [questifyCount, setQuestifyCount] = useState(new Array(4).fill(0));
   const [communityCount, setCommunityCount] = useState(new Array(4).fill(0));
-  const [tetrisCount, setTetrisCount] = useState(new Array(8).fill(0));
+  const [tetrisCount, setTetrisCount] = useState(new Array(7).fill(0));
 
   // console.log(questifyCount);
 
@@ -82,9 +82,13 @@ const QuestBanner = (props: QuestBannerProps) => {
     // console.log("💕", myInfo);
     try {
       let statusArray = new Array(15).fill(0);
-      let myArray: number[][] = [[...Array(4)].fill(0), [...Array(8)].fill(0)];
+      // let myArray: number[][] = [
+      //   [...Array(4)].fill(0),
+      //   [...Array(4)].fill(0),
+      //   [...Array(7)].fill(0),
+      // ];
       // console.log("💕1", myInfo.claimedQuests);
-      // console.log("💕2", myInfo.achievedQuests);
+      console.log("💕2", myInfo.achievedQuests);
       for (let i = 0; i < 15; i++) {
         if (i < 4) {
           myInfo?.claimedQuests?.community[i] == 1
@@ -96,27 +100,31 @@ const QuestBanner = (props: QuestBannerProps) => {
         } else if (i < 8) {
           myInfo.claimedQuests?.questify[i - 4] == 1
             ? (statusArray[i] = 2)
-            : myInfo.achievedQuests?.tetris[i] ==
-              QUESTIFY_QUESTS[i - 4].untilClaim
+            : myInfo.achievedQuests?.questify[i - 4] ==
+              QUESTIFY_QUESTS[i].untilClaim
             ? (statusArray[i] = 1)
             : (statusArray[i] = 0);
         } else {
           myInfo.claimedQuests?.tetris[i - 8] == 1
             ? (statusArray[i] = 2)
-            : myInfo.achievedQuests?.tetris[i] ==
-              QUESTIFY_QUESTS[i - 8].untilClaim
+            : myInfo.achievedQuests?.tetris[i - 8] ==
+              QUESTIFY_QUESTS[i].untilClaim
             ? (statusArray[i] = 1)
             : (statusArray[i] = 0);
         }
       }
 
       // console.log(QUESTIFY_QUESTS);
-
-      // console.log("🤣", statusArray);
+      console.log("🥲", myInfo.claimedQuests.tetris);
+      console.log("😊", myInfo.achievedQuests.questify);
+      console.log(QUESTIFY_QUESTS[8].untilClaim);
+      console.log("🤣", statusArray);
 
       setQuestStatus(statusArray);
     } catch (error) {}
   }, [myInfo]);
+
+  console.log(questStatus);
 
   return (
     <div className="w-full">

@@ -28,7 +28,7 @@ const WeeklyGiveWay = () => {
                               border border-[#29B080]  text-emerald-300 bg-emerald-300/20 font-bold mx-2 my-1 
                               hover:border-primary hover:opacity-[90%]"
                 onClick={() => {
-                  navigate("/subbetting");
+                  navigate("/tetrisk");
                 }}
               >
                 <p className="text-[12px]">1000 SEI</p>

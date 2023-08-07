@@ -62,7 +62,7 @@ const QuestBox = (props: QuestBoxType) => {
       setCommunityCount(myInfo.achievedQuests?.community);
     }
 
-    console.log(communityCount, questifyCount, tetrisCount);
+    // console.log("🚀❤️", communityCount, questifyCount, tetrisCount);
   }, [myInfo]);
 
   // console.log(communityCount, questifyCount, tetrisCount);
@@ -73,10 +73,6 @@ const QuestBox = (props: QuestBoxType) => {
     },
   });
   // console.log("🚀", activeState);
-
-  for (let i = 0; i < 15; i++) {
-    console.log("❤️❤️", i, QUESTIFY_QUESTS[i].untilClaim);
-  }
 
   return (
     <div

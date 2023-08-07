@@ -16,6 +16,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.133",
     "@mui/material": "^5.13.1",
+    "@mui/material-next": "^6.0.0-alpha.95",
     "@reduxjs/toolkit": "^1.9.5",
     "@sei-js/react": "^1.2.3",
     "@types/react-bootstrap": "^0.32.32",

@@ -8,7 +8,7 @@ export interface LootboxProps {
 const LootboxCard = ({ data, revealColor }: LootboxProps) => {
   return (
     <div
-      className={`h-[410px] lg:min-w-[16.8vw] min-w-[35vw] bg-sky-600/5 border ${
+      className={`h-[410px] lg:min-w-[16.8vw] min-w-[35vw] font-[Outfit-Regular] bg-sky-600/5 border ${
         data.selected && revealColor ? "border-[#006400]" : " border-[#162234]"
       } rounded-2xl bg-[#091017] text-center`}
     >
