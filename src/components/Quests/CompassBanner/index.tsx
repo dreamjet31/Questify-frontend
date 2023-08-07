@@ -138,10 +138,12 @@ const CompassBanner = () => {
                         style={{ width: (level / 5) * 100 + "%" }}
                       ></div>
                     ) : (
-                      <div
-                        className={`flex absolute child_line rounded-sm`}
-                        style={{ width: ((level - 5) / 5) * 100 + "%" }}
-                      ></div>
+                      level > 5 && (
+                        <div
+                          className={`flex absolute child_line rounded-sm`}
+                          style={{ width: ((level - 5) / 5) * 100 + "%" }}
+                        ></div>
+                      )
                     )}
                   </div>
 
