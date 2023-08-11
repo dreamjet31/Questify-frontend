@@ -52,7 +52,7 @@ const QuestBanner = (props: QuestBannerProps) => {
         // console.log("👌", result.data.data);
         await dispatch(setMyInfo({ myInfo: result.data.data }));
       } else {
-        toast.warn("You should connect wallet first!");
+        // toast.warn("You should connect wallet first!");
         // console.log("😘 else", wallet);
         const result = await apiCaller.post("users/getMyInfo", {
           wallet: "template",

@@ -1,16 +1,15 @@
 import { useState } from "react";
 
-export interface LootboxProps {
+export interface RewardProps {
   data: any;
   revealColor?: boolean;
 }
 
-const LootboxCard = ({ data, revealColor }: LootboxProps) => {
+const RewardCard = ({ data }: RewardProps) => {
   return (
     <div
-      className={`h-[22vw] lg:min-w-[16.8vw] min-w-[35vw] font-[Outfit-Regular] bg-sky-600/5 border ${
-        data.selected && revealColor ? "border-[#006400]" : " border-[#162234]"
-      } rounded-2xl bg-[#091017] text-center`}
+      className={`h-[22vw] lg:min-w-[16.8vw] min-w-[35vw] font-[Outfit-Regular] bg-sky-600/5 border 
+       rounded-2xl bg-[#091017] text-center`}
     >
       <div
         className={`py-2 flex justify-center gap-2 rounded-t-2xl ${`bg-[#0C1620]`}`}
@@ -32,4 +31,4 @@ const LootboxCard = ({ data, revealColor }: LootboxProps) => {
   );
 };
 
-export default LootboxCard;
+export default RewardCard;

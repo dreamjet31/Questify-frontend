@@ -21,6 +21,7 @@ import { apiCaller } from "../../../utils/fetcher";
 import LogoComp from "../LogoComp";
 import HeaderMenuItem from "./HeaderMenuItem";
 import { QUESTIFY_QUESTS } from "../../../data";
+import firebase from "../../../firebase";
 
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -30,6 +31,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CircularProgress } from "@mui/material";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 
 const Header = () => {
   const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
@@ -58,6 +62,8 @@ const Header = () => {
   const [claimLoading, setClaimLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef<number>();
+  const [loginState, setLoginState] = React.useState(false);
+  const [loggedin, setLoggedin] = React.useState(false);
 
   // Menu
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -142,6 +148,32 @@ const Header = () => {
     boxShadow: "0 0 10px 0 rgb(43, 100, 50)",
   };
 
+  // Login Modal
+
+  const [loginOpen, setLoginOpen] = useState(false);
+  const handleLoginOpen = () => {
+    setLoginOpen(true);
+  };
+
+  const handleLoginClose = () => {
+    setLoginOpen(false);
+  };
+
+  let globalEmail;
+
+  function send_verification() {
+    const user = firebase.auth().currentUser;
+    if (user) {
+      user
+        .sendEmailVerification()
+        .then(() => {})
+        .catch((err) => toast.error(err.message));
+    }
+    // toast.info("Verification email has successfully been sent!");
+  }
+
+  // Send Token
+
   const sendToken = async (amount: number) => {
     if (!signingClient || !accounts) {
       // console.log("Wallet is not connected");
@@ -219,6 +251,7 @@ const Header = () => {
       setSending(false);
       setModalOpen(false);
       setClaimLoading(false);
+      setDepositLoading(false);
       toast.error("Backend Error!");
       console.log("💣 Backend Error");
       return false;
@@ -230,6 +263,7 @@ const Header = () => {
       try {
         var result = await apiCaller.post("users/getMyInfo", {
           wallet,
+          email: firebase.auth().currentUser?.email,
         });
         // console.log("ssdfd", result.data.data.totalBalance);
         dispatch(setMyBalance({ balance: result.data.data.totalBalance }));
@@ -325,7 +359,7 @@ const Header = () => {
                             custom-2xl:w-fit xl:w-fit lg:w-fit md:w-fit sm:w-fit"
         >
           <div className="flex flex-row items-center md:justify-end sm:justify-end">
-            {connected && (
+            {connected && loggedin && (
               <div className="flex flex-row">
                 <div
                   className="pr-2 h-[35px] rounded-lg flex justify-center items-center 
@@ -355,42 +389,337 @@ const Header = () => {
               </div>
             )}
 
-            <div className="flex wallet-adapter-button justify-end items-center mr-2">
-              {connectedWallet != ("keplr" as WalletWindowKey) ? (
-                <div className="flex items-center justify-center ">
-                  <div
-                    className="flex flex-row justify-center items-center"
-                    onClick={async () => {
-                      if (!window.keplr) {
-                        toast.warn("Please install keplr extension");
-                      } else {
-                        connect("keplr");
-                      }
-                    }}
-                  >
-                    <img src="/images/SEI.svg"></img>
-                    <p className="sm:text-[12px] text-[10px] flex items-center justify-center">
-                      &nbsp;Connect Wallet
-                    </p>
+            {
+              loggedin && connectedWallet != ("keplr" as WalletWindowKey) && (
+                <div className="flex wallet-adapter-button justify-end items-center mr-2">
+                  <div className="flex items-center justify-center ">
+                    <div
+                      className="flex flex-row justify-center items-center"
+                      onClick={async () => {
+                        if (!window.keplr) {
+                          toast.warn("Please install keplr extension");
+                        } else {
+                          connect("keplr");
+                        }
+                      }}
+                    >
+                      <img src="/images/SEI.svg"></img>
+                      <p className="sm:text-[12px] text-[10px] flex items-center justify-center">
+                        &nbsp;Connect Wallet
+                      </p>
+                    </div>
                   </div>
                 </div>
-              ) : (
-                <div
-                  className="flex flex-row"
-                  onClick={() => {
-                    disconnect();
-                  }}
+              )
+              // : (
+              // <div
+              //   className="flex flex-row"
+              //   onClick={() => {
+              //     disconnect();
+              //   }}
+              // >
+              //   <img src="/images/SEI.svg"></img>
+              //   <p className="sm:text-[12px] text-[10px] flex items-center">
+              //     &nbsp;{" "}
+              //     {myAddress.substring(0, 6) +
+              //       "..." +
+              //       myAddress.substring(myAddress.length - 3)}
+              //   </p>
+              // </div>
+              // )
+            }
+
+            {!loggedin ? (
+              <div
+                className="flex wallet-adapter-button justify-end items-center mr-2"
+                onClick={() => {
+                  setLoginOpen(true);
+                  setLoginState(false);
+                }}
+              >
+                <LoginIcon fontSize="small" />
+                Login
+              </div>
+            ) : (
+              <div
+                className="flex wallet-adapter-button justify-end items-center mr-2"
+                onClick={() => {
+                  setLoggedin(false);
+                  // firebase.auth().signOut();
+                }}
+              >
+                <LogoutIcon fontSize="small" />
+                Logout
+              </div>
+            )}
+            <Modal
+              open={loginOpen}
+              onClose={() => {
+                setLoginOpen(false);
+              }}
+            >
+              <Box sx={modalStyle}>
+                <Typography
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                  sx={{ textAlign: "center" }}
+                  style={{ fontFamily: "Outfit-Regular" }}
                 >
-                  <img src="/images/SEI.svg"></img>
-                  <p className="sm:text-[12px] text-[10px] flex items-center">
-                    &nbsp;{" "}
-                    {myAddress.substring(0, 6) +
-                      "..." +
-                      myAddress.substring(myAddress.length - 3)}
-                  </p>
+                  {!loginState ? (
+                    <div>
+                      <LoginIcon /> Login
+                    </div>
+                  ) : (
+                    <div>
+                      <AccountCircle />
+                      Signup
+                    </div>
+                  )}
+                </Typography>
+                <div className="flex flex-col">
+                  <div className="flex flex-row mt-3 justify-between">
+                    <TextField
+                      id="outlined-email"
+                      label="Email"
+                      type="email"
+                      color="success"
+                      className="w-[100%] color-white"
+                      style={{ fontFamily: "Outfit-Regular" }}
+                      size="small"
+                      // value={email}
+                    />
+                  </div>
+                  <div className="flex flex-col mt-3">
+                    <TextField
+                      id="outlined-password"
+                      label="Password"
+                      type="password"
+                      className="w-[100%]"
+                      color="success"
+                      style={{ fontFamily: "Outfit-Regular" }}
+                      size="small"
+                      // value={withdrawAmount}
+                    >
+                      <AccountCircle />
+                    </TextField>
+                    {loginState && (
+                      <div className="mt-3">
+                        <TextField
+                          id="outlined-password-confirm"
+                          label="Password Confirm"
+                          type="password"
+                          className="w-[100%]"
+                          color="success"
+                          style={{ fontFamily: "Outfit-Regular" }}
+                          size="small"
+                          // value={withdrawAmount}
+                        >
+                          <AccountCircle />
+                        </TextField>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-row justify-between mt-2">
+                    <div className="mt-3">
+                      {!loginState ? (
+                        <LoadingButton
+                          variant="outlined"
+                          color="success"
+                          // loading={depositLoading}
+                          style={{
+                            width: "100%",
+                            fontFamily: "Outfit-Regular",
+                          }}
+                          loadingIndicator={
+                            <CircularProgress color="success" size={16} />
+                          }
+                          onClick={() => {
+                            setLoginState(true);
+                          }}
+                        >
+                          Register
+                        </LoadingButton>
+                      ) : (
+                        <LoadingButton
+                          variant="outlined"
+                          color="success"
+                          // loading={depositLoading}
+                          style={{
+                            width: "100%",
+                            fontFamily: "Outfit-Regular",
+                          }}
+                          loadingIndicator={
+                            <CircularProgress color="success" size={16} />
+                          }
+                          onClick={() => {
+                            setLoginState(false);
+                          }}
+                        >
+                          Cancel
+                        </LoadingButton>
+                      )}
+                    </div>
+                    <div className="mt-3">
+                      {!loginState ? (
+                        <LoadingButton
+                          variant="contained"
+                          color="success"
+                          // loading={depositLoading}
+                          style={{
+                            width: "100%",
+                            fontFamily: "Outfit-Regular",
+                          }}
+                          loadingIndicator={
+                            <CircularProgress color="success" size={16} />
+                          }
+                          onClick={() => {
+                            console.log("Attempting to login user ...");
+                            const passwordInput = document.getElementById(
+                              "outlined-password"
+                            ) as HTMLInputElement;
+                            const passwordValue = passwordInput.value;
+                            const emailInput = document.getElementById(
+                              "outlined-email"
+                            ) as HTMLInputElement;
+                            const emailValue = emailInput.value;
+
+                            firebase
+                              .auth()
+                              .onAuthStateChanged(async function (user) {
+                                console.log("🚀", user);
+                                if (user) {
+                                  const user = firebase.auth().currentUser;
+                                  await user?.reload();
+                                  console.log(user);
+                                  globalEmail = user?.email;
+                                  if (user != null) {
+                                    const email_id = user.email;
+                                    const email_verified = user.emailVerified;
+                                    if (email_verified != true) {
+                                      // User Verification Box displayed
+                                      console.log(
+                                        "Waiting for verification ..."
+                                      );
+                                      toast.info(
+                                        "Your email is not verified. Please check your email"
+                                      );
+                                      // send_verification();
+                                    } else {
+                                      // User is logged in
+                                      firebase
+                                        .auth()
+                                        .signInWithEmailAndPassword(
+                                          emailValue,
+                                          passwordValue
+                                        )
+                                        .then((response) => {
+                                          console.log(response);
+                                        })
+                                        .catch((error) => {
+                                          toast.error(
+                                            String(error.message).slice(10)
+                                          );
+                                          console.log(error);
+                                        });
+
+                                      console.log("User is logged in.");
+                                      toast.info("Welcome, " + email_id + "!");
+                                      setLoggedin(true);
+                                      setLoginOpen(false);
+
+                                      try {
+                                        const result = await apiCaller.post(
+                                          "users/createUserWithEmail",
+                                          {
+                                            email:
+                                              firebase.auth().currentUser
+                                                ?.email,
+                                          }
+                                        );
+                                        console.log("😂😂", result);
+                                      } catch (error) {
+                                        console.log(error);
+                                      }
+
+                                      setLoginOpen(false);
+                                      setLoggedin(true);
+                                    }
+                                  }
+                                } else {
+                                  // No user is signed in.
+                                  console.log(
+                                    "You are currently not logged in to any account."
+                                  );
+
+                                  toast.error("Login error");
+                                }
+                              });
+                          }}
+                        >
+                          Login
+                        </LoadingButton>
+                      ) : (
+                        <LoadingButton
+                          variant="contained"
+                          color="success"
+                          // loading={depositLoading}
+                          style={{
+                            width: "100%",
+                            fontFamily: "Outfit-Regular",
+                          }}
+                          loadingIndicator={
+                            <CircularProgress color="success" size={16} />
+                          }
+                          onClick={() => {
+                            const passwordInput = document.getElementById(
+                              "outlined-password"
+                            ) as HTMLInputElement;
+                            const passwordValue = passwordInput.value;
+                            const passwordConfirmInput =
+                              document.getElementById(
+                                "outlined-password-confirm"
+                              ) as HTMLInputElement;
+                            const passwordConfirmValue =
+                              passwordConfirmInput.value;
+
+                            const emailInput = document.getElementById(
+                              "outlined-email"
+                            ) as HTMLInputElement;
+                            const emailValue = emailInput.value;
+
+                            if (passwordConfirmValue !== passwordValue) {
+                              toast.warn("Password not match");
+                            } else {
+                              console.log("Firebase AUth", firebase.auth());
+                              firebase
+                                .auth()
+                                .createUserWithEmailAndPassword(
+                                  emailValue,
+                                  passwordValue
+                                )
+                                .then((userCredential) => {
+                                  send_verification();
+                                  toast.info(
+                                    "Verification email has successfully been sent! Check your email inbox!"
+                                  );
+                                  setLoginOpen(false);
+                                })
+                                .catch((error) => {
+                                  toast.error(String(error.message).slice(10));
+                                  console.log(error);
+                                });
+                            }
+                          }}
+                        >
+                          Signup
+                        </LoadingButton>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
+              </Box>
+            </Modal>
 
             <Modal open={depositModalOpen} onClose={handleClose}>
               <Box sx={modalStyle}>
@@ -510,8 +839,11 @@ const Header = () => {
                           setSending(false);
                           setModalOpen(false);
                           setClaimLoading(false);
+                          setDepositLoading(false);
+                          setModalOpen(false);
                           toast.warn("Backend Error!");
                           console.log("💣 Backend Error");
+
                           return;
                         }
                       }}

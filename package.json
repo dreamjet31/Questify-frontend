@@ -22,6 +22,7 @@
     "@types/react-bootstrap": "^0.32.32",
     "bootstrap": "^5.2.3",
     "color": "^4.2.3",
+    "firebase": "^10.1.0",
     "font-awesome": "^4.7.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
