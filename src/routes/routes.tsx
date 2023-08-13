@@ -4,6 +4,8 @@ import SubBettingPage from "../pages/Betting/SubBettingPage";
 import Quests from "../pages/Quests";
 import Games from "../pages/Games";
 import Lootbox from "../pages/Lootbox";
+import SignIn from "../pages/Login/Signin";
+import Signup from "../pages/Login/Signup";
 
 import { GameContentType } from "../pages/Games";
 
@@ -87,6 +89,14 @@ const routes: RouteProps[] = [
   {
     element: <Lootbox />,
     path: "/lootbox",
+  },
+  {
+    element: <SignIn />,
+    path: "/signin",
+  },
+  {
+    element: <Signup />,
+    path: "/signup",
   },
 ];
 
