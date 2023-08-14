@@ -1,40 +1,15 @@
 import LootboxCard from "../../components/Lootbox/LootboxCard";
 import LootBoxBar from "../../components/Lootbox/LootboxBar";
-import { useState, useEffect } from "react";
-// import { Button } from "../../components/Common/Buttons";
-import { Button } from "@mui/material";
-// import Button from "@mui/material-next/Button";
-import { LOOTBOX_CARD } from "../../data";
-import { BorderPanel } from "../../components/Common/Panels";
-import * as React from "react";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
+import { useState, useEffect, useRef } from "react";
+import { Button } from "../../components/Common/Buttons";
+// import { Button } from "@mui/material";
+import { LOOTBOX_CARD_SILVER } from "../../data";
+import RewardsContent from "../../components/Lootbox/RewardsContent";
 
-const options = [
-  <div className="flex flex-row gap-1">
-    <img src="/images/Lootbox/bronze_key.png" width={24} />
-    Roll
-  </div>,
-  <div className="flex flex-row gap-1">
-    <img src="/images/Lootbox/silver_key.png" width={24} />
-    Roll
-  </div>,
-  <div className="flex flex-row gap-1">
-    <img src="/images/Lootbox/gold_key.png" width={24} />
-    Roll
-  </div>,
-];
-
-const shuffle = (array: string[]) => {
+const shuffle = (array: Object[]) => {
   const shuffled = [...array].slice();
   let currentIndex = shuffled.length;
-  let temporaryValue: string, randomIndex: number;
+  let temporaryValue: Object, randomIndex: number;
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
@@ -45,110 +20,142 @@ const shuffle = (array: string[]) => {
   return shuffled;
 };
 
-const mockBackend = (num: number) => {
-  const randomIndex = Math.floor(Math.random() * num);
-  return randomIndex;
+//  0.1%, 10%, 1%, 88.9%
+
+const mockBackend = () => {
+  const randomCardNum = Math.floor(Math.random() * 1000);
+  if (randomCardNum >= 0 && randomCardNum < 1) {
+    return 0;
+  } else if (randomCardNum >= 3 && randomCardNum <= 101) {
+    return 1;
+  } else if (randomCardNum >= 111 && randomCardNum < 1000) {
+    return 3;
+  }
+  return 3;
 };
 
-interface MyObject {
-  id?: number;
-}
+const ShuffleArray = () => {
+  const selected = mockBackend();
+  let shuffledResultArray = [...LOOTBOX_CARD_SILVER];
+  for (let index = 0; index < LOOTBOX_CARD_SILVER.length; index++) {
+    shuffledResultArray = shuffle(
+      [...LOOTBOX_CARD_SILVER].map((item, index) => {
+        if (index === selected) {
+          return { ...item, selected: true };
+        }
+        return { ...item, selected: false };
+      })
+    );
+  }
+  return shuffledResultArray;
+};
 
 const Lootbox = () => {
-  const [play, setPlay] = useState(true);
+  const wrapperRef = useRef(null);
+  const [btnDisabled, setBtnDisabled] = useState(false);
+  const [trybtnDisabled, setTryBtnDisabled] = useState(false);
   const [shuffledData, setShuffledData] = useState<Object[]>([]);
   const [translateXNum, setTranslateXNum] = useState<number>((0.5 * 100) / 90); //(8 * 100) / 90
-  const [resultArray, setResultArray] = useState<MyObject[]>([]);
+  const [resultArray, setResultArray] = useState<Object[]>([
+    ...LOOTBOX_CARD_SILVER,
+  ]);
   const [revealColor, setRevealColor] = useState<boolean>(false);
-  const [keyNum, setKeyNum] = useState(0);
+  const [isChecked, setIsChecked] = useState(false);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [isReseted, setIsReseted] = useState(true);
+  const [readyTry, setReadyTry] = useState(false);
+  // const [selectedCardIndex, setSelectedCardIndex] = useState(0);
 
   useEffect(() => {
-    setShuffledData(shuffle(LOOTBOX_CARD[keyNum]));
-    console.log("🥲", keyNum);
-  }, [keyNum]);
+    setShuffledData(shuffle([...LOOTBOX_CARD_SILVER]));
+  }, []);
 
-  useEffect(() => {
-    setResultArray([...shuffledData]);
-  }, [shuffledData]);
-
-  const handleClick = () => {
-    const selected = mockBackend(resultArray.length);
-    for (let index = 0; index < resultArray.length; index++) {
-      setResultArray(() =>
-        [...resultArray].map((item, index) => {
-          if (index === selected) {
-            return { ...item, selected: true };
-          }
-          return item;
-        })
-      );
+  let delay = isChecked ? 2100 : 4100;
+  const hadleClickTry = () => {
+    const shuffledArray = ShuffleArray();
+    setResultArray(shuffledArray);
+    let selectedCardIndex = 0;
+    for (let index = 0; index < shuffledArray.length; index++) {
+      if (shuffledArray[index]["selected"]) {
+        selectedCardIndex = index;
+      }
     }
+    setReadyTry(false);
+    setIsSpinning(true);
+    setIsReseted(true);
+    setShuffledData(shuffle(LOOTBOX_CARD_SILVER));
+    console.log(resultArray);
     setTranslateXNum(
-      -((4 * 10) / 5 + (selected * 18) / 90 - (2 * 18 + 9) / 90) * 100
+      -((4 * 10) / 5 + (selectedCardIndex * 18) / 90 - (2 * 18 + 0.5) / 90) *
+        100
     );
     // 4 * 10 / 5   :   4 shuffledDatas, 10 cards per array, 5cards per screen
     // selected * 18 / 90  :  selected:index of selected card in resultArray , 18vw per card including gap-[1vw] , 90vw of screen is visible elsewhere is hidden
+    //
 
-    setPlay(false);
-    console.log("selected", resultArray[selected].id);
+    setTimeout(() => {
+      setIsSpinning(false);
+    }, delay);
+    clearTimeout;
   };
-  console.log(resultArray);
 
-  useEffect(() => {
-    if (!play) {
-      const timeout = setTimeout(() => {
-        // setRevealColor(false);
-        setRevealColor(true);
-      }, 4300);
-      return () => {
-        if (timeout) {
-          clearTimeout(timeout);
-        }
-      };
-    }
-    return void 0;
-  }, [play]);
-
-  // Button Group
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
-
-  // const handleClick = () => {
-  //   console.info(`You clicked ${options[selectedIndex]}`);
-  // };
-
-  const handleMenuItemClick = (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    index: number
-  ) => {
-    setSelectedIndex(index);
-    setOpen(false);
-  };
+  //toggle button
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+    setIsChecked(!isChecked);
   };
 
-  const handleClose = (event: Event) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
+  const hadleClickBtn = () => {
+    setTranslateXNum(0);
+    setBtnDisabled(true);
+    setIsReseted(false);
+    setTryBtnDisabled(false);
+  };
+
+  const handleReset = () => {
+    setTranslateXNum(0);
+    setTryBtnDisabled(true);
+    setIsReseted(false);
+    console.log("trybtnDisabled", trybtnDisabled, "isReseted", isReseted);
+  };
+
+  const testReady = () => {
+    setReadyTry(true);
+  };
+
+  useEffect(() => {
+    !isReseted && translateXNum == 0 ? testReady() : null;
+  }, [isReseted, translateXNum]);
+
+  useEffect(() => {
+    readyTry ? hadleClickTry() : null;
+  }, [readyTry]);
+
+  useEffect(() => {
+    setRevealColor(false);
+    if (!isSpinning) {
+      setRevealColor(true);
+      setTryBtnDisabled(false);
+      // };
     }
-
-    setOpen(false);
-  };
+    return void 0;
+  }, [isSpinning]);
 
   return (
     <div
-      className={`relative w-[100vw] mt-[120px] text-gray-200 flex flex-col items-center`}
+      className={`relative w-[100vw] mt-[120px] text-gray-200 flex flex-col items-center font-[Outfit-Regular]`}
     >
       <LootBoxBar />
       <div className="w-[90vw] overflow-hidden p-0 m-0">
         <div
-          className="flex justify-start gap-[1vw] items-center transition-transform duration-4000 ease-out"
+          ref={wrapperRef}
+          className={`flex justify-start gap-[1vw] items-center transition-transform ${
+            isReseted
+              ? isChecked
+                ? `duration-2000`
+                : `duration-4000`
+              : `duration-0`
+          } ease-out`}
           style={{ transform: `translateX(${translateXNum}%)` }}
         >
           {shuffledData.map((item, index) => (
@@ -175,97 +182,74 @@ const Lootbox = () => {
           ))}
         </div>
       </div>
-      <div className="flex justify-start">
-        <div className="z-[30] m-8 flex gap-2">
-          {/* <Button caption="Try it" onClick={handleClick} disabled={!play} />s */}
-          {/* <Button
-          // variant="filled"
-          size="large"
-          style={{
-            backgroundColor: "#006400",
-            fontFamily: "Outfit-Regular",
-          }}
-          className="hover:opacity-90"
-          onClick={handleClick}
-        >
-          <div className="mx-2 flex flex-row gap-1">
-            <img src="/images/Lootbox/gold_key.png" width={30} height={15} />
-            <div className="text-2xl">Roll</div>
-          </div>
-        </Button> */}
-          <ButtonGroup
-            variant="contained"
-            color="success"
-            ref={anchorRef}
-            aria-label="split button"
-          >
-            <Button onClick={handleClick}>{options[selectedIndex]}</Button>
-            <Button
-              size="small"
-              aria-controls={open ? "split-button-menu" : undefined}
-              aria-expanded={open ? "true" : undefined}
-              aria-label="select merge strategy"
-              aria-haspopup="menu"
-              onClick={handleToggle}
-            >
-              <ArrowDropDownIcon />
-            </Button>
-          </ButtonGroup>
+      <div className="flex sm:flex-row flex-col">
+        {/* Spin button */}
+        <div className="z-[30] mx-8 sm:my-8 my-4">
           <Button
-            size="large"
-            style={{
-              fontFamily: "Outfit-Regular",
-              color: "#8fbc8f",
-            }}
-            className="hover:opacity-90"
-            onClick={handleClick}
-          >
-            <div className="mx-2">Try it</div>
-          </Button>
+            caption={isSpinning ? "Spinning..." : "Spin"}
+            onClick={hadleClickBtn}
+            disabled={trybtnDisabled}
+          />
+        </div>
+        <div className="flex flex-row sm:my-8 my-4">
+          {/* toggle button */}
+          <div className="inline-flex justify-center items-center ml-8">
+            <label
+              htmlFor="toggleButton"
+              className="flex items-center cursor-pointer"
+            >
+              <div className="relative">
+                <input
+                  id="toggleButton"
+                  type="checkbox"
+                  className="sr-only"
+                  checked={isChecked}
+                  onChange={handleToggle}
+                />
+                <div
+                  className={`block bg-gray-600 w-14 h-8 rounded-full  ${
+                    isChecked && "bg-green-400"
+                  }`}
+                />
+                <div
+                  className={`
+                  "dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition",
+                  ${isChecked && "transform translate-x-full"}`}
+                />
+              </div>
+              <div className="ml-3 font-medium text-white font-[Outfit-Regular]">
+                Fast Spin
+              </div>
+            </label>
+          </div>
 
-          <Popper
-            sx={{
-              zIndex: 1,
-            }}
-            open={open}
-            anchorEl={anchorRef.current}
-            role={undefined}
-            transition
-            disablePortal
-          >
-            {({ TransitionProps, placement }) => (
-              <Grow
-                {...TransitionProps}
-                style={{
-                  transformOrigin:
-                    placement === "bottom" ? "center top" : "center bottom",
-                }}
-              >
-                <Paper style={{ backgroundColor: "black", color: "white" }}>
-                  <ClickAwayListener onClickAway={handleClose}>
-                    <MenuList id="split-button-menu" autoFocusItem>
-                      {options.map((option, index) => (
-                        <MenuItem
-                          key={index.toString()}
-                          // disabled={index === 2}
-                          selected={index === selectedIndex}
-                          onClick={(event) => {
-                            handleMenuItemClick(event, index);
-                            setKeyNum(index);
-                            console.log(index);
-                          }}
-                        >
-                          {option}
-                        </MenuItem>
-                      ))}
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
+          {/* Try it button */}
+          <div className="z-[30] mx-8">
+            <button
+              disabled={trybtnDisabled}
+              onClick={handleReset}
+              className="
+              solarity-button 
+              font-medium
+              text-gray-200
+              bg-gray-600
+              hover:bg-gray-700
+              p-[22px] rounded-[20px]
+              w-[150px] h-[50px] sm:w-[100px]
+              text-[18px]sm:text-[22px]
+              text-center tracking-wider
+              inline-flex
+              items-center
+              justify-center
+              font-[Outfit-Regular]
+            "
+            >
+              Try it
+            </button>
+          </div>
         </div>
       </div>
+      <RewardsContent />
     </div>
   );
 };
