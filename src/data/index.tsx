@@ -959,3 +959,24 @@ export const LOOTBOX_REWARD_CONTENT: any = [
     percent: "88.99%",
   },
 ];
+
+export const KEYS_CONTENT: any = [
+  {
+    id: 1,
+    img: "/images/Lootbox/bronze_key.png",
+    name: "Bronze key",
+    value: 3,
+  },
+  {
+    id: 2,
+    img: "/images/Lootbox/silver_key.png",
+    name: "Silver key",
+    value: 1,
+  },
+  {
+    id: 3,
+    img: "/images/Lootbox/gold_key.png",
+    name: "Gold key",
+    value: 2,
+  },
+];

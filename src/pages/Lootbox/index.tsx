@@ -5,6 +5,7 @@ import { Button } from "../../components/Common/Buttons";
 // import { Button } from "@mui/material";
 import { LOOTBOX_CARD_SILVER } from "../../data";
 import RewardsContent from "../../components/Lootbox/RewardsContent";
+import KeysContent from "../../components/Lootbox/KeysContent";
 
 const shuffle = (array: Object[]) => {
   const shuffled = [...array].slice();
@@ -86,7 +87,7 @@ const Lootbox = () => {
     setShuffledData(shuffle(LOOTBOX_CARD_SILVER));
     console.log(resultArray);
     setTranslateXNum(
-      -((4 * 10) / 5 + (selectedCardIndex * 18) / 90 - (2 * 18 + 0.5) / 90) *
+      -((4 * 10) / 5 + (selectedCardIndex * 18) / 90 - (2 * 39 + 0.5) / 90) *
         100
     );
     // 4 * 10 / 5   :   4 shuffledDatas, 10 cards per array, 5cards per screen
@@ -109,7 +110,7 @@ const Lootbox = () => {
     setTranslateXNum(0);
     setBtnDisabled(true);
     setIsReseted(false);
-    setTryBtnDisabled(false);
+    setTryBtnDisabled(true);
   };
 
   const handleReset = () => {
@@ -142,93 +143,95 @@ const Lootbox = () => {
   }, [isSpinning]);
 
   return (
-    <div
-      className={`relative w-[100vw] mt-[120px] text-gray-200 flex flex-col items-center font-[Outfit-Regular]`}
-    >
-      <LootBoxBar />
-      <div className="w-[90vw] overflow-hidden p-0 m-0">
-        <div
-          ref={wrapperRef}
-          className={`flex justify-start gap-[1vw] items-center transition-transform ${
-            isReseted
-              ? isChecked
-                ? `duration-2000`
-                : `duration-4000`
-              : `duration-0`
-          } ease-out`}
-          style={{ transform: `translateX(${translateXNum}%)` }}
-        >
-          {shuffledData.map((item, index) => (
-            <LootboxCard key={index + "_mock-card-1"} data={item} /> //mockcards
-          ))}
-          {shuffledData.map((item, index) => (
-            <LootboxCard key={index + "_mock-card-2"} data={item} /> //mockcards
-          ))}
-          {shuffledData.map((item, index) => (
-            <LootboxCard key={index + "_mock-card-3"} data={item} /> //mockcards
-          ))}
-          {shuffledData.map((item, index) => (
-            <LootboxCard key={index + "_mock-card-4"} data={item} /> //mockcards
-          ))}
-          {resultArray.map((item, index) => (
-            <LootboxCard
-              key={index + "_real-card"}
-              data={item}
-              revealColor={revealColor}
-            /> //realCards
-          ))}
-          {shuffledData.map((item, index) => (
-            <LootboxCard key={index + "_mock-card-5"} data={item} /> //mockcards
-          ))}
+    <div className="mt-[80px]">
+      <KeysContent />
+      <div
+        className={`relative w-[100vw]  text-gray-200 flex flex-col items-center font-[Outfit-Regular]`}
+      >
+        <LootBoxBar />
+        <div className="w-[95%] overflow-hidden p-0 m-0">
+          <div
+            ref={wrapperRef}
+            className={`flex justify-start gap-[1vw] items-center transition-transform ${
+              isReseted
+                ? isChecked
+                  ? `duration-2000`
+                  : `duration-4000`
+                : `duration-0`
+            } ease-out`}
+            style={{ transform: `translateX(${translateXNum}%)` }}
+          >
+            {shuffledData.map((item, index) => (
+              <LootboxCard key={index + "_mock-card-1"} data={item} /> //mockcards
+            ))}
+            {shuffledData.map((item, index) => (
+              <LootboxCard key={index + "_mock-card-2"} data={item} /> //mockcards
+            ))}
+            {shuffledData.map((item, index) => (
+              <LootboxCard key={index + "_mock-card-3"} data={item} /> //mockcards
+            ))}
+            {shuffledData.map((item, index) => (
+              <LootboxCard key={index + "_mock-card-4"} data={item} /> //mockcards
+            ))}
+            {resultArray.map((item, index) => (
+              <LootboxCard
+                key={index + "_real-card"}
+                data={item}
+                revealColor={revealColor}
+              /> //realCards
+            ))}
+            {shuffledData.map((item, index) => (
+              <LootboxCard key={index + "_mock-card-5"} data={item} /> //mockcards
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="flex sm:flex-row flex-col">
-        {/* Spin button */}
-        <div className="z-[30] mx-8 sm:my-8 my-4">
-          <Button
-            caption={isSpinning ? "Spinning..." : "Spin"}
-            onClick={hadleClickBtn}
-            disabled={trybtnDisabled}
-          />
-        </div>
-        <div className="flex flex-row sm:my-8 my-4">
-          {/* toggle button */}
-          <div className="inline-flex justify-center items-center ml-8">
-            <label
-              htmlFor="toggleButton"
-              className="flex items-center cursor-pointer"
-            >
-              <div className="relative">
-                <input
-                  id="toggleButton"
-                  type="checkbox"
-                  className="sr-only"
-                  checked={isChecked}
-                  onChange={handleToggle}
-                />
-                <div
-                  className={`block bg-gray-600 w-14 h-8 rounded-full  ${
-                    isChecked && "bg-green-400"
-                  }`}
-                />
-                <div
-                  className={`
+        <div className="flex sm:flex-row flex-col">
+          {/* Spin button */}
+          <div className="z-[30] mx-8 sm:my-8 my-4">
+            <Button
+              caption={isSpinning ? "Spinning..." : "Spin"}
+              onClick={hadleClickBtn}
+              disabled={trybtnDisabled}
+            />
+          </div>
+          <div className="flex flex-row sm:my-8 my-4">
+            {/* toggle button */}
+            <div className="inline-flex justify-center items-center ml-8">
+              <label
+                htmlFor="toggleButton"
+                className="flex items-center cursor-pointer"
+              >
+                <div className="relative">
+                  <input
+                    id="toggleButton"
+                    type="checkbox"
+                    className="sr-only"
+                    checked={isChecked}
+                    onChange={handleToggle}
+                  />
+                  <div
+                    className={`block bg-gray-600 w-14 h-8 rounded-full  ${
+                      isChecked && "bg-green-400"
+                    }`}
+                  />
+                  <div
+                    className={`
                   "dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition",
                   ${isChecked && "transform translate-x-full"}`}
-                />
-              </div>
-              <div className="ml-3 font-medium text-white font-[Outfit-Regular]">
-                Fast Spin
-              </div>
-            </label>
-          </div>
+                  />
+                </div>
+                <div className="ml-3 font-medium text-white font-[Outfit-Regular]">
+                  Fast Spin
+                </div>
+              </label>
+            </div>
 
-          {/* Try it button */}
-          <div className="z-[30] mx-8">
-            <button
-              disabled={trybtnDisabled}
-              onClick={handleReset}
-              className="
+            {/* Try it button */}
+            <div className="z-[30] mx-8">
+              <button
+                disabled={trybtnDisabled}
+                onClick={handleReset}
+                className="
               solarity-button 
               font-medium
               text-gray-200
@@ -243,13 +246,14 @@ const Lootbox = () => {
               justify-center
               font-[Outfit-Regular]
             "
-            >
-              Try it
-            </button>
+              >
+                Try it
+              </button>
+            </div>
           </div>
         </div>
+        <RewardsContent />
       </div>
-      <RewardsContent />
     </div>
   );
 };

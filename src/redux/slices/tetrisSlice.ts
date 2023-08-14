@@ -11,6 +11,7 @@ export interface TetrisState {
   iframeMode: boolean;
   percent: string;
   iframeID: number;
+  key: number;
 }
 
 const initialState: TetrisState = {
@@ -24,6 +25,7 @@ const initialState: TetrisState = {
   iframeMode: false,
   percent: "0%",
   iframeID: 0,
+  key: 0,
 };
 
 export const tetrisSlice = createSlice({
@@ -61,6 +63,9 @@ export const tetrisSlice = createSlice({
     setIframeID: (state, action: PayloadAction<any>) => {
       state.iframeID = action.payload.iframeID;
     },
+    setKey: (state, action: PayloadAction<any>) => {
+      state.key = action.payload.key;
+    },
   },
 });
 
@@ -75,6 +80,7 @@ export const {
   setIframeMode,
   setPercent,
   setIframeID,
+  setKey,
 } = tetrisSlice.actions;
 
 export default tetrisSlice.reducer;
