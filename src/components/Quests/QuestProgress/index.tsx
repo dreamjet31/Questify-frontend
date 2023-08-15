@@ -44,7 +44,6 @@ const QuestProgress = () => {
   }));
 
   const walletAddress = myInfo.wallet;
-  console.log(typeof walletAddress);
 
   return (
     <div className="flex flex-row justify-center mb-3 mt-5">

@@ -4,7 +4,6 @@ import { GameContentType } from "../../../pages/Games";
 const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
 
 const SubBettingBanner = (props: GameContentType) => {
-  console.log(props.thumbnailBig);
   return (
     <div className="relative min-h-[300px]">
       {/* {!isSmallDevice ? (

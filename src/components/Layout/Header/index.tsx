@@ -149,30 +149,7 @@ const Header = () => {
   };
 
   // Login Modal
-
   const [loginOpen, setLoginOpen] = useState(false);
-  const handleLoginOpen = () => {
-    setLoginOpen(true);
-  };
-
-  const handleLoginClose = () => {
-    setLoginOpen(false);
-  };
-
-  let globalEmail;
-
-  function send_verification() {
-    const user = firebase.auth().currentUser;
-    if (user) {
-      user
-        .sendEmailVerification()
-        .then(() => {})
-        .catch((err) => toast.error(err.message));
-    }
-    // toast.info("Verification email has successfully been sent!");
-  }
-
-  // Send Token
 
   const sendToken = async (amount: number) => {
     if (!signingClient || !accounts) {
@@ -222,12 +199,12 @@ const Header = () => {
               resValue.achievedQuests.questify[3] >= num2)
           )
             toast.info("Check the Quests!");
-          console.log("QQQsss");
-          console.log("before myInfoDispatch:", result.data.existingUser);
+          // console.log("QQQsss");
+          // console.log("before myInfoDispatch:", result.data.existingUser);
           dispatch(
             setMyBalance({ balance: result.data.existingUser.totalBalance })
           );
-          console.log("myInfoDispatch:", result.data.existingUser);
+          // console.log("myInfoDispatch:", result.data.existingUser);
           dispatch(setMyInfo({ myInfo: result.data.existingUser }));
           dispatch(setDepositModalOpen({ depositModalOpen: false }));
           toast.info("Deposit Succeed!");
@@ -390,7 +367,7 @@ const Header = () => {
             )}
 
             {
-              loggedin && connectedWallet != ("keplr" as WalletWindowKey) && (
+              connectedWallet != ("keplr" as WalletWindowKey) && (
                 <div className="flex wallet-adapter-button justify-end items-center mr-2">
                   <div className="flex items-center justify-center ">
                     <div
@@ -435,10 +412,11 @@ const Header = () => {
                 onClick={() => {
                   setLoginOpen(true);
                   setLoginState(false);
+                  navigate("/signin");
                 }}
               >
                 <LoginIcon fontSize="small" />
-                Login
+                Sign in
               </div>
             ) : (
               <div
@@ -449,277 +427,9 @@ const Header = () => {
                 }}
               >
                 <LogoutIcon fontSize="small" />
-                Logout
+                Sign out
               </div>
             )}
-            <Modal
-              open={loginOpen}
-              onClose={() => {
-                setLoginOpen(false);
-              }}
-            >
-              <Box sx={modalStyle}>
-                <Typography
-                  id="modal-modal-title"
-                  variant="h6"
-                  component="h2"
-                  sx={{ textAlign: "center" }}
-                  style={{ fontFamily: "Outfit-Regular" }}
-                >
-                  {!loginState ? (
-                    <div>
-                      <LoginIcon /> Login
-                    </div>
-                  ) : (
-                    <div>
-                      <AccountCircle />
-                      Signup
-                    </div>
-                  )}
-                </Typography>
-                <div className="flex flex-col">
-                  <div className="flex flex-row mt-3 justify-between">
-                    <TextField
-                      id="outlined-email"
-                      label="Email"
-                      type="email"
-                      color="success"
-                      className="w-[100%] color-white"
-                      style={{ fontFamily: "Outfit-Regular" }}
-                      size="small"
-                      // value={email}
-                    />
-                  </div>
-                  <div className="flex flex-col mt-3">
-                    <TextField
-                      id="outlined-password"
-                      label="Password"
-                      type="password"
-                      className="w-[100%]"
-                      color="success"
-                      style={{ fontFamily: "Outfit-Regular" }}
-                      size="small"
-                      // value={withdrawAmount}
-                    >
-                      <AccountCircle />
-                    </TextField>
-                    {loginState && (
-                      <div className="mt-3">
-                        <TextField
-                          id="outlined-password-confirm"
-                          label="Password Confirm"
-                          type="password"
-                          className="w-[100%]"
-                          color="success"
-                          style={{ fontFamily: "Outfit-Regular" }}
-                          size="small"
-                          // value={withdrawAmount}
-                        >
-                          <AccountCircle />
-                        </TextField>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex flex-row justify-between mt-2">
-                    <div className="mt-3">
-                      {!loginState ? (
-                        <LoadingButton
-                          variant="outlined"
-                          color="success"
-                          // loading={depositLoading}
-                          style={{
-                            width: "100%",
-                            fontFamily: "Outfit-Regular",
-                          }}
-                          loadingIndicator={
-                            <CircularProgress color="success" size={16} />
-                          }
-                          onClick={() => {
-                            setLoginState(true);
-                          }}
-                        >
-                          Register
-                        </LoadingButton>
-                      ) : (
-                        <LoadingButton
-                          variant="outlined"
-                          color="success"
-                          // loading={depositLoading}
-                          style={{
-                            width: "100%",
-                            fontFamily: "Outfit-Regular",
-                          }}
-                          loadingIndicator={
-                            <CircularProgress color="success" size={16} />
-                          }
-                          onClick={() => {
-                            setLoginState(false);
-                          }}
-                        >
-                          Cancel
-                        </LoadingButton>
-                      )}
-                    </div>
-                    <div className="mt-3">
-                      {!loginState ? (
-                        <LoadingButton
-                          variant="contained"
-                          color="success"
-                          // loading={depositLoading}
-                          style={{
-                            width: "100%",
-                            fontFamily: "Outfit-Regular",
-                          }}
-                          loadingIndicator={
-                            <CircularProgress color="success" size={16} />
-                          }
-                          onClick={() => {
-                            console.log("Attempting to login user ...");
-                            const passwordInput = document.getElementById(
-                              "outlined-password"
-                            ) as HTMLInputElement;
-                            const passwordValue = passwordInput.value;
-                            const emailInput = document.getElementById(
-                              "outlined-email"
-                            ) as HTMLInputElement;
-                            const emailValue = emailInput.value;
-
-                            firebase
-                              .auth()
-                              .onAuthStateChanged(async function (user) {
-                                console.log("🚀", user);
-                                if (user) {
-                                  const user = firebase.auth().currentUser;
-                                  await user?.reload();
-                                  console.log(user);
-                                  globalEmail = user?.email;
-                                  if (user != null) {
-                                    const email_id = user.email;
-                                    const email_verified = user.emailVerified;
-                                    if (email_verified != true) {
-                                      // User Verification Box displayed
-                                      console.log(
-                                        "Waiting for verification ..."
-                                      );
-                                      toast.info(
-                                        "Your email is not verified. Please check your email"
-                                      );
-                                      // send_verification();
-                                    } else {
-                                      // User is logged in
-                                      firebase
-                                        .auth()
-                                        .signInWithEmailAndPassword(
-                                          emailValue,
-                                          passwordValue
-                                        )
-                                        .then((response) => {
-                                          console.log(response);
-                                        })
-                                        .catch((error) => {
-                                          toast.error(
-                                            String(error.message).slice(10)
-                                          );
-                                          console.log(error);
-                                        });
-
-                                      console.log("User is logged in.");
-                                      toast.info("Welcome, " + email_id + "!");
-                                      setLoggedin(true);
-                                      setLoginOpen(false);
-
-                                      try {
-                                        const result = await apiCaller.post(
-                                          "users/createUserWithEmail",
-                                          {
-                                            email:
-                                              firebase.auth().currentUser
-                                                ?.email,
-                                          }
-                                        );
-                                        console.log("😂😂", result);
-                                      } catch (error) {
-                                        console.log(error);
-                                      }
-
-                                      setLoginOpen(false);
-                                      setLoggedin(true);
-                                    }
-                                  }
-                                } else {
-                                  // No user is signed in.
-                                  console.log(
-                                    "You are currently not logged in to any account."
-                                  );
-
-                                  toast.error("Login error");
-                                }
-                              });
-                          }}
-                        >
-                          Login
-                        </LoadingButton>
-                      ) : (
-                        <LoadingButton
-                          variant="contained"
-                          color="success"
-                          // loading={depositLoading}
-                          style={{
-                            width: "100%",
-                            fontFamily: "Outfit-Regular",
-                          }}
-                          loadingIndicator={
-                            <CircularProgress color="success" size={16} />
-                          }
-                          onClick={() => {
-                            const passwordInput = document.getElementById(
-                              "outlined-password"
-                            ) as HTMLInputElement;
-                            const passwordValue = passwordInput.value;
-                            const passwordConfirmInput =
-                              document.getElementById(
-                                "outlined-password-confirm"
-                              ) as HTMLInputElement;
-                            const passwordConfirmValue =
-                              passwordConfirmInput.value;
-
-                            const emailInput = document.getElementById(
-                              "outlined-email"
-                            ) as HTMLInputElement;
-                            const emailValue = emailInput.value;
-
-                            if (passwordConfirmValue !== passwordValue) {
-                              toast.warn("Password not match");
-                            } else {
-                              console.log("Firebase AUth", firebase.auth());
-                              firebase
-                                .auth()
-                                .createUserWithEmailAndPassword(
-                                  emailValue,
-                                  passwordValue
-                                )
-                                .then((userCredential) => {
-                                  send_verification();
-                                  toast.info(
-                                    "Verification email has successfully been sent! Check your email inbox!"
-                                  );
-                                  setLoginOpen(false);
-                                })
-                                .catch((error) => {
-                                  toast.error(String(error.message).slice(10));
-                                  console.log(error);
-                                });
-                            }
-                          }}
-                        >
-                          Signup
-                        </LoadingButton>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Box>
-            </Modal>
 
             <Modal open={depositModalOpen} onClose={handleClose}>
               <Box sx={modalStyle}>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { KEYS_CONTENT } from "../../../data";
 import { Grid } from "@mui/material";
 import { Left } from "react-bootstrap/lib/Media";
-import { setKey } from "../../../redux/slices/tetrisSlice";
+import { setKeyNumber } from "../../../redux/slices/tetrisSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export interface LootboxProps {
@@ -12,11 +12,11 @@ export interface LootboxProps {
 const KeysContent = () => {
   const dispatch = useDispatch();
   const keyNumber = useSelector((state: any) => ({
-    keyNumber: state.tetris.key,
+    keyNumber: state.tetris.keyNumber,
   }));
 
   return (
-    <div className="w-[100%] pb-10 px-12 font-[Outfit-Regular] text-white">
+    <div className="w-[100%] pb-10 px-[5vw] font-[Outfit-Regular] text-white">
       <div className="mb-3">Keys you owned:</div>
       <Grid
         container
@@ -28,10 +28,12 @@ const KeysContent = () => {
             <div
               key={index}
               className={`bg-sky-600/5 border  ${
-                index === keyNumber ? "border-green-600" : "border-sky-950"
+                item.id === keyNumber.keyNumber
+                  ? "border-green-600"
+                  : "border-sky-950"
               } rounded-2xl bg-[#091017] text-center cursor-pointer`}
               onClick={() => {
-                dispatch(setKey({ key: index }));
+                dispatch(setKeyNumber({ keyNumber: index }));
               }}
             >
               <div>

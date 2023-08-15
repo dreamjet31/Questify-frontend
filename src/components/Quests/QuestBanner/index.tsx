@@ -115,10 +115,10 @@ const QuestBanner = (props: QuestBannerProps) => {
       }
 
       // console.log(QUESTIFY_QUESTS);
-      console.log("🥲", myInfo.claimedQuests.tetris);
-      console.log("😊", myInfo.achievedQuests.questify);
-      console.log(QUESTIFY_QUESTS[8].untilClaim);
-      console.log("🤣", statusArray);
+      // console.log("🥲", myInfo.claimedQuests.tetris);
+      // console.log("😊", myInfo.achievedQuests.questify);
+      // console.log(QUESTIFY_QUESTS[8].untilClaim);
+      // console.log("🤣", statusArray);
 
       setQuestStatus(statusArray);
     } catch (error) {}

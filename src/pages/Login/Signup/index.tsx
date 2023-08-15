@@ -130,7 +130,7 @@ export default function Signup() {
                 Sign up
               </Button>
               <div className="flex justify-end">
-                <Link href="/signup" variant="body2" color="#4caf50">
+                <Link href="/signin" variant="body2" color="#4caf50">
                   Have an account? Sign In
                 </Link>
               </div>

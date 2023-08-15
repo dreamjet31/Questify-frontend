@@ -9,8 +9,8 @@ export interface LootboxProps {
 
 const RewardsContent = () => {
   return (
-    <div className="w-[100%] pb-10 px-12 font-[Outfit-Regular] text-white">
-      <div className="mb-3">Lootbox Contents:</div>
+    <div className="w-[100%] pb-10 px-[5vw] font-[Outfit-Regular] text-white">
+      <div className="mb-3">Rewards Contents:</div>
       <Grid
         container
         spacing={2}

@@ -2,10 +2,14 @@ import LootboxCard from "../../components/Lootbox/LootboxCard";
 import LootBoxBar from "../../components/Lootbox/LootboxBar";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "../../components/Common/Buttons";
-// import { Button } from "@mui/material";
+import { LOOTBOX_CARD_GOLD } from "../../data";
 import { LOOTBOX_CARD_SILVER } from "../../data";
-import RewardsContent from "../../components/Lootbox/RewardsContent";
+import { LOOTBOX_CARD_PLATNIUM } from "../../data";
 import KeysContent from "../../components/Lootbox/KeysContent";
+import RewardsContent from "../../components/Lootbox/RewardsContent";
+import { useSelector } from "react-redux";
+// import RewardsContent from "../../components/Lootbox/RewardsContent";
+// import KeysContent from "../../components/Lootbox/KeysContent";
 
 const shuffle = (array: Object[]) => {
   const shuffled = [...array].slice();
@@ -21,60 +25,122 @@ const shuffle = (array: Object[]) => {
   return shuffled;
 };
 
-//  0.1%, 10%, 1%, 88.9%
-
-const mockBackend = () => {
-  const randomCardNum = Math.floor(Math.random() * 1000);
-  if (randomCardNum >= 0 && randomCardNum < 1) {
-    return 0;
-  } else if (randomCardNum >= 3 && randomCardNum <= 101) {
-    return 1;
-  } else if (randomCardNum >= 111 && randomCardNum < 1000) {
-    return 3;
-  }
-  return 3;
-};
-
-const ShuffleArray = () => {
-  const selected = mockBackend();
-  let shuffledResultArray = [...LOOTBOX_CARD_SILVER];
-  for (let index = 0; index < LOOTBOX_CARD_SILVER.length; index++) {
-    shuffledResultArray = shuffle(
-      [...LOOTBOX_CARD_SILVER].map((item, index) => {
-        if (index === selected) {
-          return { ...item, selected: true };
-        }
-        return { ...item, selected: false };
-      })
-    );
-  }
-  return shuffledResultArray;
-};
-
 const Lootbox = () => {
+  const [key, setKey] = useState("gold");
+  const keyNumber = useSelector((state: any) => ({
+    keyNumber: state.tetris.keyNumber,
+  }));
+
+  const LOOTBOX_CARD =
+    keyNumber.keyNumber == 0
+      ? LOOTBOX_CARD_GOLD
+      : keyNumber.keyNumber == 1
+      ? LOOTBOX_CARD_SILVER
+      : LOOTBOX_CARD_PLATNIUM;
+
   const wrapperRef = useRef(null);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [trybtnDisabled, setTryBtnDisabled] = useState(false);
   const [shuffledData, setShuffledData] = useState<Object[]>([]);
   const [translateXNum, setTranslateXNum] = useState<number>((0.5 * 100) / 90); //(8 * 100) / 90
-  const [resultArray, setResultArray] = useState<Object[]>([
-    ...LOOTBOX_CARD_SILVER,
-  ]);
   const [revealColor, setRevealColor] = useState<boolean>(false);
+  const [resultArray, setResultArray] = useState<Object[]>([...LOOTBOX_CARD]);
   const [isChecked, setIsChecked] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [isReseted, setIsReseted] = useState(true);
   const [readyTry, setReadyTry] = useState(false);
+
+  const mockBackend1 = () => {
+    const randomCardNum = Math.floor(Math.random() * 100000);
+    if (randomCardNum >= 0 && randomCardNum < 2) {
+      return 0;
+    } else if (randomCardNum >= 2 && randomCardNum <= 101) {
+      return 1;
+    } else if (randomCardNum >= 102 && randomCardNum < 902) {
+      return 2;
+    } else if (randomCardNum >= 902 && randomCardNum < 100000) {
+      return 3;
+    }
+    return 3;
+  };
+
+  const mockBackend2 = () => {
+    const randomCardNum = Math.floor(Math.random() * 100000);
+    if (randomCardNum >= 0 && randomCardNum < 700) {
+      return 0;
+    } else if (randomCardNum >= 700 && randomCardNum <= 751) {
+      return 1;
+    } else if (randomCardNum >= 752 && randomCardNum < 852) {
+      return 2;
+    } else if (randomCardNum >= 852 && randomCardNum < 20852) {
+      return 3;
+    } else if (randomCardNum >= 20852 && randomCardNum < 100000) {
+      return 4;
+    }
+    return 4;
+  };
+
+  const mockBackend3 = () => {
+    const randomCardNum = Math.floor(Math.random() * 10000);
+    if (randomCardNum >= 0 && randomCardNum < 1000) {
+      return 0;
+    } else if (randomCardNum >= 1000 && randomCardNum <= 1202) {
+      return 1;
+    } else if (randomCardNum >= 1103 && randomCardNum <= 1202) {
+      return 2;
+    } else if (randomCardNum >= 1203 && randomCardNum < 3056) {
+      return 3;
+    } else if (randomCardNum >= 3056 && randomCardNum < 3256) {
+      return 4;
+    } else if (randomCardNum >= 3256 && randomCardNum < 6639) {
+      return 5;
+    } else if (randomCardNum >= 6639 && randomCardNum < 6649) {
+      return 6;
+    } else if (randomCardNum >= 6649 && randomCardNum < 6699) {
+      return 7;
+    } else if (randomCardNum >= 6699 && randomCardNum < 6799) {
+      return 8;
+    } else if (randomCardNum >= 7000 && randomCardNum < 10000) {
+      return 9;
+    }
+    return 9;
+  };
+
+  const ShuffleArray = () => {
+    const selected =
+      keyNumber.keyNumber === 0
+        ? mockBackend1()
+        : keyNumber.keyNumber === 2
+        ? mockBackend2()
+        : mockBackend3();
+    console.log(selected);
+    let shuffledResultArray = [...LOOTBOX_CARD];
+    for (let index = 0; index < LOOTBOX_CARD.length; index++) {
+      shuffledResultArray = shuffle(
+        [...LOOTBOX_CARD].map((item, index) => {
+          if (index === selected) {
+            return { ...item, selected: true };
+          }
+          return { ...item, selected: false };
+        })
+      );
+    }
+    return shuffledResultArray;
+  };
   // const [selectedCardIndex, setSelectedCardIndex] = useState(0);
 
   useEffect(() => {
-    setShuffledData(shuffle([...LOOTBOX_CARD_SILVER]));
-  }, []);
+    setShuffledData(shuffle([...LOOTBOX_CARD]));
+  }, [keyNumber.keyNumber]);
 
   let delay = isChecked ? 2100 : 4100;
   const hadleClickTry = () => {
     const shuffledArray = ShuffleArray();
-    setResultArray(shuffledArray);
+    setResultArray((prevState) => [
+      ...prevState.map((arrayItem, index) => {
+        return { ...arrayItem, ...shuffledArray[index] };
+      }),
+    ]);
     let selectedCardIndex = 0;
     for (let index = 0; index < shuffledArray.length; index++) {
       if (shuffledArray[index]["selected"]) {
@@ -84,11 +150,25 @@ const Lootbox = () => {
     setReadyTry(false);
     setIsSpinning(true);
     setIsReseted(true);
-    setShuffledData(shuffle(LOOTBOX_CARD_SILVER));
-    console.log(resultArray);
+    setShuffledData(shuffle(LOOTBOX_CARD));
     setTranslateXNum(
-      -((4 * 10) / 5 + (selectedCardIndex * 18) / 90 - (2 * 39 + 0.5) / 90) *
-        100
+      window.innerWidth < 768
+        ? -(
+            (4 * 10) / 3.25 +
+            (selectedCardIndex * 30) / 95 -
+            (1 * 30 + 0.25) / 95
+          ) * 100
+        : window.innerWidth >= 768 && window.innerWidth < 1024
+        ? -(
+            (4 * 10) / 5.3 +
+            (selectedCardIndex * 18) / 95 -
+            (3 * 18 + 0.25) / 95
+          ) * 100
+        : -(
+            (4 * 10) / 8.0 +
+            (selectedCardIndex * 12) / 95 -
+            (4 * 15 + 0.25) / 95
+          ) * 100
     );
     // 4 * 10 / 5   :   4 shuffledDatas, 10 cards per array, 5cards per screen
     // selected * 18 / 90  :  selected:index of selected card in resultArray , 18vw per card including gap-[1vw] , 90vw of screen is visible elsewhere is hidden
@@ -110,7 +190,6 @@ const Lootbox = () => {
     setTranslateXNum(0);
     setBtnDisabled(true);
     setIsReseted(false);
-    setTryBtnDisabled(true);
   };
 
   const handleReset = () => {
@@ -142,17 +221,30 @@ const Lootbox = () => {
     return void 0;
   }, [isSpinning]);
 
+  // const goldBtnClick = () => {
+  //   setKey("gold");
+  // };
+
+  // const silverBtnClick = () => {
+  //   setKey("silver");
+  // };
+
+  // const planiumBtnClick = () => {
+  //   setKey("planium");
+  // };
+
   return (
-    <div className="mt-[80px]">
+    <div className="mt-[90px]">
       <KeysContent />
+      {/* <KeysContent /> */}
       <div
         className={`relative w-[100vw]  text-gray-200 flex flex-col items-center font-[Outfit-Regular]`}
       >
         <LootBoxBar />
-        <div className="w-[95%] overflow-hidden p-0 m-0">
+        <div className="w-[95vw] overflow-hidden p-0 m-0">
           <div
             ref={wrapperRef}
-            className={`flex justify-start gap-[1vw] items-center transition-transform ${
+            className={`flex justify-start gap-[0.5vw] items-center transition-transform ${
               isReseted
                 ? isChecked
                   ? `duration-2000`
@@ -227,7 +319,7 @@ const Lootbox = () => {
             </div>
 
             {/* Try it button */}
-            <div className="z-[30] mx-8">
+            <div className=" mx-8">
               <button
                 disabled={trybtnDisabled}
                 onClick={handleReset}
@@ -252,6 +344,18 @@ const Lootbox = () => {
             </div>
           </div>
         </div>
+        {/* <RewardsContent /> */}
+        {/* <div className="mt-[20px]">
+          <div className="mt-[20px]">
+            <Button caption="Gold" onClick={goldBtnClick} />
+          </div>
+          <div className="mt-[20px]">
+            <Button caption="Silver" onClick={silverBtnClick} />
+          </div>
+          <div className="mt-[20px]">
+            <Button caption="Planium" onClick={planiumBtnClick} />
+          </div>
+        </div> */}
         <RewardsContent />
       </div>
     </div>
