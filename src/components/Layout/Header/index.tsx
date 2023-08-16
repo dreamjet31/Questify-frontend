@@ -31,9 +31,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CircularProgress } from "@mui/material";
-import LoginIcon from "@mui/icons-material/Login";
-import LogoutIcon from "@mui/icons-material/Logout";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 
 const Header = () => {
   const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
@@ -62,18 +59,10 @@ const Header = () => {
   const [claimLoading, setClaimLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef<number>();
-  const [loginState, setLoginState] = React.useState(false);
-  const [loggedin, setLoggedin] = React.useState(false);
 
-  // Menu
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const openDropDown = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseDropDown = () => {
-    setAnchorEl(null);
-  };
+  const myStar = useSelector((state: any) => ({
+    myStar: state.tetris.myInfo.totalStar,
+  }));
 
   React.useEffect(() => {
     return () => {
@@ -147,9 +136,6 @@ const Header = () => {
     font: "IBMPlexMono-Regular",
     boxShadow: "0 0 10px 0 rgb(43, 100, 50)",
   };
-
-  // Login Modal
-  const [loginOpen, setLoginOpen] = useState(false);
 
   const sendToken = async (amount: number) => {
     if (!signingClient || !accounts) {
@@ -336,7 +322,7 @@ const Header = () => {
                             custom-2xl:w-fit xl:w-fit lg:w-fit md:w-fit sm:w-fit"
         >
           <div className="flex flex-row items-center md:justify-end sm:justify-end">
-            {connected && loggedin && (
+            {connected && (
               <div className="flex flex-row">
                 <div
                   className="pr-2 h-[35px] rounded-lg flex justify-center items-center 
@@ -360,7 +346,7 @@ const Header = () => {
                     className="mx-[6px] w-[20px] h-[20px]"
                   />
                   <p className="sm:text-[12px] text-[10px] flex items-center">
-                    {Math.floor(Number(myXP))}
+                    {Math.floor(Number(myStar.myStar || 0))}
                   </p>
                 </div>
               </div>
@@ -405,31 +391,6 @@ const Header = () => {
               // </div>
               // )
             }
-
-            {!loggedin ? (
-              <div
-                className="flex wallet-adapter-button justify-end items-center mr-2"
-                onClick={() => {
-                  setLoginOpen(true);
-                  setLoginState(false);
-                  navigate("/signin");
-                }}
-              >
-                <LoginIcon fontSize="small" />
-                Sign in
-              </div>
-            ) : (
-              <div
-                className="flex wallet-adapter-button justify-end items-center mr-2"
-                onClick={() => {
-                  setLoggedin(false);
-                  // firebase.auth().signOut();
-                }}
-              >
-                <LogoutIcon fontSize="small" />
-                Sign out
-              </div>
-            )}
 
             <Modal open={depositModalOpen} onClose={handleClose}>
               <Box sx={modalStyle}>

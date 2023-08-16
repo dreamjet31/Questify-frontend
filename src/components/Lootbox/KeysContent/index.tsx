@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import { Left } from "react-bootstrap/lib/Media";
 import { setKeyNumber } from "../../../redux/slices/tetrisSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+import { setMyInfo } from "../../../redux/slices/tetrisSlice";
 export interface LootboxProps {
   data: any;
 }
@@ -13,6 +13,10 @@ const KeysContent = () => {
   const dispatch = useDispatch();
   const keyNumber = useSelector((state: any) => ({
     keyNumber: state.tetris.keyNumber,
+  }));
+
+  const rewardKey = useSelector((state: any) => ({
+    rewardKey: state.tetris.myInfo.rewardKey || [],
   }));
 
   return (
@@ -32,9 +36,6 @@ const KeysContent = () => {
                   ? "border-green-600"
                   : "border-sky-950"
               } rounded-2xl bg-[#091017] text-center cursor-pointer`}
-              onClick={() => {
-                dispatch(setKeyNumber({ keyNumber: index }));
-              }}
             >
               <div>
                 <div
@@ -42,7 +43,7 @@ const KeysContent = () => {
                 >
                   <p>{item.name}</p>
                   <div className="flex flex-row gap-1">
-                    <p>{item.value}</p>
+                    <p>{Number(rewardKey.rewardKey[Number(index)]) || 0}</p>
                     <div className="z-[20]">
                       <img src={item.img} alt="logo" width={24} height={24} />
                     </div>

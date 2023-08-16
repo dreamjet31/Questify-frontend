@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LOOTBOX_REWARD_CONTENT } from "../../../data";
+import { LOOTBOX_CARD_BRONZE } from "../../../data";
 import { Grid } from "@mui/material";
 import { Left } from "react-bootstrap/lib/Media";
 
@@ -16,7 +16,7 @@ const RewardsContent = () => {
         spacing={2}
         columns={{ xl: 12, lg: 12, md: 12, sm: 4, xs: 4 }}
       >
-        {LOOTBOX_REWARD_CONTENT.map((item, index) => (
+        {LOOTBOX_CARD_BRONZE.map((item, index) => (
           <Grid item xl={1.5} lg={2} md={3} sm={4} xs={4}>
             <div
               key={index}
@@ -26,12 +26,8 @@ const RewardsContent = () => {
                 <div
                   className={`py-2 flex justify-around gap-2 rounded-t-2xl ${`bg-[#0C1620]`}`}
                 >
-                  <div className="flex flex-row">
-                    <div className="z-[20]">
-                      <img src={item.img} alt="logo" width={24} height={24} />
-                    </div>
-                    <p>{item.name}</p>
-                  </div>
+                  <p>{item.name}</p>
+
                   <p>{item.percent}</p>
                 </div>
                 <div className="flex flex-col space-y-5 items-center my-10 px-5">
