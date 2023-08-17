@@ -1,6 +1,10 @@
 const LootBoxBar = () => {
   return (
-    <div className="z-10 absolute left-[50%] w-[11px] h-[250px] bg-gradient-to-b from-transparent via-white/70 to-transparent"></div>
+    <div className="flex flex-col absolute ">
+      <div className="z-10 left-[50%] ml-[-4px] w-[10px] h-[1px] bg-[#cbd5e1]"></div>
+      <div className="z-10 left-[50%] w-[2px] h-[248px] bg-[#cbd5e1]"></div>
+      <div className="z-10 left-[50%] ml-[-4px] w-[10px] h-[1px] bg-[#cbd5e1]"></div>
+    </div>
   );
 };
 

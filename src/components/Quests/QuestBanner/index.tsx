@@ -88,7 +88,7 @@ const QuestBanner = (props: QuestBannerProps) => {
       //   [...Array(7)].fill(0),
       // ];
       // console.log("💕1", myInfo.claimedQuests);
-      console.log("💕2", myInfo.achievedQuests);
+      // console.log("💕2", myInfo.achievedQuests);
       for (let i = 0; i < 15; i++) {
         if (i < 4) {
           myInfo?.claimedQuests?.community[i] == 1
@@ -124,7 +124,7 @@ const QuestBanner = (props: QuestBannerProps) => {
     } catch (error) {}
   }, [myInfo]);
 
-  console.log(questStatus);
+  // console.log(questStatus);
 
   return (
     <div className="w-full">

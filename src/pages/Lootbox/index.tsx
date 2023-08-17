@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GAME_CONTENTS, KEYS_CONTENT } from "../../data";
 import { setKeyNumber } from "../../redux/slices/tetrisSlice";
 import { BorderPanel } from "../../components/Common/Panels";
@@ -6,8 +6,7 @@ import { Button } from "@mui/material";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setIframeMode } from "../../redux/slices/tetrisSlice";
-// import { setIframeMode } from "../../redux/slices/tetrisSlice";
+import { apiCaller } from "../../utils/fetcher";
 
 export type GameContentType = {
   id: number;
@@ -19,7 +18,7 @@ export type GameContentType = {
   link?: string;
 };
 
-const Games = () => {
+const Lootbox = () => {
   // const [iframeMode, setIframeMode] = useState(false);
   const [iframeID, setIframeID] = useState("");
   const dispatch = useDispatch();
@@ -27,6 +26,19 @@ const Games = () => {
   //   iframeMode: state.tetris.iframeMode,
   // }));
   const navigate = useNavigate();
+  const fetchLeaderboard = async () => {
+    var result = await apiCaller.get("users/fetchLeaderboard");
+    console.log(result.data.data.totalKeyInfo[0]);
+  };
+
+  useEffect(() => {
+    fetchLeaderboard();
+    // initSocket();
+  }, []);
+
+  const rewardKey = useSelector((state: any) => ({
+    rewardKey: state.tetris.myInfo.rewardKey || [],
+  }));
 
   return (
     <div
@@ -66,7 +78,7 @@ const Games = () => {
                   <img src={key.thumbnail}></img>
                 </div>
                 <div className="flex md:flex-row xs:flex-col-reverse py-2">
-                  <div className="text-[16px] text-center w-full">
+                  <div className="text-[16px] text-center w-full flex flex-row justify-around">
                     {/* <div className="text-[#929298] hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-b hover:from-green-500 hover:to-white">
                       {key.name}
                     </div> */}
@@ -76,15 +88,28 @@ const Games = () => {
                       style={{
                         marginTop: "10px",
                         textTransform: "none",
-                        color: "black",
-                        fontWeight: "600",
+                        color: "white",
                         fontFamily: "Outfit-Regular",
+                        backgroundColor: "#082f49",
                       }}
                     >
                       <div className="flex flex-row gap-1">
-                        Buy key by {key.price}
-                        <img src="images/logo2.png" width={24} height={24} />
+                        {rewardKey.rewardKey[index] || 0} owned keys
                       </div>
+                    </Button>
+                    <Button
+                      color="success"
+                      variant="contained"
+                      style={{
+                        marginTop: "10px",
+                        textTransform: "none",
+                        color: "white",
+                        // fontWeight: "600",
+                        fontFamily: "Outfit-Regular",
+                        // backgroundColor: "#059669",
+                      }}
+                    >
+                      <div className="flex flex-row gap-1">Buy key</div>
                     </Button>
                   </div>
                 </div>
@@ -97,4 +122,4 @@ const Games = () => {
   );
 };
 
-export default Games;
+export default Lootbox;

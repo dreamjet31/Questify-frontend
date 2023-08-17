@@ -44,6 +44,7 @@ const QuestLeaderboard = () => {
       tempWinners = [...tempWinners.showXPInfo].sort(
         (a, b) => b.totalXP - a.totalXP
       );
+      // console.log("🤩", tempWinners);
 
       const sorted = tempWinners.map((winner, idx) => {
         let rankRange = 0;

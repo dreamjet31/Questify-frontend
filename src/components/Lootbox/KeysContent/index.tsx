@@ -20,8 +20,8 @@ const KeysContent = () => {
   }));
 
   return (
-    <div className="w-[100%] pb-10 px-[5vw] font-[Outfit-Regular] text-white">
-      <div className="mb-3">Keys you owned:</div>
+    <div className="w-[100%] pb-10 px-[2.5vw] font-[Outfit-Regular] text-white">
+      <div className="mb-3 text-xl">Keys you owned:</div>
       <Grid
         container
         spacing={2}

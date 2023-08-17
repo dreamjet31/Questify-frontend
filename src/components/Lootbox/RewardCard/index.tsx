@@ -8,7 +8,7 @@ export interface RewardProps {
 const RewardCard = ({ data }: RewardProps) => {
   return (
     <div
-      className={`h-[22vw] lg:min-w-[16.8vw] min-w-[35vw] font-[Outfit-Regular] bg-sky-600/5 border 
+      className={`h-[22vw] lg:min-w-[16.8vw] min-w-[35vw] font-[Outfit-Regular] bg-sky-600/5 border
        rounded-2xl bg-[#091017] text-center`}
     >
       <div

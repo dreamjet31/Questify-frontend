@@ -77,62 +77,112 @@ const LootboxPlay = () => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [isReseted, setIsReseted] = useState(true);
   const [readyTry, setReadyTry] = useState(false);
-  const [selected, setSelected] = useState(100);
+  const [selected, setSelected] = useState(Number);
 
   const mockBackend1 = () => {
-    const randomCardNum = Math.floor(Math.random() * 100000);
-    if (randomCardNum >= 0 && randomCardNum < 2) {
-      return 0;
-    } else if (randomCardNum >= 2 && randomCardNum <= 101) {
-      return 1;
-    } else if (randomCardNum >= 102 && randomCardNum < 902) {
-      return 2;
-    } else if (randomCardNum >= 902 && randomCardNum < 100000) {
-      return 3;
-    }
-    return 3;
+    const randomCardNum = Math.floor(Math.random() * 10000);
+    // console.log(randomCardNum);
+    return randomCardNum >= 0 && randomCardNum < 1800
+      ? 0
+      : randomCardNum >= 1800 && randomCardNum <= 3800
+      ? 1
+      : randomCardNum >= 3800 && randomCardNum < 5000
+      ? 2
+      : randomCardNum >= 5000 && randomCardNum < 6000
+      ? 3
+      : randomCardNum >= 6000 && randomCardNum < 6500
+      ? 4
+      : randomCardNum >= 6500 && randomCardNum < 6750
+      ? 5
+      : randomCardNum >= 6750 && randomCardNum < 7000
+      ? 6
+      : randomCardNum >= 7000 && randomCardNum < 7500
+      ? 7
+      : randomCardNum >= 7500 && randomCardNum < 8000
+      ? 8
+      : randomCardNum >= 8000 && randomCardNum < 8500
+      ? 9
+      : randomCardNum >= 8500 && randomCardNum < 9000
+      ? 10
+      : randomCardNum >= 9000 && randomCardNum < 9400
+      ? 11
+      : randomCardNum >= 9400 && randomCardNum < 9800
+      ? 12
+      : randomCardNum >= 9800 && randomCardNum < 9900
+      ? 13
+      : randomCardNum >= 9900 && randomCardNum < 9950
+      ? 14
+      : 15;
   };
 
   const mockBackend2 = () => {
     const randomCardNum = Math.floor(Math.random() * 100000);
-    if (randomCardNum >= 0 && randomCardNum < 700) {
-      return 0;
-    } else if (randomCardNum >= 700 && randomCardNum <= 751) {
-      return 1;
-    } else if (randomCardNum >= 752 && randomCardNum < 852) {
-      return 2;
-    } else if (randomCardNum >= 852 && randomCardNum < 20852) {
-      return 3;
-    } else if (randomCardNum >= 20852 && randomCardNum < 100000) {
-      return 4;
-    }
-    return 4;
+    return randomCardNum >= 0 && randomCardNum < 1500
+      ? 0
+      : randomCardNum >= 1500 && randomCardNum <= 3000
+      ? 1
+      : randomCardNum >= 3000 && randomCardNum < 4000
+      ? 2
+      : randomCardNum >= 4000 && randomCardNum < 5000
+      ? 3
+      : randomCardNum >= 5000 && randomCardNum < 5500
+      ? 4
+      : randomCardNum >= 5500 && randomCardNum < 5750
+      ? 5
+      : randomCardNum >= 5750 && randomCardNum < 6000
+      ? 6
+      : randomCardNum >= 6000 && randomCardNum < 6600
+      ? 7
+      : randomCardNum >= 6600 && randomCardNum < 7200
+      ? 8
+      : randomCardNum >= 7200 && randomCardNum < 7800
+      ? 9
+      : randomCardNum >= 7800 && randomCardNum < 8400
+      ? 10
+      : randomCardNum >= 8400 && randomCardNum < 8900
+      ? 11
+      : randomCardNum >= 8900 && randomCardNum < 9400
+      ? 12
+      : randomCardNum >= 9400 && randomCardNum < 9600
+      ? 13
+      : randomCardNum >= 9600 && randomCardNum < 9800
+      ? 14
+      : 15;
   };
 
   const mockBackend3 = () => {
     const randomCardNum = Math.floor(Math.random() * 10000);
-    if (randomCardNum >= 0 && randomCardNum < 1000) {
-      return 0;
-    } else if (randomCardNum >= 1000 && randomCardNum <= 1202) {
-      return 1;
-    } else if (randomCardNum >= 1103 && randomCardNum <= 1202) {
-      return 2;
-    } else if (randomCardNum >= 1203 && randomCardNum < 3056) {
-      return 3;
-    } else if (randomCardNum >= 3056 && randomCardNum < 3256) {
-      return 4;
-    } else if (randomCardNum >= 3256 && randomCardNum < 6639) {
-      return 5;
-    } else if (randomCardNum >= 6639 && randomCardNum < 6649) {
-      return 6;
-    } else if (randomCardNum >= 6649 && randomCardNum < 6699) {
-      return 7;
-    } else if (randomCardNum >= 6699 && randomCardNum < 6799) {
-      return 8;
-    } else if (randomCardNum >= 7000 && randomCardNum < 10000) {
-      return 9;
-    }
-    return 9;
+    return randomCardNum >= 0 && randomCardNum < 1000
+      ? 0
+      : randomCardNum >= 1000 && randomCardNum <= 2000
+      ? 1
+      : randomCardNum >= 2000 && randomCardNum < 3000
+      ? 2
+      : randomCardNum >= 3000 && randomCardNum < 4000
+      ? 3
+      : randomCardNum >= 4000 && randomCardNum < 5000
+      ? 4
+      : randomCardNum >= 5000 && randomCardNum < 5500
+      ? 5
+      : randomCardNum >= 5500 && randomCardNum < 6000
+      ? 6
+      : randomCardNum >= 6000 && randomCardNum < 6500
+      ? 7
+      : randomCardNum >= 6500 && randomCardNum < 7000
+      ? 8
+      : randomCardNum >= 7000 && randomCardNum < 7500
+      ? 9
+      : randomCardNum >= 7500 && randomCardNum < 8000
+      ? 10
+      : randomCardNum >= 8000 && randomCardNum < 8700
+      ? 11
+      : randomCardNum >= 8700 && randomCardNum < 9400
+      ? 12
+      : randomCardNum >= 9400 && randomCardNum < 9600
+      ? 13
+      : randomCardNum >= 9600 && randomCardNum < 9800
+      ? 14
+      : 15;
   };
 
   const ShuffleArray = () => {
@@ -143,6 +193,7 @@ const LootboxPlay = () => {
         ? mockBackend2()
         : mockBackend3()
     );
+    // console.log(selected);
     let shuffledResultArray = [...lootboxCard];
     for (let index = 0; index < lootboxCard.length; index++) {
       shuffledResultArray = shuffle(
@@ -157,6 +208,10 @@ const LootboxPlay = () => {
     return shuffledResultArray;
   };
   // const [selectedCardIndex, setSelectedCardIndex] = useState(0);
+
+  useEffect(() => {
+    ShuffleArray();
+  }, [keyNumber.keyNumber]);
 
   useEffect(() => {
     setShuffledData(shuffle([...lootboxCard]));
@@ -183,18 +238,18 @@ const LootboxPlay = () => {
     setTranslateXNum(
       window.innerWidth < 768
         ? -(
-            (4 * 10) / 3.25 +
+            (4 * 16) / 3.25 +
             (selectedCardIndex * 30) / 95 -
             (1 * 30 + 0.25) / 95
           ) * 100
         : window.innerWidth >= 768 && window.innerWidth < 1024
         ? -(
-            (4 * 10) / 5.3 +
+            (4 * 16) / 5.34 +
             (selectedCardIndex * 18) / 95 -
             (3 * 18 + 0.25) / 95
           ) * 100
         : -(
-            (4 * 10) / 8.0 +
+            (4 * 16) / 8.1 +
             (selectedCardIndex * 12) / 95 -
             (4 * 15 + 0.25) / 95
           ) * 100
@@ -218,21 +273,21 @@ const LootboxPlay = () => {
   const hadleClickBtn = () => {
     if (connected_wallet == null) {
       toast.warn("Connect the wallet first");
-      console.log(connected_wallet);
+      // console.log(connected_wallet);
     } else {
       setTranslateXNum(0);
       setBtnDisabled(true);
       setIsReseted(false);
       setTryBtnDisabled(true);
-      console.log(selected);
     }
+    console.log(selected);
   };
 
   const handleReset = () => {
     setTranslateXNum(0);
     setTryBtnDisabled(true);
     setIsReseted(false);
-    console.log("trybtnDisabled", trybtnDisabled, "isReseted", isReseted);
+    // console.log("trybtnDisabled", trybtnDisabled, "isReseted", isReseted);
   };
 
   const testReady = () => {
