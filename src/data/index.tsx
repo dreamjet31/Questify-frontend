@@ -864,6 +864,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "$300",
     selected: false,
     percent: "18%",
+    amount: 300,
   },
   {
     id: 2,
@@ -872,6 +873,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "333",
     selected: false,
     percent: "20%",
+    amount: 333,
   },
   {
     id: 3,
@@ -880,6 +882,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "$10",
     selected: false,
     percent: "12%",
+    amount: 10,
   },
   {
     id: 4,
@@ -888,6 +891,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "4.17$",
     selected: false,
     percent: "10%",
+    amount: 4.17,
   },
   {
     id: 5,
@@ -896,6 +900,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "$1.25",
     selected: false,
     percent: "5%",
+    amount: 1.25,
   },
   {
     id: 6,
@@ -904,6 +909,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "$8.33",
     selected: false,
     percent: "2.5%",
+    amount: 8.33,
   },
   {
     id: 7,
@@ -912,6 +918,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "42",
     selected: false,
     percent: "2.5%",
+    amount: 42,
   },
   {
     id: 8,
@@ -920,6 +927,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "Sei Ape Punks",
     selected: false,
     percent: "5%",
+    amount: 1,
   },
   {
     id: 9,
@@ -928,6 +936,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "BigPunk",
     selected: false,
     percent: "5%",
+    amount: 1,
   },
   {
     id: 10,
@@ -936,6 +945,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "SeiGulls",
     selected: false,
     percent: "5%",
+    amount: 1,
   },
   {
     id: 11,
@@ -944,6 +954,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "CyberLabs OGs",
     selected: false,
     percent: "5%",
+    amount: 1,
   },
   {
     id: 12,
@@ -952,6 +963,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "Comic Pass",
     selected: false,
     percent: "4%",
+    amount: 1,
   },
   {
     id: 13,
@@ -960,6 +972,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "WTFoxes",
     selected: false,
     percent: "4%",
+    amount: 1,
   },
   {
     id: 14,
@@ -968,6 +981,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "CyberLabs Free",
     selected: false,
     percent: "1%",
+    amount: 1,
   },
   {
     id: 15,
@@ -976,6 +990,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "WebBot Free",
     selected: false,
     percent: "0.5%",
+    amount: 1,
   },
   {
     id: 16,
@@ -984,6 +999,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
     value: "SeiGoat Free",
     selected: false,
     percent: "0.5%",
+    amount: 1,
   },
 ];
 
@@ -995,6 +1011,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "$500",
     selected: false,
     percent: "15%",
+    amount: 500,
   },
   {
     id: 2,
@@ -1003,6 +1020,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "500",
     selected: false,
     percent: "15%",
+    amount: 500,
   },
   {
     id: 3,
@@ -1011,6 +1029,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "$16667",
     selected: false,
     percent: "10%",
+    amount: 1667,
   },
   {
     id: 4,
@@ -1019,6 +1038,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "8.33$",
     selected: false,
     percent: "10%",
+    amount: 8.33,
   },
   {
     id: 5,
@@ -1027,6 +1047,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "$2.5",
     selected: false,
     percent: "5%",
+    amount: 2.5,
   },
   {
     id: 6,
@@ -1035,6 +1056,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "$17.07",
     selected: false,
     percent: "2.5%",
+    amount: 17.07,
   },
   {
     id: 7,
@@ -1043,6 +1065,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "83.33",
     selected: false,
     percent: "2.5%",
+    amount: 83.33,
   },
   {
     id: 8,
@@ -1051,6 +1074,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "Sei Ape Punks",
     selected: false,
     percent: "6%",
+    amount: 1,
   },
   {
     id: 9,
@@ -1059,6 +1083,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "BigPunk",
     selected: false,
     percent: "6%",
+    amount: 1,
   },
   {
     id: 10,
@@ -1067,6 +1092,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "SeiGulls",
     selected: false,
     percent: "6%",
+    amount: 1,
   },
   {
     id: 11,
@@ -1075,6 +1101,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "CyberLabs OGs",
     selected: false,
     percent: "6%",
+    amount: 1,
   },
   {
     id: 12,
@@ -1083,6 +1110,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "Comic Pass",
     selected: false,
     percent: "5%",
+    amount: 1,
   },
   {
     id: 13,
@@ -1091,6 +1119,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "WTFoxes",
     selected: false,
     percent: "5%",
+    amount: 1,
   },
   {
     id: 14,
@@ -1098,6 +1127,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     name: "NFT",
     value: "CyberLabs Free",
     selected: false,
+    amount: 1,
     percent: "2%",
   },
   {
@@ -1107,6 +1137,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "WebBot Free",
     selected: false,
     percent: "2%",
+    amount: 1,
   },
   {
     id: 16,
@@ -1115,6 +1146,7 @@ export const LOOTBOX_CARD_SILVER: any = [
     value: "SeiGoat Free",
     selected: false,
     percent: "2%",
+    amount: 1,
   },
 ];
 
@@ -1123,17 +1155,19 @@ export const LOOTBOX_CARD_GOLD: any = [
     id: 1,
     img: "/images/Lootbox/tokens/seinu.jpeg",
     name: "Seinu",
-    value: "$100,000",
+    value: "$1000",
     selected: false,
     percent: "10%",
+    amount: 1000,
   },
   {
     id: 2,
     img: "/images/Lootbox/tokens/stars.png",
     name: "QST Stars",
-    value: "1000,000",
+    value: "1000",
     selected: false,
     percent: "10%",
+    amount: 1000,
   },
   {
     id: 3,
@@ -1142,6 +1176,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "$50",
     selected: false,
     percent: "10%",
+    amount: 50,
   },
   {
     id: 4,
@@ -1150,6 +1185,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "25$",
     selected: false,
     percent: "10%",
+    amount: 25,
   },
   {
     id: 5,
@@ -1158,6 +1194,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "$5",
     selected: false,
     percent: "10%",
+    amount: 5,
   },
   {
     id: 6,
@@ -1166,6 +1203,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "$100",
     selected: false,
     percent: "5%",
+    amount: 100,
   },
   {
     id: 7,
@@ -1174,6 +1212,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "500",
     selected: false,
     percent: "5%",
+    amount: 500,
   },
   {
     id: 8,
@@ -1182,6 +1221,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "Sei Ape Punks",
     selected: false,
     percent: "5%",
+    amount: 1,
   },
   {
     id: 9,
@@ -1190,6 +1230,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "BigPunk",
     selected: false,
     percent: "5%",
+    amount: 1,
   },
   {
     id: 10,
@@ -1198,6 +1239,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "SeiGulls",
     selected: false,
     percent: "5%",
+    amount: 1,
   },
   {
     id: 11,
@@ -1206,6 +1248,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "CyberLabs OGs",
     selected: false,
     percent: "5%",
+    amount: 1,
   },
   {
     id: 12,
@@ -1214,6 +1257,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "Comic Pass",
     selected: false,
     percent: "7%",
+    amount: 1,
   },
   {
     id: 13,
@@ -1222,6 +1266,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "WTFoxes",
     selected: false,
     percent: "7%",
+    amount: 1,
   },
   {
     id: 14,
@@ -1230,6 +1275,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "CyberLabs Free",
     selected: false,
     percent: "2%",
+    amount: 1,
   },
   {
     id: 15,
@@ -1238,6 +1284,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "WebBot Free",
     selected: false,
     percent: "2%",
+    amount: 1,
   },
   {
     id: 16,
@@ -1246,6 +1293,7 @@ export const LOOTBOX_CARD_GOLD: any = [
     value: "SeiGoat Free",
     selected: false,
     percent: "2%",
+    amount: 1,
   },
 ];
 
@@ -1275,6 +1323,6 @@ export const KEYS_CONTENT: any = [
     name: "Gold key",
     value: 2,
     totalAmount: 1000,
-    price: 10,
+    price: 5,
   },
 ];

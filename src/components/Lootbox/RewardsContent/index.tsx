@@ -1,30 +1,50 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LOOTBOX_CARD_BRONZE } from "../../../data";
 import { LOOTBOX_CARD_SILVER } from "../../../data";
 import { LOOTBOX_CARD_GOLD } from "../../../data";
-
+import { setRewards, setMyInfo } from "../../../redux/slices/tetrisSlice";
 import { Grid } from "@mui/material";
 import { Left } from "react-bootstrap/lib/Media";
-
+import { apiCaller } from "../../../utils/fetcher";
 export interface LootboxProps {
   data: any;
 }
 const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
 
 const RewardsContent = () => {
-  const keyNumber = useSelector((state: any) => ({
-    keyNumber: state.tetris.keyNumber,
+  const dispatch = useDispatch();
+
+  const keyNumber = Number(localStorage.getItem("keyNumber"));
+
+  const myInfo = useSelector((state: any) => ({
+    myInfo: state.tetris.myInfo,
   }));
+
+  const fetchLeaderboard = async () => {
+    var result = await apiCaller.get("users/fetchLeaderboard");
+    dispatch(setRewards({ rewards: result.data.data.totalKeyInfo[0] }));
+    console.log(result.data.data.totalKeyInfo[0]);
+  };
+
+  const { rewards } = useSelector((state: any) => ({
+    rewards: state.tetris.rewards || {},
+  }));
+
+  useEffect(() => {
+    fetchLeaderboard();
+  }, []);
+
+  // console.log(rewards);
 
   const [lootboxCard, setLootboxCard] = useState(LOOTBOX_CARD_BRONZE);
   useEffect(() => {
-    keyNumber.keyNumber == 0
+    keyNumber == 0
       ? setLootboxCard(LOOTBOX_CARD_BRONZE)
-      : keyNumber.keyNumber == 1
+      : keyNumber == 1
       ? setLootboxCard(LOOTBOX_CARD_SILVER)
       : setLootboxCard(LOOTBOX_CARD_GOLD);
-  }, [keyNumber.keyNumber]);
+  }, [keyNumber]);
   // const rewards_card =
 
   return (
@@ -45,7 +65,15 @@ const RewardsContent = () => {
                 <div
                   className={`py-2 flex justify-between px-4 gap-2 rounded-t-2xl ${`bg-[#0f2031]`} bg-[#091017] `}
                 >
-                  <p>{item.name}</p>
+                  <p>
+                    {item.name}
+                    <span className="ml-1">
+                      (
+                      {Number(rewards?.totalRewards?.[index]) -
+                        Number(rewards?.claimedRewards?.[index]) || 0}{" "}
+                      left)
+                    </span>
+                  </p>
 
                   <p>{item.percent}</p>
                 </div>

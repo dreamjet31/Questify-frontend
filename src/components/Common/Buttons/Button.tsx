@@ -1,7 +1,7 @@
 import "font-awesome/css/font-awesome.min.css";
 
 export interface ButtonProps {
-  caption: string;
+  caption: any;
   icon?: string;
   bordered?: boolean;
   disabled?: boolean;

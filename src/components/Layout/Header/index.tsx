@@ -7,7 +7,6 @@ import {
   setMyBalance,
   setMyInfo,
   setMyXP,
-  setDepositModalOpen,
   setPercent,
 } from "../../../redux/slices/tetrisSlice";
 import {
@@ -31,6 +30,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CircularProgress } from "@mui/material";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 
 const Header = () => {
   const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
@@ -43,13 +43,9 @@ const Header = () => {
   const [active, setActive] = useState(0);
 
   const [connected, setConnected] = useState(false);
-  const [level, setLevel] = useState(1);
   const [betAmount, setBetAmount] = useState("");
   const [depositAmount, setDepositAmount] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
-  const [claimAmount, setClaimAmount] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [claimModalOpen, setClaimModalOpen] = useState(false);
   const [currentAmount, setCurrentAmount] = useState(0);
   const [sending, setSending] = useState(false);
   const { signingClient } = useSigningClient();
@@ -57,7 +53,6 @@ const Header = () => {
   const [myAddress, setMyAddress] = useState("");
   const [depositLoading, setDepositLoading] = React.useState(false);
   const [claimLoading, setClaimLoading] = React.useState(false);
-  const [success, setSuccess] = React.useState(false);
   const timer = React.useRef<number>();
 
   const myStar = useSelector((state: any) => ({
@@ -107,16 +102,24 @@ const Header = () => {
   };
 
   // Modal
-  const { depositModalOpen } = useSelector((state: any) => ({
-    depositModalOpen: state.tetris.depositModalOpen,
-  }));
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+    typography: {
+      fontFamily: "Inter-Regular",
+    },
+  });
+  // const { depositModalOpen } = useSelector((state: any) => ({
+  //   depositModalOpen: state.tetris.depositModalOpen,
+  // }));
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
-    dispatch(setDepositModalOpen({ depositModalOpen: true }));
+    setOpen(true);
   };
   const handleClose = () => {
-    dispatch(setDepositModalOpen({ depositModalOpen: false }));
+    setOpen(false);
   };
 
   const modalStyle = {
@@ -128,8 +131,6 @@ const Header = () => {
     bgcolor: "background.paper",
     fontFamily: "IBMPlexMono-Regular",
     p: 4,
-    // background: "black",
-    // color: "white",
     border: 1,
     borderColor: "#6C9C6E",
     borderRadius: "20px",
@@ -151,7 +152,6 @@ const Header = () => {
     const transferAmount = { amount: (amount * 1e6).toString(), denom: "usei" };
 
     try {
-      // console.log("SIG: ", signingClient);
       const sendResponse = await signingClient.sendTokens(
         accounts[0].address,
         "sei10cs7ddu93ge6kwfllm24cm20h4j4vx00sfaqh7",
@@ -159,9 +159,6 @@ const Header = () => {
         fee
       );
 
-      // console.log("😁", sendResponse);
-      // console.log(sendResponse.transactionHash);
-      // console.log("sendResponse", sendResponse);
       if (sendResponse.transactionHash) {
         localStorage.setItem("txHash", sendResponse.transactionHash);
 
@@ -173,26 +170,14 @@ const Header = () => {
 
           // if result.data.
 
-          const num1 = Number(QUESTIFY_QUESTS[2].untilClaim);
-          const num2 = Number(QUESTIFY_QUESTS[3].untilClaim);
-          const resValue = result.data.existingUser;
-          // console.log("👍", result.data);
-          // console.log("QQQ", QUESTIFY_QUESTS[2].untilClaim);
-          if (
-            (resValue.claimedQuests.questify[2] == 0 &&
-              resValue.achievedQuests.questify[2] >= num1) ||
-            (resValue.claimedQuests.questify[3] == 0 &&
-              resValue.achievedQuests.questify[3] >= num2)
-          )
-            toast.info("Check the Quests!");
-          // console.log("QQQsss");
-          // console.log("before myInfoDispatch:", result.data.existingUser);
           dispatch(
             setMyBalance({ balance: result.data.existingUser.totalBalance })
           );
           // console.log("myInfoDispatch:", result.data.existingUser);
           dispatch(setMyInfo({ myInfo: result.data.existingUser }));
-          dispatch(setDepositModalOpen({ depositModalOpen: false }));
+
+          // dispatch(setDepositModalOpen({ depositModalOpen: false }));
+          setOpen(false);
           toast.info("Deposit Succeed!");
           setDepositLoading(false);
           setClaimLoading(false);
@@ -209,10 +194,8 @@ const Header = () => {
       setSending(false);
       return true;
     } catch (err) {
-      // console.log("Error occurred in sending token", err);
       localStorage.removeItem("txHash");
       setSending(false);
-      setModalOpen(false);
       setClaimLoading(false);
       setDepositLoading(false);
       toast.error("Backend Error!");
@@ -228,7 +211,6 @@ const Header = () => {
           wallet,
           email: firebase.auth().currentUser?.email,
         });
-        // console.log("ssdfd", result.data.data.totalBalance);
         dispatch(setMyBalance({ balance: result.data.data.totalBalance }));
         dispatch(setMyInfo({ myInfo: result.data.data }));
         dispatch(setMyXP({ myXP: result.data.data.totalXP }));
@@ -237,7 +219,6 @@ const Header = () => {
             percent: String((result.data.data.totalXP * 100) / 2000) + "%",
           })
         );
-        // console.log("RESULT", result, typeof result.data.data.totalXP);
       } catch (error) {
         toast.error("Cannot fetch Data!");
       }
@@ -334,7 +315,7 @@ const Header = () => {
                     className="mx-[6px] w-[20px] h-[20px]"
                   />
                   <p className="sm:text-[12px] text-[10px] flex items-center">
-                    {Math.floor(Number(balance) * 10000) / 10000}
+                    {Math.floor(Number(myInfo?.totalBalance) * 10000) / 10000}
                   </p>
                 </div>
                 <div
@@ -391,140 +372,145 @@ const Header = () => {
               // </div>
               // )
             }
-
-            <Modal open={depositModalOpen} onClose={handleClose}>
-              <Box sx={modalStyle}>
-                <Typography
-                  id="modal-modal-title"
-                  variant="h6"
-                  component="h2"
-                  sx={{ textAlign: "center" }}
-                >
-                  Deposit / Withdraw
-                </Typography>
-                <div className="flex flex-row mt-3 justify-between">
-                  <TextField
-                    id="outlined-number"
-                    label="Deposit amount"
-                    type="number"
-                    className="w-[240px] color-white"
-                    size="small"
-                    value={depositAmount}
-                    onChange={(e) => {
-                      try {
-                        setDepositAmount(Number(e.target.value));
-                      } catch (err) {
-                        toast.warn("Input correct amount");
-                        setClaimLoading(false);
-                        setDepositLoading(false);
-                      }
-                    }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                  <div className="flex justify-end ml-3 text-[16px] h-10 cursor-pointer text-white font-mono w-30">
-                    <LoadingButton
-                      variant="contained"
+            <ThemeProvider theme={darkTheme}>
+              <Modal open={open} onClose={handleClose}>
+                <Box sx={modalStyle}>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                    sx={{ textAlign: "center" }}
+                    color="white"
+                  >
+                    Deposit / Withdraw
+                  </Typography>
+                  <div className="flex flex-row mt-3 justify-between">
+                    <TextField
+                      id="outlined-number"
+                      label="Deposit amount"
+                      type="number"
+                      className="w-[240px] color-white"
+                      size="small"
                       color="success"
-                      loading={depositLoading}
-                      loadingIndicator={
-                        <CircularProgress color="success" size={16} />
-                      }
-                      onClick={() => {
-                        setDepositLoading(true);
-                        if (depositAmount <= 0) {
-                          toast.warn("Input correct balance");
-                          setDepositLoading(false);
-                          return;
-                        }
-                        sendToken(depositAmount);
-                      }}
-                    >
-                      Deposit
-                    </LoadingButton>
-                  </div>
-                </div>
-                <div className="flex flex-row mt-3">
-                  <TextField
-                    id="outlined-number"
-                    label="Withdraw amount"
-                    type="number"
-                    className="w-[240px]"
-                    size="small"
-                    value={withdrawAmount}
-                    onChange={(e) => {
-                      try {
-                        setWithdrawAmount(Number(e.target.value));
-                      } catch (err) {
-                        toast.warn("Input correct amount");
-                        setClaimLoading(false);
-                      }
-                    }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                  <div className="flex justify-end ml-3 text-[16px] h-10 cursor-pointer text-white font-mono w-30">
-                    <LoadingButton
-                      variant="contained"
-                      color="success"
-                      loading={claimLoading}
-                      loadingIndicator={
-                        <CircularProgress color="success" size={16} />
-                      }
-                      className="justify-end h-10 cursor-pointer bg-[#14B8A6] rounded-[10px] p-2 ml-4 font-mono text-white w-30"
-                      onClick={async () => {
-                        setClaimLoading(true);
-                        if (sending) {
-                          toast.warn("Wait");
-                          return;
-                        }
-                        if (withdrawAmount <= 0) {
-                          toast.warn("Input correct balance");
-                          setClaimLoading(false);
-                          return;
-                        }
-                        setSending(true);
-                        if (!signingClient || !accounts) {
-                          toast.warn("Wallet is not connected");
-                          return;
-                        }
-
+                      value={depositAmount}
+                      onChange={(e) => {
                         try {
-                          const result = await apiCaller.post(
-                            "tokens/withdraw",
-                            {
-                              wallet: accounts[0].address,
-                              amount: withdrawAmount,
-                            }
-                          );
-                          // console.log(result.data);
-                          await getMyInfo(accounts[0].address);
-                          setSending(false);
-                          handleClose();
-                          toast.info("Withdraw succeed");
-                          setClaimLoading(false);
+                          setDepositAmount(Number(e.target.value));
                         } catch (err) {
-                          // console.log(err);
-                          setSending(false);
-                          setModalOpen(false);
+                          toast.warn("Input correct amount");
                           setClaimLoading(false);
                           setDepositLoading(false);
-                          setModalOpen(false);
-                          toast.warn("Backend Error!");
-                          console.log("💣 Backend Error");
-
-                          return;
                         }
                       }}
-                    >
-                      Withdraw
-                    </LoadingButton>
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                    <div className="flex justify-end ml-3 text-[16px] h-10 cursor-pointer text-white font-mono w-30">
+                      <LoadingButton
+                        variant="contained"
+                        color="success"
+                        loading={depositLoading}
+                        sx={{ textTransform: "none" }}
+                        loadingIndicator={
+                          <CircularProgress color="success" size={16} />
+                        }
+                        onClick={() => {
+                          setDepositLoading(true);
+                          if (depositAmount <= 0) {
+                            toast.warn("Input correct balance");
+                            setDepositLoading(false);
+                            return;
+                          }
+                          sendToken(depositAmount);
+                        }}
+                      >
+                        Deposit
+                      </LoadingButton>
+                    </div>
                   </div>
-                </div>
-              </Box>
-            </Modal>
+                  <div className="flex flex-row mt-3 font-['Outfit-Regular']">
+                    <TextField
+                      id="outlined-number"
+                      label="Withdraw amount"
+                      type="number"
+                      className="w-[240px]"
+                      size="small"
+                      value={withdrawAmount}
+                      color="success"
+                      sx={{ fontFamily: "Outfit-Regular" }}
+                      onChange={(e) => {
+                        try {
+                          setWithdrawAmount(Number(e.target.value));
+                        } catch (err) {
+                          toast.warn("Input correct amount");
+                          setClaimLoading(false);
+                        }
+                      }}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                    <div className="flex justify-end ml-3 text-[16px] h-10 cursor-pointer text-white font-mono w-30">
+                      <LoadingButton
+                        variant="contained"
+                        color="success"
+                        loading={claimLoading}
+                        sx={{ textTransform: "none" }}
+                        loadingIndicator={
+                          <CircularProgress color="success" size={16} />
+                        }
+                        className="justify-end h-10 cursor-pointer bg-[#14B8A6] rounded-[10px] p-2 ml-4 font-mono text-white w-30"
+                        onClick={async () => {
+                          setClaimLoading(true);
+                          if (sending) {
+                            toast.warn("Wait");
+                            return;
+                          }
+                          if (withdrawAmount <= 0) {
+                            toast.warn("Input correct balance");
+                            setClaimLoading(false);
+                            return;
+                          }
+                          setSending(true);
+                          if (!signingClient || !accounts) {
+                            toast.warn("Wallet is not connected");
+                            return;
+                          }
+
+                          try {
+                            const result = await apiCaller.post(
+                              "tokens/withdraw",
+                              {
+                                wallet: accounts[0].address,
+                                amount: withdrawAmount,
+                              }
+                            );
+                            // console.log(result.data);
+                            await getMyInfo(accounts[0].address);
+                            setSending(false);
+                            handleClose();
+                            toast.info("Withdraw succeed");
+                            setClaimLoading(false);
+                          } catch (err) {
+                            // console.log(err);
+                            setSending(false);
+                            setClaimLoading(false);
+                            setDepositLoading(false);
+                            toast.warn("Backend Error!");
+                            console.log("💣 Backend Error");
+
+                            return;
+                          }
+                        }}
+                      >
+                        Withdraw
+                      </LoadingButton>
+                    </div>
+                  </div>
+                </Box>
+              </Modal>
+            </ThemeProvider>
           </div>
         </div>
       </div>

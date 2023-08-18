@@ -21,7 +21,7 @@ const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
 const BettingBanner = (props: BettingBannerType) => {
   const navigate = useNavigate();
 
-  // const iframeID = useSelector((state: any) => state.tetris.iframeID);
+  // const iframeID = useSelector((state: any) => result.data.data.totalKeyInfo[0]);
   // const iframeMode = useSelector((state: any) => state.tetris.iframeMode);
 
   // useEffect(() => {

@@ -1,12 +1,21 @@
 import { useState, useEffect } from "react";
 import { GAME_CONTENTS, KEYS_CONTENT } from "../../data";
-import { setKeyNumber } from "../../redux/slices/tetrisSlice";
+import { setKeyNumber, setRewards } from "../../redux/slices/tetrisSlice";
 import { BorderPanel } from "../../components/Common/Panels";
 import { Button } from "@mui/material";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { apiCaller } from "../../utils/fetcher";
+import { toast } from "react-toastify";
+import { setMyInfo } from "../../redux/slices/tetrisSlice";
+
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
+import { LoadingButton } from "@mui/lab";
 
 export type GameContentType = {
   id: number;
@@ -19,26 +28,90 @@ export type GameContentType = {
 };
 
 const Lootbox = () => {
-  // const [iframeMode, setIframeMode] = useState(false);
   const [iframeID, setIframeID] = useState("");
   const dispatch = useDispatch();
-  // const { iframeMode } = useSelector((state: any) => ({
-  //   iframeMode: state.tetris.iframeMode,
-  // }));
+  const [buyAmount, setBuyAmount] = useState(0);
+  const [keyNum, setKeyNum] = useState(0);
+  const [loadingState, setLoadingState] = useState(false);
   const navigate = useNavigate();
+
   const fetchLeaderboard = async () => {
     var result = await apiCaller.get("users/fetchLeaderboard");
-    console.log(result.data.data.totalKeyInfo[0]);
+    dispatch(setRewards({ rewards: result.data.data.totalKeyInfo[0] }));
+    // console.log(result.data.data.totalKeyInfo[0]);
   };
 
   useEffect(() => {
     fetchLeaderboard();
-    // initSocket();
   }, []);
 
-  const rewardKey = useSelector((state: any) => ({
-    rewardKey: state.tetris.myInfo.rewardKey || [],
+  const { rewards } = useSelector((state: any) => ({
+    rewards: state.tetris.rewards,
   }));
+
+  const rewardKey = useSelector((state: any) => ({
+    rewardKey: state.tetris.myInfo.rewardKey || {},
+  }));
+
+  // console.log("😰", rewards);
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+    typography: {
+      fontFamily: "Inter-Regular",
+    },
+  });
+
+  const modalStyle = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    fontFamily: "IBMPlexMono-Regular",
+    p: 4,
+    border: 1,
+    borderColor: "#6C9C6E",
+    borderRadius: "20px",
+    font: "IBMPlexMono-Regular",
+    boxShadow: "0 0 10px 0 rgb(43, 100, 50)",
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const myInfo = useSelector((state: any) => ({
+    myInfo: state.tetris.myInfo,
+  }));
+
+  // console.log("🤩🤩🤩", myInfo);
+
+  const buyKey = async () => {
+    try {
+      const result = await apiCaller.post("users/buyKey", {
+        wallet: myInfo.myInfo.wallet,
+        keyID: Number(keyNum),
+        buyAmount: Number(buyAmount),
+      });
+      dispatch(setMyInfo({ myInfo: result.data.user }));
+      dispatch(setRewards({ rewards: result.data.totalKeyInfo }));
+      setLoadingState(false);
+      handleClose();
+      toast.info(
+        `Congrats! You have bought ${buyAmount} ${KEYS_CONTENT[keyNum].name}s`
+      );
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
 
   return (
     <div
@@ -64,15 +137,17 @@ const Lootbox = () => {
                     <img src={key.img} alt="logo" width={24} height={24} />
                     <p>{key.name}</p>
                   </div>
-                  <div>100/{key.totalAmount}</div>
+                  <div>
+                    {rewards?.claimedKey?.[index]} /{" "}
+                    {rewards?.totalKey?.[index]}
+                  </div>
                 </div>
                 <div
                   className="img-hover-zoom--brightness overflow-hidden w-full rounded-t-2xl"
                   onClick={() => {
                     navigate("/lootbox/play");
                     dispatch(setKeyNumber({ keyNumber: index }));
-
-                    // navigate(string(GAME_CONTENTS[index].link));
+                    localStorage.setItem("keyNumber", String(index));
                   }}
                 >
                   <img src={key.thumbnail}></img>
@@ -109,7 +184,15 @@ const Lootbox = () => {
                         // backgroundColor: "#059669",
                       }}
                     >
-                      <div className="flex flex-row gap-1">Buy key</div>
+                      <div
+                        className="flex flex-row gap-1"
+                        onClick={() => {
+                          setKeyNum(index);
+                          handleOpen();
+                        }}
+                      >
+                        Buy key
+                      </div>
                     </Button>
                   </div>
                 </div>
@@ -117,6 +200,88 @@ const Lootbox = () => {
             </BorderPanel>
           ))}
         </div>
+
+        <ThemeProvider theme={darkTheme}>
+          <Modal open={open} onClose={handleClose}>
+            <Box sx={modalStyle}>
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+                sx={{ textAlign: "center" }}
+                color="white"
+              >
+                <div className="flex flex-row justify-center gap-2">
+                  <div>Buy{" ("}</div>
+                  <img
+                    src={KEYS_CONTENT[Number(keyNum)].img}
+                    width={30}
+                    height={30}
+                  />
+                  {"="}
+                  {KEYS_CONTENT[Number(keyNum)].price}
+                  {" X"}
+                  <img src="/images/logo2.png" width={30} height={30} />
+                  {")"}
+                </div>
+              </Typography>
+              <div className="flex flex-row mt-3 justify-between">
+                <TextField
+                  id="outlined-number"
+                  label="Deposit amount"
+                  type="number"
+                  className="w-[240px] color-white"
+                  size="small"
+                  color="success"
+                  value={buyAmount}
+                  onChange={(e) => {
+                    try {
+                      setBuyAmount(Number(e.target.value));
+                    } catch (err) {
+                      toast.warn("Input correct amount");
+                      // setClaimLoading(false);
+                    }
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+
+                <LoadingButton
+                  variant="contained"
+                  color="success"
+                  loading={loadingState}
+                  sx={{ textTransform: "none" }}
+                  onClick={() => {
+                    if (buyAmount <= 0 || buyAmount != Math.floor(buyAmount)) {
+                      toast.warn("Input correct balance");
+                      return;
+                    } else if (
+                      myInfo?.myInfo?.totalBalance <
+                      buyAmount * KEYS_CONTENT[keyNum].price
+                    ) {
+                      handleClose();
+                      toast.warn("Your balance is not enough ");
+                    } else if (
+                      rewards?.claimedKey?.[keyNum] + buyAmount >
+                      rewards?.totalKey?.[keyNum]
+                    ) {
+                      toast.warn(
+                        "Sorry, we don't have enough keys to give you"
+                      );
+                    } else {
+                      setLoadingState(true);
+                      buyKey();
+                    }
+                    console.log(buyAmount);
+                  }}
+                >
+                  Buy
+                </LoadingButton>
+              </div>
+            </Box>
+          </Modal>
+        </ThemeProvider>
       </div>
     </div>
   );

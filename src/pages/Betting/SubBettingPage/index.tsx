@@ -31,6 +31,7 @@ const SubBettingPage = (props: GameContentType) => {
   const fetchLeaderboard = async () => {
     try {
       var result = await apiCaller.get("users/fetchLeaderboard");
+      // console.log(result.data.data);
       dispatch(setLeaderboard({ result: result.data.data }));
     } catch (error) {
       // toast.error("Cannot fetch Data!");

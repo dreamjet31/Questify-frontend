@@ -11,12 +11,18 @@ export interface LootboxProps {
 
 const KeysContent = () => {
   const dispatch = useDispatch();
-  const keyNumber = useSelector((state: any) => ({
-    keyNumber: state.tetris.keyNumber,
-  }));
+  // const keyNumber = useSelector((state: any) => ({
+  //   keyNumber: state.tetris.keyNumber,
+  // }));
 
-  const rewardKey = useSelector((state: any) => ({
-    rewardKey: state.tetris.myInfo.rewardKey || [],
+  const keyNumber = Number(localStorage.getItem("keyNumber"));
+
+  // const rewardKey = useSelector((state: any) => ({
+  //   rewardKey: state.tetris.myInfo.rewardKey,
+  // }));
+
+  const myInfo = useSelector((state: any) => ({
+    myInfo: state.tetris.myInfo,
   }));
 
   return (
@@ -32,9 +38,7 @@ const KeysContent = () => {
             <div
               key={index}
               className={`bg-sky-600/5 border  ${
-                item.id === keyNumber.keyNumber
-                  ? "border-green-600"
-                  : "border-sky-950"
+                item.id === keyNumber ? "border-green-600" : "border-sky-950"
               } rounded-2xl bg-[#091017] text-center cursor-pointer`}
             >
               <div>
@@ -43,7 +47,7 @@ const KeysContent = () => {
                 >
                   <p>{item.name}</p>
                   <div className="flex flex-row gap-1">
-                    <p>{Number(rewardKey.rewardKey[Number(index)]) || 0}</p>
+                    <p>{Number(myInfo?.myInfo?.rewardKey?.[index]) || 0}</p>
                     <div className="z-[20]">
                       <img src={item.img} alt="logo" width={24} height={24} />
                     </div>
