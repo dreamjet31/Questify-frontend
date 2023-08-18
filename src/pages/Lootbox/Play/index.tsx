@@ -2,17 +2,20 @@ import LootboxCard from "../../../components/Lootbox/LootboxCard";
 import LootBoxBar from "../../../components/Lootbox/LootboxBar";
 import { useState, useEffect, useRef, useContext } from "react";
 import { Button } from "../../../components/Common/Buttons";
-import { LOOTBOX_CARD_BRONZE } from "../../../data";
-import { LOOTBOX_CARD_SILVER } from "../../../data";
-import { LOOTBOX_CARD_GOLD } from "../../../data";
+import {
+  LOOTBOX_CARD_BRONZE,
+  LOOTBOX_CARD_SILVER,
+  LOOTBOX_CARD_GOLD,
+  KEYS_CONTENT,
+} from "../../../data";
 import KeysContent from "../../../components/Lootbox/KeysContent";
 import RewardsContent from "../../../components/Lootbox/RewardsContent";
-import { useSelector } from "react-redux";
-// import RewardsContent from "../../components/Lootbox/RewardsContent";
-// import KeysContent from "../../components/Lootbox/KeysContent";
+import { useDispatch, useSelector } from "react-redux";
 import { WalletWindowKey } from "@sei-js/core";
 import { SeiWalletContext } from "@sei-js/react";
 import { toast } from "react-toastify";
+import { apiCaller } from "../../../utils/fetcher";
+import { setMyInfo, setRewards } from "../../../redux/slices/tetrisSlice";
 
 const shuffle = (array: Object[]) => {
   const shuffled = [...array].slice();
@@ -46,6 +49,10 @@ const LootboxPlay = () => {
     }
   }, []);
 
+  const myInfo = useSelector((state: any) => ({
+    myInfo: state.tetris.myInfo,
+  }));
+
   useEffect(() => {
     if (connected) {
       connect(connected_wallet);
@@ -53,18 +60,32 @@ const LootboxPlay = () => {
   }, []);
 
   const [key, setKey] = useState("gold");
-  const keyNumber = useSelector((state: any) => ({
-    keyNumber: state.tetris.keyNumber,
+  const keyNumber = Number(localStorage.getItem("keyNumber"));
+
+  const rewardKey = useSelector((state: any) => ({
+    rewardKey: state.tetris.myInfo.rewardKey,
+  }));
+
+  const fetchLeaderboard = async () => {
+    var result = await apiCaller.get("users/fetchLeaderboard");
+    dispatch(setRewards({ rewards: result.data.data.totalKeyInfo[0] }));
+    console.log(result.data.data.totalKeyInfo[0]);
+  };
+
+  const { rewards } = useSelector((state: any) => ({
+    rewards: state.tetris.rewards || {},
   }));
 
   const [lootboxCard, setLootboxCard] = useState(LOOTBOX_CARD_BRONZE);
   useEffect(() => {
-    keyNumber.keyNumber == 0
+    keyNumber == 0
       ? setLootboxCard(LOOTBOX_CARD_BRONZE)
-      : keyNumber.keyNumber == 1
+      : keyNumber == 1
       ? setLootboxCard(LOOTBOX_CARD_SILVER)
       : setLootboxCard(LOOTBOX_CARD_GOLD);
-  }, [keyNumber.keyNumber]);
+  }, []);
+
+  const dispatch = useDispatch();
 
   const wrapperRef = useRef(null);
   const [btnDisabled, setBtnDisabled] = useState(false);
@@ -81,7 +102,6 @@ const LootboxPlay = () => {
 
   const mockBackend1 = () => {
     const randomCardNum = Math.floor(Math.random() * 10000);
-    // console.log(randomCardNum);
     return randomCardNum >= 0 && randomCardNum < 1800
       ? 0
       : randomCardNum >= 1800 && randomCardNum <= 3800
@@ -187,13 +207,12 @@ const LootboxPlay = () => {
 
   const ShuffleArray = () => {
     setSelected(
-      keyNumber.keyNumber === 0
+      keyNumber === 0
         ? mockBackend1()
-        : keyNumber.keyNumber === 1
+        : keyNumber === 1
         ? mockBackend2()
         : mockBackend3()
     );
-    // console.log(selected);
     let shuffledResultArray = [...lootboxCard];
     for (let index = 0; index < lootboxCard.length; index++) {
       shuffledResultArray = shuffle(
@@ -211,11 +230,11 @@ const LootboxPlay = () => {
 
   useEffect(() => {
     ShuffleArray();
-  }, [keyNumber.keyNumber]);
+  }, [keyNumber]);
 
   useEffect(() => {
     setShuffledData(shuffle([...lootboxCard]));
-  }, [keyNumber.keyNumber]);
+  }, [keyNumber]);
 
   let delay = isChecked ? 2100 : 4100;
   const hadleClickTry = () => {
@@ -254,6 +273,7 @@ const LootboxPlay = () => {
             (4 * 15 + 0.25) / 95
           ) * 100
     );
+
     // 4 * 10 / 5   :   4 shuffledDatas, 10 cards per array, 5cards per screen
     // selected * 18 / 90  :  selected:index of selected card in resultArray , 18vw per card including gap-[1vw] , 90vw of screen is visible elsewhere is hidden
     //
@@ -264,30 +284,59 @@ const LootboxPlay = () => {
     clearTimeout;
   };
 
-  //toggle button
-
   const handleToggle = () => {
     setIsChecked(!isChecked);
+  };
+
+  const sendRewards = async () => {
+    try {
+      const result = await apiCaller.post("users/claimedRewards", {
+        wallet: myInfo.myInfo.wallet,
+        keyID: Number(keyNumber),
+        rewardID: selected,
+        rewardAmount: lootboxCard[selected].amount,
+      });
+      dispatch(setMyInfo({ myInfo: result.data.user }));
+      dispatch(setRewards({ rewards: result.data.data.totalKeyInfo[0] }));
+    } catch (err: any) {
+      console.log(err);
+    }
   };
 
   const hadleClickBtn = () => {
     if (connected_wallet == null) {
       toast.warn("Connect the wallet first");
-      // console.log(connected_wallet);
     } else {
-      setTranslateXNum(0);
-      setBtnDisabled(true);
-      setIsReseted(false);
-      setTryBtnDisabled(true);
+      if (rewardKey.rewardKey[Number(keyNumber)] <= 0) {
+        toast.warn("You don't have enough keys");
+      } else {
+        console.log("success");
+        setTranslateXNum(0);
+        setBtnDisabled(true);
+        setIsReseted(false);
+        setTryBtnDisabled(true);
+        if (
+          rewards.claimedRewards[selected] + lootboxCard[selected].amount >
+          rewards.totalRewards[selected]
+        ) {
+          setTimeout(
+            () =>
+              toast.warn(
+                "You are a bit too late! This went away, roll again for free"
+              ),
+            4500
+          );
+        } else {
+          sendRewards();
+        }
+      }
     }
-    console.log(selected);
   };
 
   const handleReset = () => {
     setTranslateXNum(0);
     setTryBtnDisabled(true);
     setIsReseted(false);
-    // console.log("trybtnDisabled", trybtnDisabled, "isReseted", isReseted);
   };
 
   const testReady = () => {
@@ -360,7 +409,20 @@ const LootboxPlay = () => {
           {/* Spin button */}
           <div className="z-[30] mx-8 sm:my-8 my-4">
             <Button
-              caption={isSpinning ? "Spinning..." : "Spin"}
+              caption={
+                isSpinning ? (
+                  "Spinning..."
+                ) : (
+                  <div className="flex flex-row gap-1">
+                    Spin with{" "}
+                    <img
+                      src={KEYS_CONTENT[Number(keyNumber) || 0].img}
+                      width={25}
+                      height={25}
+                    />
+                  </div>
+                )
+              }
               onClick={hadleClickBtn}
               disabled={trybtnDisabled}
             />
@@ -381,13 +443,13 @@ const LootboxPlay = () => {
                     onChange={handleToggle}
                   />
                   <div
-                    className={`block bg-gray-600 w-14 h-8 rounded-full  ${
+                    className={`block bg-gray-600 w-10 h-6 rounded-full  ${
                       isChecked && "bg-green-400"
                     }`}
                   />
                   <div
                     className={`
-                  "dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition",
+                  "dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition",
                   ${isChecked && "transform translate-x-full"}`}
                   />
                 </div>

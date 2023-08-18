@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { minifyString } from "../../../utils";
-import {
-  setModalOpen,
-  setClickedCardNum,
-} from "../../../redux/slices/tetrisSlice";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { BorderPanel } from "../../Common/Panels";
@@ -41,17 +37,6 @@ const ClaimBox = (props: ClaimBoxType) => {
   useEffect(() => {
     setActiveState(propsActiveState);
   }, [propsActiveState]);
-
-  const toggleHover = () => {
-    setIsHovered(!isHovered);
-  };
-
-  const { modalOpen } = useSelector((state: any) => ({
-    modalOpen: state.tetris.modalOpen,
-  }));
-  const handleOpen = () => {
-    dispatch(setModalOpen({ modalOpen: true }));
-  };
 
   return (
     <div
