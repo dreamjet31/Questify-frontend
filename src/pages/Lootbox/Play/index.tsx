@@ -328,6 +328,13 @@ const LootboxPlay = () => {
           );
         } else {
           sendRewards();
+          setTimeout(
+            () =>
+              toast.info(
+                `Congrats! you have rewarded ${lootboxCard[selected].value} ${lootboxCard[selected].name}`
+              ),
+            4500
+          );
         }
       }
     }

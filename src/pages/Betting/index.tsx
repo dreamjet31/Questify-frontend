@@ -14,12 +14,20 @@ import SeiLootBox from "../../components/Betting/SeiLootBox";
 
 import Carousel from "react-material-ui-carousel";
 import Grid from "@mui/material/Grid";
+import { useLocation } from "react-router-dom";
 
 function Item(props) {
   return <div>{props.item}</div>;
 }
 
 const Betting = () => {
+  const location = useLocation();
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get("access-token");
+    localStorage.setItem("accessTokenByEmail", String(id));
+    // console.log("🪪", id);
+  }, [location]);
   const [loading, setIsloading] = useState(true);
 
   const dispatch = useDispatch();

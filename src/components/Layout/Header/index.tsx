@@ -92,6 +92,12 @@ const Header = () => {
       const { balances } = await queryClient.cosmos.bank.v1beta1.allBalances({
         address: accounts[0].address,
       });
+
+      const result = await apiCaller.post("users/walletConnectByDouble", {
+        wallet: accounts[0].address,
+        accessTokenByEmail: localStorage.getItem("accessTokenByEmail"),
+      });
+
       const amount = balances.find((balance) => {
         return balance.denom === "usei";
       });
@@ -343,7 +349,8 @@ const Header = () => {
                         if (!window.keplr) {
                           toast.warn("Please install keplr extension");
                         } else {
-                          connect("keplr");
+                          await connect("keplr");
+                          // console.log("asdfhasjdhfkaljsdhfkljasd");
                         }
                       }}
                     >
