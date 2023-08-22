@@ -257,20 +257,20 @@ const LootboxPlay = () => {
     setTranslateXNum(
       window.innerWidth < 768
         ? -(
-            (4 * 16) / 3.25 +
+            (4 * 16) / 3.27 +
             (selectedCardIndex * 30) / 95 -
-            (1 * 30 + 0.25) / 95
+            (1 * 30 + 0.1) / 95
           ) * 100
         : window.innerWidth >= 768 && window.innerWidth < 1024
         ? -(
-            (4 * 16) / 5.34 +
+            (4 * 16) / 5.47 +
             (selectedCardIndex * 18) / 95 -
-            (3 * 18 + 0.25) / 95
+            (3 * 18 + 0.1) / 95
           ) * 100
         : -(
-            (4 * 16) / 8.1 +
+            (4 * 16) / 8.34 +
             (selectedCardIndex * 12) / 95 -
-            (4 * 15 + 0.25) / 95
+            (4 * 15 + 0.1) / 95
           ) * 100
     );
 
@@ -379,7 +379,7 @@ const LootboxPlay = () => {
         <div className="w-[95vw] overflow-hidden p-0 m-0">
           <div
             ref={wrapperRef}
-            className={`flex justify-start gap-[0.5vw] items-center transition-transform ${
+            className={`flex justify-start gap-[0.2vw] items-center transition-transform ${
               isReseted
                 ? isChecked
                   ? `duration-2000`
@@ -434,7 +434,7 @@ const LootboxPlay = () => {
               disabled={trybtnDisabled}
             />
           </div>
-          <div className="flex flex-row sm:my-8 my-4">
+          <div className="flex flex-row sm:my-8 my-4 items-center">
             {/* toggle button */}
             <div className="inline-flex justify-center items-center ml-8">
               <label
@@ -450,13 +450,13 @@ const LootboxPlay = () => {
                     onChange={handleToggle}
                   />
                   <div
-                    className={`block bg-gray-600 w-10 h-6 rounded-full  ${
+                    className={`block bg-gray-600 w-8 h-5 rounded-full  ${
                       isChecked && "bg-green-400"
                     }`}
                   />
                   <div
                     className={`
-                  "dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition",
+                  "dot absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition",
                   ${isChecked && "transform translate-x-full"}`}
                   />
                 </div>
@@ -477,8 +477,8 @@ const LootboxPlay = () => {
               text-gray-200
               bg-gray-600
               hover:bg-gray-700
-              p-[22px] rounded-[20px]
-              w-[150px] h-[50px] sm:w-[100px]
+              p-[22px] rounded-[8px]
+              w-[150px] h-[40px] sm:w-[100px]
               text-[18px]sm:text-[22px]
               text-center tracking-wider
               inline-flex

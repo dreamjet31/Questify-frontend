@@ -43,6 +43,10 @@
   src: url('/fonts/Inter/Inter-Regular.ttf'); 
 }
 
+@font-face {
+  font-family: 'GeogrotesqueWide-Md';
+  src: url('/fonts/Geogrotesque/GeogrotesqueWide-Md.ttf');
+}
 
 
 body {

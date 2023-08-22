@@ -913,7 +913,7 @@ export const LOOTBOX_CARD_BRONZE: any = [
   },
   {
     id: 7,
-    img: "/images/Lootbox/tokens/Gafin.svg",
+    img: "/images/Lootbox/tokens/Gafin.jpg",
     name: "Gafin",
     value: "42",
     selected: false,
@@ -1060,7 +1060,7 @@ export const LOOTBOX_CARD_SILVER: any = [
   },
   {
     id: 7,
-    img: "/images/Lootbox/tokens/Gafin.svg",
+    img: "/images/Lootbox/tokens/Gafin.jpg",
     name: "Gafin",
     value: "83.33",
     selected: false,
@@ -1207,7 +1207,7 @@ export const LOOTBOX_CARD_GOLD: any = [
   },
   {
     id: 7,
-    img: "/images/Lootbox/tokens/Gafin.svg",
+    img: "/images/Lootbox/tokens/Gafin.jpg",
     name: "Gafin",
     value: "500",
     selected: false,

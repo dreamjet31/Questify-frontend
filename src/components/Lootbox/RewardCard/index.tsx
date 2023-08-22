@@ -9,7 +9,7 @@ const RewardCard = ({ data }: RewardProps) => {
   return (
     <div
       className={`h-[22vw] lg:min-w-[16.8vw] min-w-[35vw] font-[Outfit-Regular] bg-sky-600/5 border
-       rounded-2xl bg-[#091017] text-center`}
+       rounded-lg bg-[#091017] text-center`}
     >
       <div
         className={`py-2 flex justify-center gap-2 rounded-t-2xl ${`bg-[#0C1620]`}`}

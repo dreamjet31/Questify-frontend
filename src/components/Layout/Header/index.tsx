@@ -21,6 +21,7 @@ import LogoComp from "../LogoComp";
 import HeaderMenuItem from "./HeaderMenuItem";
 import { QUESTIFY_QUESTS } from "../../../data";
 import firebase from "../../../firebase";
+import { LOOTBOX_CARD_SILVER } from "../../../data";
 
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -31,6 +32,17 @@ import "react-toastify/dist/ReactToastify.css";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CircularProgress } from "@mui/material";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
+import SnackbarContent from "@mui/material/SnackbarContent";
+import Alert from "@mui/material/Alert";
+import {
+  Menu,
+  MenuItem,
+  FocusableItem,
+  MenuButton,
+  MenuGroup,
+} from "@szhsin/react-menu";
+import "@szhsin/react-menu/dist/index.css";
+import "@szhsin/react-menu/dist/transitions/slide.css";
 
 const Header = () => {
   const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
@@ -74,14 +86,6 @@ const Header = () => {
     }
   }, []);
 
-  const { balance } = useSelector((state: any) => ({
-    balance: state.tetris.balance,
-  }));
-
-  const { myXP } = useSelector((state: any) => ({
-    myXP: state.tetris.myXP,
-  }));
-
   useEffect(() => {
     localStorage.setItem("betAmount", betAmount);
   }, [betAmount]);
@@ -116,9 +120,22 @@ const Header = () => {
       fontFamily: "Inter-Regular",
     },
   });
-  // const { depositModalOpen } = useSelector((state: any) => ({
-  //   depositModalOpen: state.tetris.depositModalOpen,
-  // }));
+
+  const [filter, setFilter] = useState("");
+  const item_names = [
+    ...LOOTBOX_CARD_SILVER.filter((item) => item.id >= 1 && item.id <= 7).map(
+      (item) => item.name
+    ),
+    ...LOOTBOX_CARD_SILVER.filter((item) => item.id > 7).map(
+      (item) => item.value
+    ),
+  ];
+  const [selectedID, setSelectedID] = useState(0);
+  const [disabledButton, setDisabledButton] = useState(false);
+
+  useEffect(() => {
+    setDisabledButton(selectedID == 5 ? false : true);
+  }, [selectedID]);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -143,6 +160,8 @@ const Header = () => {
     font: "IBMPlexMono-Regular",
     boxShadow: "0 0 10px 0 rgb(43, 100, 50)",
   };
+
+  // End Modal
 
   const sendToken = async (amount: number) => {
     if (!signingClient || !accounts) {
@@ -215,7 +234,6 @@ const Header = () => {
       try {
         var result = await apiCaller.post("users/getMyInfo", {
           wallet,
-          email: firebase.auth().currentUser?.email,
         });
         dispatch(setMyBalance({ balance: result.data.data.totalBalance }));
         dispatch(setMyInfo({ myInfo: result.data.data }));
@@ -310,20 +328,73 @@ const Header = () => {
         >
           <div className="flex flex-row items-center md:justify-end sm:justify-end">
             {connected && (
-              <div className="flex flex-row">
-                <div
-                  className="pr-2 h-[35px] rounded-lg flex justify-center items-center 
+              <div className="flex flex-row mr-2">
+                <Menu
+                  menuButton={
+                    <div
+                      className="pr-2 h-[35px] rounded-lg flex justify-center items-center 
 		            text-[#929298] text-lg cursor-pointer mt-4 mr-2 border border-[#14B8A6] hover:text-white "
-                  onClick={handleOpen}
+                    >
+                      <img
+                        src="/images/logo2.png"
+                        className="mx-[6px] w-[20px] h-[20px]"
+                      />
+                      <p className="sm:text-[12px] text-[10px] flex items-center">
+                        {Math.floor(Number(myInfo?.totalBalance) * 10000) /
+                          10000}
+                      </p>
+                    </div>
+                  }
+                  overflow="visible"
+                  onMenuChange={(e) => e.open && setFilter("")}
+                  transition
+                  viewScroll="initial"
+                  arrow={true}
                 >
-                  <img
-                    src="/images/logo2.png"
-                    className="mx-[6px] w-[20px] h-[20px]"
-                  />
-                  <p className="sm:text-[12px] text-[10px] flex items-center">
-                    {Math.floor(Number(myInfo?.totalBalance) * 10000) / 10000}
-                  </p>
-                </div>
+                  <FocusableItem>
+                    {({ ref }) => (
+                      <input
+                        ref={ref}
+                        type="text"
+                        placeholder="Type to filter"
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                      />
+                    )}
+                  </FocusableItem>
+                  {item_names
+                    .filter((names) =>
+                      names.toUpperCase().includes(filter.trim().toUpperCase())
+                    )
+                    .map((names) => (
+                      <MenuItem
+                        key={names}
+                        className="flex flex-row justify-between gap-10 "
+                        onClick={() => {
+                          setSelectedID(item_names.indexOf(names));
+                          handleOpen();
+                        }}
+                      >
+                        <div>
+                          {Number(
+                            myInfo?.claimedRewards?.[item_names.indexOf(names)]
+                          ).toFixed(2)}
+                        </div>
+                        <div className="flex flex-row justify-start gap-2">
+                          {names}
+                          <img
+                            src={
+                              LOOTBOX_CARD_SILVER[item_names.indexOf(names)].img
+                            }
+                            width={24}
+                            height={24}
+                            className="rounded-full"
+                          />
+                        </div>
+                      </MenuItem>
+                    ))}
+                </Menu>
+
                 <div
                   className="pr-2 h-[35px] rounded-lg flex justify-center items-center 
 		            text-[#929298] text-lg cursor-pointer my-4 mr-2 border border-[#14B8A6] hover:text-white "
@@ -389,8 +460,27 @@ const Header = () => {
                     sx={{ textAlign: "center" }}
                     color="white"
                   >
-                    Deposit / Withdraw
+                    <div className="flex flex-row justify-center items-center gap-2">
+                      Deposit / Withdraw
+                      <img
+                        src={LOOTBOX_CARD_SILVER[selectedID].img}
+                        width={30}
+                        height={30}
+                        className="rounded-full"
+                      />
+                    </div>
                   </Typography>
+                  {selectedID != 5 && (
+                    // <SnackbarContent
+                    //   message="Note: This token is still not live"
+
+                    // />
+                    <div className="flex justify-center">
+                      <Alert severity="info">
+                        Sorry, This token is not live yet
+                      </Alert>
+                    </div>
+                  )}
                   <div className="flex flex-row mt-3 justify-between">
                     <TextField
                       id="outlined-number"
@@ -422,6 +512,7 @@ const Header = () => {
                         loadingIndicator={
                           <CircularProgress color="success" size={16} />
                         }
+                        disabled={disabledButton}
                         onClick={() => {
                           setDepositLoading(true);
                           if (depositAmount <= 0) {
@@ -467,6 +558,7 @@ const Header = () => {
                         loadingIndicator={
                           <CircularProgress color="success" size={16} />
                         }
+                        disabled={disabledButton}
                         className="justify-end h-10 cursor-pointer bg-[#14B8A6] rounded-[10px] p-2 ml-4 font-mono text-white w-30"
                         onClick={async () => {
                           setClaimLoading(true);

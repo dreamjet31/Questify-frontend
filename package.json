@@ -19,6 +19,7 @@
     "@mui/material-next": "^6.0.0-alpha.95",
     "@reduxjs/toolkit": "^1.9.5",
     "@sei-js/react": "^1.2.3",
+    "@szhsin/react-menu": "^4.0.3",
     "@types/react-bootstrap": "^0.32.32",
     "bootstrap": "^5.2.3",
     "color": "^4.2.3",

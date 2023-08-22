@@ -39,11 +39,11 @@ const KeysContent = () => {
               key={index}
               className={`bg-sky-600/5 border  ${
                 item.id === keyNumber ? "border-green-600" : "border-sky-950"
-              } rounded-2xl bg-[#091017] text-center cursor-pointer`}
+              } rounded-lg bg-[#091017] text-center cursor-pointer`}
             >
               <div>
                 <div
-                  className={`py-2 flex justify-around gap-2 rounded-2xl  ${`bg-[#0C1620]`}`}
+                  className={`py-2 flex justify-around gap-2 rounded-lg  ${`bg-[#0C1620]`}`}
                 >
                   <p>{item.name}</p>
                   <div className="flex flex-row gap-1">

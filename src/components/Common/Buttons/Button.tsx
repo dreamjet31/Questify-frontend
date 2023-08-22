@@ -16,11 +16,11 @@ const Button = (props: ButtonProps) => {
         font-medium
          text-gray-200
         p-[22px]
-        rounded-[20px]
+        rounded-[8px]
         w-[100%]
         h-[50px]
-        sm:w-[210px] text-[22px]
-        sm:text-[18px]
+        sm:w-[210px] text-[16px]
+        sm:text-[16px]
         text-center
         tracking-wider
         inline-flex
