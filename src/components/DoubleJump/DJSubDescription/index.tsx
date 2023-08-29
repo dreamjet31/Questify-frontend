@@ -5,7 +5,7 @@ export interface DescriptionProps {
   description?: string;
 }
 
-function SubBettingDescription(props: DescriptionProps) {
+function DJSubDescription(props: DescriptionProps) {
   const [expandDescription, setExpandDescription] = useState(false);
   return (
     <div className="flex flex-col mb-[24px] gap-[16px]">
@@ -13,7 +13,7 @@ function SubBettingDescription(props: DescriptionProps) {
         className="flex lg:flex-row md:flex-row sm:flex-col xs:flex-col items-center
                       gap-[12px]"
       >
-        <div className="text-[28px] text-[#F3F3F3] font-[500]">
+        <div className="text-[#F3F3F3] font-[500] font-[Selobae] text-[48px]">
           {props.title}
         </div>
         <div className="flex flex-row cursor-pointer">
@@ -29,8 +29,9 @@ function SubBettingDescription(props: DescriptionProps) {
           </div>
         </div>
       </div>
+
       {props.description && (
-        <div className="text-[18px] text-[#929298] font-[400]">
+        <div className="text-[18px] text-white font-[400] font-[DMMono-Regular]">
           {props.description.length > 200 && !expandDescription
             ? props.description.slice(0, 200) + "..."
             : props.description}
@@ -57,4 +58,4 @@ function SubBettingDescription(props: DescriptionProps) {
   );
 }
 
-export default SubBettingDescription;
+export default DJSubDescription;

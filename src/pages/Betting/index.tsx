@@ -84,7 +84,7 @@ const Betting = () => {
   }, [winners]);
 
   const items = BETTING_BANNER_ITEMS.map((item, index) => (
-    <div key={index}>
+    <div>
       <BettingBanner
         title={item.title}
         backgroundImage={item.backgroundImage}
@@ -112,7 +112,7 @@ const Betting = () => {
         spacing={0}
         columns={{ xl: 12, lg: 12, md: 12, sm: 4, xs: 4 }}
       >
-        <Grid item xl={11} lg={11} md={11} sm={4} xs={4}>
+        <Grid item xl={11} lg={12} md={12} sm={4} xs={4}>
           <GeneralPanel>
             <div className="rounded-lg overflow-hidden border shadow-inner border-[#132236]  ">
               <Carousel

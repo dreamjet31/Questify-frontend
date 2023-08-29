@@ -9,9 +9,9 @@ import { setIframeMode } from "../../redux/slices/tetrisSlice";
 // import { setIframeMode } from "../../redux/slices/tetrisSlice";
 
 export type GameContentType = {
-  id: number;
-  title: string;
-  thumbnail: string;
+  id?: number;
+  title?: string;
+  thumbnail?: string;
   thumbnailBig?: string;
   iframeUrl?: string;
   description?: string;

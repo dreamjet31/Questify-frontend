@@ -90,46 +90,32 @@ const LeaderBoard = (props: LeaderBoardProps) => {
     </div>
   ) : (
     <div className="grid grid-row">
-      {sortedWinners
-        // .filter((player) => {
-        //   return player.level === props.level;
-        // })
-        .map((winner, index) => (
-          <div
-            key={index}
-            className="flex gap-8 cursor-pointer py-[20px]  text-gray-200 text-[14px] px-[30px] bg-black border border-[white] items-center justify-between"
-          >
-            {/* <div className="w-[18%]">
-              {new Date(winner.updatedAt).toLocaleTimeString("en-US", {
-                hour12: false,
-              })}{" "}
-              {new Date(winner.updatedAt).toLocaleDateString("en-US", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </div> */}
-            <div className="w-[12%]">{minifyAddress(winner.wallet)}</div>
-            <div className="w-[10%]">{winner.totalScore} P</div>
-            <div className="w-[10%]">
-              {Math.floor(winner.totalBalance * 1000) / 1000} Sei
-            </div>
-            <div className="w-[10%]">Ranked #{winner.rank}</div>
-            <div className="w-[10%]">
-              {" "}
-              {winner.rankRange === 0
-                ? "extra"
-                : "Top " + winner.rankRange + "%"}{" "}
-            </div>
-            <div className="w-[25px] h-[25px]">
-              {" "}
-              <img src={myImage} alt="Tetris" />{" "}
-            </div>
-            {/* <div className="w-[18%]">
+      {sortedWinners.map((winner, index) => (
+        <div
+          key={index}
+          className="flex gap-8 cursor-pointer py-[20px]  text-gray-200 text-[14px] px-[30px] bg-black border border-[white] items-center justify-between"
+        >
+          <div className="w-[12%]">{minifyAddress(winner.wallet)}</div>
+          <div className="w-[10%]">{winner.totalScore} P</div>
+          <div className="w-[10%]">
+            {Math.floor(winner.totalBalance * 1000) / 1000} Sei
+          </div>
+          <div className="w-[10%]">Ranked #{winner.rank}</div>
+          <div className="w-[10%]">
+            {" "}
+            {winner.rankRange === 0
+              ? "extra"
+              : "Top " + winner.rankRange + "%"}{" "}
+          </div>
+          <div className="w-[25px] h-[25px]">
+            {" "}
+            <img src={myImage} alt="Tetris" />{" "}
+          </div>
+          {/* <div className="w-[18%]">
               {calculateInterval(winner.updatedAt)} ago
             </div> */}
-          </div>
-        ))}
+        </div>
+      ))}
     </div>
   );
 };

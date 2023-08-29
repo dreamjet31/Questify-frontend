@@ -6,10 +6,10 @@ import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 export type BettingBannerType = {
-  index: number;
-  title: string;
-  backgroundImage: string;
-  content: any;
+  index?: number;
+  title?: string;
+  backgroundImage?: string;
+  content?: any;
   button?: string;
   path?: string;
   iframeUrl?: string;
@@ -72,7 +72,7 @@ const BettingBanner = (props: BettingBannerType) => {
               onClick={() => {
                 // dispatch(setIframeID({ iframeID: props.index }));
                 // dispatch(setIframeMode({ iframeMode: true }));
-                localStorage.setItem("iframeID", String(props.index));
+                // localStorage.setItem("iframeID", String(props.index));
                 navigate(String(props.link));
                 // console.log(props.link, props.index);
               }}

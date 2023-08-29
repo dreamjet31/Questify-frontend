@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import { apiCaller } from "../../../utils/fetcher";
 import { LEADERBOARD_SUB_MENUITEMS, GAME_CONTENTS } from "../../../data";
-import { setLeaderboard, setIframeID } from "../../../redux/slices/tetrisSlice";
+import { setLeaderboard } from "../../../redux/slices/tetrisSlice";
 import { BorderPanel, GeneralPanel } from "../../../components/Common/Panels";
 import SubBettingDescription from "../../../components/Betting/SubBettingDescription";
 import BorderMenuItem from "../../../components/Common/Menus/BorderMenuItem";
@@ -19,7 +19,7 @@ import { Button } from "@mui/material";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { setIframeMode } from "../../../redux/slices/tetrisSlice";
 
-const SubBettingPage = (props: GameContentType) => {
+const TetriskPage = () => {
   const [loading, setIsloading] = useState(true);
   const { winners } = useSelector((state: any) => ({
     winners: state.tetris.winners,
@@ -87,8 +87,8 @@ const SubBettingPage = (props: GameContentType) => {
   // const iframeMode = localStorage.getItem("iframeMode");
   const iframeMode = useSelector((state: any) => state.tetris.iframeMode);
 
-  const iframeID = Number(localStorage.getItem("iframeID"));
-
+  const iframeID = 0;
+  const data = GAME_CONTENTS[0];
   return (
     <div className="lg:gap-[30px] gap-[5px] 2xl:ml-[100px] xl:ml-[50px] lg:ml-[20px] ml-[5px]  lg:mr-[20px] sm:mt-[100px] mr-[10px] mt-[80px] mb-[80px] text-gray-200">
       {!iframeMode ? (
@@ -100,16 +100,16 @@ const SubBettingPage = (props: GameContentType) => {
           <Grid item xl={8} lg={8} md={8} sm={4} xs={4}>
             <GeneralPanel style="lg:col-span-12 md:col-span-12 col-span-1">
               <SubBettingBanner
-                id={fetchGameDataById(iframeID).id}
-                title={fetchGameDataById(iframeID).title}
-                thumbnail={fetchGameDataById(iframeID).thumbnail}
-                iframeUrl={fetchGameDataById(iframeID)?.iframeUrl}
-                thumbnailBig={fetchGameDataById(iframeID).thumbnailBig}
+                // id={data.id}
+                title={data.title}
+                thumbnail={data.thumbnail}
+                iframeUrl={data?.iframeUrl}
+                thumbnailBig={data.thumbnailBig}
               />
               <div className="custom-2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-1 sm:col-span-1 xs:col-span-1 mt-6">
                 <SubBettingDescription
-                  title={fetchGameDataById(iframeID).title}
-                  description={String(fetchGameDataById(iframeID).description)}
+                  title={data.title}
+                  description={String(data.description)}
                 />
               </div>
 
@@ -161,14 +161,11 @@ const SubBettingPage = (props: GameContentType) => {
               }}
             ></Button>
           </div>
-          <iframe
-            src={fetchGameDataById(iframeID).iframeUrl}
-            className="w-full h-[764px]"
-          ></iframe>
+          <iframe src={data.iframeUrl} className="w-full h-[764px]"></iframe>
         </div>
       )}
     </div>
   );
 };
 
-export default SubBettingPage;
+export default TetriskPage;

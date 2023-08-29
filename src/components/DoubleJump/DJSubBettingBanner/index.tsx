@@ -1,9 +1,9 @@
-import SubBettingBannerBox from "../SubBettingBannerBox";
 import { GameContentType } from "../../../pages/Games";
+import DJSubBannerBox from "../DJSubBannerBox";
 
 const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
 
-const SubBettingBanner = (props: GameContentType) => {
+const DJSubBettingBanner = (props: GameContentType) => {
   return (
     <div className="relative min-h-[300px] mt-4">
       {/* {!isSmallDevice ? (
@@ -19,7 +19,7 @@ const SubBettingBanner = (props: GameContentType) => {
         className="rounded-t-[16px] min-h-[300px]"
       />
       {/* )} */}
-      <SubBettingBannerBox
+      <DJSubBannerBox
         id={props.id}
         title={props.title}
         thumbnail={props.thumbnail}
@@ -29,4 +29,4 @@ const SubBettingBanner = (props: GameContentType) => {
   );
 };
 
-export default SubBettingBanner;
+export default DJSubBettingBanner;

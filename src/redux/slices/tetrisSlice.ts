@@ -10,7 +10,7 @@ export interface TetrisState {
   depositModalOpen: boolean;
   iframeMode: boolean;
   percent: string;
-  iframeID: number;
+  // iframeID: number;
   keyNumber: number;
   rewards: object;
 }
@@ -25,7 +25,7 @@ const initialState: TetrisState = {
   depositModalOpen: false,
   iframeMode: false,
   percent: "0%",
-  iframeID: 0,
+  // iframeID: 0,
   keyNumber: 0,
   rewards: {},
 };
@@ -62,9 +62,9 @@ export const tetrisSlice = createSlice({
     setPercent: (state, action: PayloadAction<any>) => {
       state.percent = action.payload.percent;
     },
-    setIframeID: (state, action: PayloadAction<any>) => {
-      state.iframeID = action.payload.iframeID;
-    },
+    // setIframeID: (state, action: PayloadAction<any>) => {
+    //   state.iframeID = action.payload.iframeID;
+    // },
     setKeyNumber: (state, action: PayloadAction<any>) => {
       state.keyNumber = action.payload.keyNumber;
     },
@@ -84,7 +84,7 @@ export const {
   setDepositModalOpen,
   setIframeMode,
   setPercent,
-  setIframeID,
+  // setIframeID,
   setKeyNumber,
   setRewards,
 } = tetrisSlice.actions;

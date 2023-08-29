@@ -1,7 +1,8 @@
 import { RouteProps } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Betting from "../pages/Betting";
-import SubBettingPage from "../pages/Betting/SubBettingPage";
+import TetriskPage from "../pages/Betting/TetriskPage";
+import DoubleJumpPage from "../pages/Betting/DoubleJumpPage";
 import Quests from "../pages/Quests";
 import Games from "../pages/Games";
 import Lootbox from "../pages/Lootbox";
@@ -17,8 +18,12 @@ const routes: RouteProps[] = [
     path: "/",
   },
   {
-    element: <SubBettingPage id={1} title="" thumbnail="" iframeUrl="" />,
+    element: <TetriskPage />,
     path: "/tetrisk",
+  },
+  {
+    element: <DoubleJumpPage />,
+    path: "/doublejump",
   },
   {
     element: <Quests />,

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GameContentType } from "../../../pages/Games";
 import { useNavigate } from "react-router-dom";
 
-const SubBettingBannerBox = (props: GameContentType) => {
+const DJSubBannerBox = (props: GameContentType) => {
   const dispatch = useDispatch();
   const [totalUser, setTotalUser] = useState(0);
 
@@ -31,9 +31,11 @@ const SubBettingBannerBox = (props: GameContentType) => {
   });
 
   return (
-    <div className="absolute bottom-[20px] text-[#DDDDDD] bg-[#030A13]  rounded-[20px] lg:w-[300px] px-4 py-5 font-500 text-center ml-3">
-      <div className="flex justify-start">{props.title}</div>
-      <div className="flex flex-row justify-between">
+    <div className="absolute bottom-[20px] text-[#DDDDDD] bg-[#030A13]  rounded-[10px] lg:w-[350px] px-4 py-5 font-500 text-center ml-3">
+      <div className="flex justify-start font-[IBMPlexSans-Regular] font-semibold text-[16px]">
+        {props.title}
+      </div>
+      <div className="flex flex-row justify-between font-[IBMPlexMono-Regular]">
         <div className="flex flex-col text-sm">
           <div className="flex justify-start text-[12px] mt-2 items-center">
             Minimum Bet:
@@ -46,7 +48,7 @@ const SubBettingBannerBox = (props: GameContentType) => {
           </div>
           <div className="flex justify-start text-[12px] mt-2 flex-row items-center">
             <div>Play this game:</div>
-            <div className="mx-2 flex items-center justify-center text-[#29B080]">
+            <div className="mx-2 flex items-center justify-center text-[#FE7807]">
               <div className="text-center">
                 {totalUser.toLocaleString("en-US")}
               </div>
@@ -55,13 +57,13 @@ const SubBettingBannerBox = (props: GameContentType) => {
         </div>
         <div className="mt-2">
           <div
-            className="bg-[#29B080] text-black rounded-[20px] w-[80px] h-[30px] cursor-pointer text-[16px] flex items-center justify-center"
+            className="bg-[#FE7807] hover:bg-opacity-80 text-black w-[100px] h-[30px] cursor-pointer text-[12px] flex items-center justify-center "
             onClick={() => {
               // dispatch(setIframeMode({ iframeMode: true }));
               window.open(props.iframeUrl);
             }}
           >
-            Play
+            Play Now
           </div>
         </div>
       </div>
@@ -69,4 +71,4 @@ const SubBettingBannerBox = (props: GameContentType) => {
   );
 };
 
-export default SubBettingBannerBox;
+export default DJSubBannerBox;

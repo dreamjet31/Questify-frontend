@@ -8,9 +8,7 @@ type GeneralPanelType = {
 const GeneralPanel = (props: GeneralPanelType) => {
   return (
     <div
-      className={`w-full h-full md:p-[20px] p-[5px] ${
-        props.style ? props.style : ""
-      }`}
+      className={`w-full md:p-[20px] p-[5px] ${props.style ? props.style : ""}`}
     >
       {props.children}
     </div>

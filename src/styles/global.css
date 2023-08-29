@@ -48,6 +48,26 @@
   src: url('/fonts/Geogrotesque/GeogrotesqueWide-Md.ttf');
 }
 
+@font-face {
+  font-family: 'IBMPlexSans-Regular';
+  src: url('/fonts/IBMPlexSans/IBMPlexSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'IBMPlexMono-Regular';
+  src: url('/fonts/IBMPlexMono/IBMPlexMono-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'DMMono-Regular';
+  src: url('/fonts/DMMono/DMMono-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Selobae';
+  src: url('/fonts/Selobae/selobaerough.otf') format("woff2");
+}
+
 
 body {
   margin: 0;
