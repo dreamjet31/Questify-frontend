@@ -123,7 +123,7 @@ const Lootbox = () => {
           Lootboxes
         </div>
 
-        <div className="grid gap-6 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-2 grid-cols-1 mb-6">
+        <div className="grid gap-6 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 grid-cols-1 mb-6">
           {KEYS_CONTENT.map((key, index) => (
             <BorderPanel>
               <div

@@ -47,8 +47,7 @@ const RewardsContent = () => {
   }, [keyNumber]);
   // const rewards_card =
 
-  const x = 40;
-
+  const xxx = 70;
   return (
     <div className="w-[100%] pb-10 px-[2.5vw] font-[Outfit-Regular] text-white">
       <div className="mb-3 text-xl">Rewards Contents:</div>
@@ -95,10 +94,20 @@ const RewardsContent = () => {
                     <p>{item.value}</p>
                   </div>
                   {/* <div className="bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% h-1.5 w-[100%] rounded-lg"></div> */}
-
-                  {/* <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700 h-[5px]">
-                    <div className="bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full w-[45%] h-[5px]"></div>
-                  </div> */}
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700 h-[5px]">
+                    <div
+                      className={`bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full 
+                      h-[5px]`}
+                      style={{
+                        width: `${
+                          ((Number(rewards?.totalRewards?.[index]) -
+                            Number(rewards?.claimedRewards?.[index])) /
+                            Number(rewards?.totalRewards?.[index])) *
+                          100
+                        }%`,
+                      }}
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -410,46 +410,43 @@ const Header = () => {
               </div>
             )}
 
-            {
-              connectedWallet != ("keplr" as WalletWindowKey) && (
-                <div className="flex wallet-adapter-button justify-end items-center mr-2">
-                  <div className="flex items-center justify-center ">
-                    <div
-                      className="flex flex-row justify-center items-center"
-                      onClick={async () => {
-                        if (!window.keplr) {
-                          toast.warn("Please install keplr extension");
-                        } else {
-                          await connect("keplr");
-                          // console.log("asdfhasjdhfkaljsdhfkljasd");
-                        }
-                      }}
-                    >
-                      <img src="/images/SEI.svg"></img>
-                      <p className="sm:text-[12px] text-[10px] flex items-center justify-center">
-                        &nbsp;Connect Wallet
-                      </p>
-                    </div>
+            <div className="flex wallet-adapter-button justify-end items-center mr-2">
+              {connectedWallet != ("keplr" as WalletWindowKey) ? (
+                <div className="flex items-center justify-center ">
+                  <div
+                    className="flex flex-row justify-center items-center"
+                    onClick={async () => {
+                      if (!window.keplr) {
+                        toast.warn("Please install keplr extension");
+                      } else {
+                        await connect("keplr");
+                        // console.log("asdfhasjdhfkaljsdhfkljasd");
+                      }
+                    }}
+                  >
+                    <img src="/images/SEI.svg"></img>
+                    <p className="sm:text-[12px] text-[10px] flex items-center justify-center">
+                      &nbsp;Connect Wallet
+                    </p>
                   </div>
                 </div>
-              )
-              // : (
-              // <div
-              //   className="flex flex-row"
-              //   onClick={() => {
-              //     disconnect();
-              //   }}
-              // >
-              //   <img src="/images/SEI.svg"></img>
-              //   <p className="sm:text-[12px] text-[10px] flex items-center">
-              //     &nbsp;{" "}
-              //     {myAddress.substring(0, 6) +
-              //       "..." +
-              //       myAddress.substring(myAddress.length - 3)}
-              //   </p>
-              // </div>
-              // )
-            }
+              ) : (
+                <div
+                  className="flex flex-row"
+                  onClick={() => {
+                    disconnect();
+                  }}
+                >
+                  <img src="/images/SEI.svg"></img>
+                  <p className="sm:text-[12px] text-[10px] flex items-center">
+                    &nbsp;{" "}
+                    {myAddress.substring(0, 6) +
+                      "..." +
+                      myAddress.substring(myAddress.length - 3)}
+                  </p>
+                </div>
+              )}
+            </div>
             <ThemeProvider theme={darkTheme}>
               <Modal open={open} onClose={handleClose}>
                 <Box sx={modalStyle}>

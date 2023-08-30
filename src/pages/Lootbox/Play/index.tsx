@@ -91,7 +91,7 @@ const LootboxPlay = () => {
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [trybtnDisabled, setTryBtnDisabled] = useState(false);
   const [shuffledData, setShuffledData] = useState<Object[]>([]);
-  const [translateXNum, setTranslateXNum] = useState<number>((0.5 * 100) / 90); //(8 * 100) / 90
+  const [translateXNum, setTranslateXNum] = useState<number>((0.1 * 100) / 95); //(8 * 100) / 90
   const [revealColor, setRevealColor] = useState<boolean>(false);
   const [resultArray, setResultArray] = useState<Object[]>([...lootboxCard]);
   const [isChecked, setIsChecked] = useState(false);
@@ -268,10 +268,12 @@ const LootboxPlay = () => {
             (3 * 18 + 0.1) / 95
           ) * 100
         : -(
-            (4 * 16) / 8.49 +
-            (selectedCardIndex * 12) / 95 -
+            (4 * 16) / (93.4 / 12) +
+            (selectedCardIndex * 13) / 95 -
             (4 * 12 + 0.1) / 95
-          ) * 100
+          ) *
+            100 -
+          0.3
     );
 
     // 4 * 10 / 5   :   4 shuffledDatas, 10 cards per array, 5cards per screen

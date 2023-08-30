@@ -508,7 +508,7 @@
   top: 0;
   left: 0;
   border-bottom: 10px solid #FE7807;
-  border-left: 10px solid #15161E;
+  border-left: 10px solid #030A13;
 
 }
 .octagon:after {
@@ -519,7 +519,7 @@
   bottom: 0;
   left: 0;
   border-top: 10px solid #FE7807;
-  border-right: 10px solid #15161E;
+  border-right: 10px solid #030A13;
 }
 
 .octagon:hover {
