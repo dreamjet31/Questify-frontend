@@ -550,7 +550,7 @@ export const BETTING_BANNER_ITEMS: BettingBannerType[] = [
   {
     index: 1,
     title: "Tetrisk is here!",
-    backgroundImage: "/images/betting/tile.svg",
+    backgroundImage: "/images/betting/sub-bet.png",
     content:
       "Damage with Legendary Weapons. Play now to earn infinite rewards, and claim your airdrop!",
     button: "Launch Now",
@@ -560,7 +560,7 @@ export const BETTING_BANNER_ITEMS: BettingBannerType[] = [
   {
     index: 2,
     title: "Double Jump is here!",
-    backgroundImage: "/images/betting/DJ.svg",
+    backgroundImage: "/images/betting/doubleJump.jpg",
     content:
       "Damage with Legendary Weapons. Play now to earn infinite rewards, and claim your airdrop!",
     button: "Launch Now",

@@ -244,16 +244,21 @@
 .title-shadow-text{
   font-weight: 1000;
   font-size: 30px;
-  color: #edf2f7;
-  text-shadow: 0 0 30px #9370DB;
+  /* color: green; */
+  background: linear-gradient(to right, green, blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px green;
 }
 
 .paragraph-shadow-text{
   font-size: 13px;
   font-weight: 500;
-  color: #DDE2E8;
+  background: linear-gradient(to right, green, blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-top: 2rem;
-  text-shadow: 0 0 30px #9370DB;
+  text-shadow: 0 0 30px green;
 }
 
 
@@ -488,5 +493,37 @@
 }
 
 
+.octagon {
+  width: 120px;
+  height: 40px;
+  background: #FE7807;
+  position: relative;
+  z-index:10;
+}
+.octagon:before {
+  content: "";
+  width: 120px;
+  height: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 10px solid #FE7807;
+  border-left: 10px solid #15161E;
+
+}
+.octagon:after {
+  content: "";
+  width: 120px;
+  height: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-top: 10px solid #FE7807;
+  border-right: 10px solid #15161E;
+}
+
+.octagon:hover {
+  color:white;
+}
 
 

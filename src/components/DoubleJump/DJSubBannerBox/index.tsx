@@ -57,7 +57,7 @@ const DJSubBannerBox = (props: GameContentType) => {
         </div>
         <div className="mt-2">
           <div
-            className="bg-[#FE7807] hover:bg-opacity-80 text-black w-[100px] h-[30px] cursor-pointer text-[12px] flex items-center justify-center "
+            className="octagon bg-[#FE7807] hover:bg-opacity-80 text-black w-[120px] h-[50px] cursor-pointer text-[12px] flex items-center justify-center "
             onClick={() => {
               // dispatch(setIframeMode({ iframeMode: true }));
               window.open(props.iframeUrl);

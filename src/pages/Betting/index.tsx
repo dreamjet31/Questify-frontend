@@ -114,7 +114,9 @@ const Betting = () => {
       >
         <Grid item xl={11} lg={12} md={12} sm={4} xs={4}>
           <GeneralPanel>
-            <div className="rounded-lg overflow-hidden border shadow-inner border-[#132236]  ">
+            <div
+              className={`rounded-lg overflow-hidden border shadow-inner border-[#132236]  `}
+            >
               <Carousel
                 autoPlay={false}
                 IndicatorIcon={indicators}
