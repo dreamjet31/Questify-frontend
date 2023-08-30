@@ -12,6 +12,7 @@ export type BettingBannerType = {
   path?: string;
   iframeUrl?: string;
   link?: string;
+  icon?: string;
 };
 
 const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
