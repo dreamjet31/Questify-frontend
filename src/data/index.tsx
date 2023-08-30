@@ -565,7 +565,7 @@ export const BETTING_BANNER_ITEMS: BettingBannerType[] = [
       "Damage with Legendary Weapons. Play now to earn infinite rewards, and claim your airdrop!",
     button: "Launch Now",
     iframeUrl: "https://www.doublejump.wtf",
-    link: "/doublejump",
+    link: "/double-jump",
   },
   // {
   //   index: 2,
