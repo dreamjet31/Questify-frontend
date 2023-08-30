@@ -528,7 +528,7 @@ export const GAME_CONTENTS: GameContentType[] = [
     id: 1,
     title: "Tetrisk",
     link: "/tetrisk",
-    thumbnail: "/images/games/thumbnail/Tetris.png",
+    thumbnail: "/images/betting/week/game1.png",
     thumbnailBig: "/images/betting/sub-bet.png",
     iframeUrl: "https://questify-tetrisk.web.app",
     description:
@@ -537,8 +537,8 @@ export const GAME_CONTENTS: GameContentType[] = [
   {
     id: 2,
     title: "Double Jump",
-    link: "/doublejump",
-    thumbnail: "/images/games/thumbnail/Tetris.png",
+    link: "/double-jump",
+    thumbnail: "/images/betting/week/game2.png",
     thumbnailBig: "/images/betting/djBanner.png",
     iframeUrl: "https://www.doublejump.wtf",
     description:

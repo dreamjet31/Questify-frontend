@@ -24,9 +24,9 @@ const CompassBanner = () => {
     <div className="w-full">
       <GeneralPanel>
         <BorderPanel>
-          <div className="mt-[-50px] ml-[-5px]">
+          <div className="mt-[-60px] ml-[-5px]">
             <CompassLogo />
-            <div className="flex flex-col mt-16 mb-10">
+            <div className="flex flex-col 2xl:mt-8">
               <div className="flex flex-row content-center h-100">
                 <div className="w-40 flex flex-col justify-between items-center content-center">
                   <div className="-rotate-90 mt-24">Free</div>
@@ -65,8 +65,8 @@ const CompassBanner = () => {
                                       : i.inactiveThumbnail
                                     : i.inactiveThumbnail
                                 }
-                                className="self-center mx-auto my-5"
-                                width={"80px"}
+                                className="self-center mx-auto"
+                                width={"70px"}
                               />
 
                               <div className="flex justify-center text-[14px]">
@@ -160,7 +160,7 @@ const CompassBanner = () => {
                           }
                           key={index}
                         >
-                          <div className="relative ">
+                          <div>
                             <div className="p-2">
                               <img
                                 src={
@@ -168,8 +168,8 @@ const CompassBanner = () => {
                                     ? i.activeThumbnail
                                     : i.inactiveThumbnail
                                 }
-                                className="self-center mx-auto my-5"
-                                width={"80px"}
+                                className="self-center mx-auto"
+                                width={"70px"}
                               />
                               <div className="flex justify-center text-[14px]">
                                 {i.title}
@@ -197,7 +197,7 @@ const CompassBanner = () => {
                   </div>
                 </div>
 
-                <div className="mt-[243px] w-[50px] flex justify-center cursor-pointer">
+                <div className="mt-[194px] w-[50px] flex justify-center cursor-pointer">
                   <div
                     onClick={() => {
                       setState(!state);
@@ -217,7 +217,7 @@ const CompassBanner = () => {
                   </div>
                 </div>
 
-                <div className="w-[360px] flex justify-center relative mr-5 my-8">
+                <div className="w-[450px] flex justify-center relative mr-5 my-8">
                   <div className="absolute top-[20%] w-full h-0 pb-[100%] items-center justify-center align-middle">
                     <img
                       src="/images/quests/compass_box/lock_back.png"

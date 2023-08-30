@@ -301,26 +301,26 @@
   border-radius: 20px;
   box-sizing: border-box;
   border: 2px #212227 solid;
-  width: 160px;
+  width: 140px;
   margin: 20px;
 
   @media only screen and (max-width: 1920px) {
-      width: 160px;
+      width: 140px;
       margin: 30px 3px 40px 3px;
   }
 
   @media only screen and (max-width: 1600px) {
-      width: 160px;
+      width: 140px;
       margin: 30px 3px 40px 3px;
   }
 
   @media only screen and (max-width: 1440px) {
-      width: 160px;
+      width: 140px;
       margin: 30px 3px 40px 3px;
   }
 
   @media only screen and (max-width: 1366px) {
-      width: 160px;
+      width: 140px;
       margin: 30px 3px 40px 3px;
   }
 
@@ -349,26 +349,26 @@
   border-radius: 20px;
   box-sizing: border-box;
   border: 2px #4F4F4F solid;
-  width: 160px;
+  width: 140px;
   margin: 20px;
 
   @media only screen and (max-width: 1920px) {
-    width: 160px;
+    width: 140px;
     margin: 30px 3px 40px 3px;
 }
 
 @media only screen and (max-width: 1600px) {
-    width: 160px;
+    width: 140px;
     margin: 30px 3px 40px 3px;
 }
 
 @media only screen and (max-width: 1440px) {
-    width: 160px;
+    width: 140px;
     margin: 30px 3px 40px 3px;
 }
 
 @media only screen and (max-width: 1366px) {
-    width: 160px;
+    width: 140px;
     margin: 30px 3px 40px 3px;
 }
 
@@ -398,26 +398,26 @@
   border-radius: 20px;
   box-sizing: border-box;
   border: 2px #18191C solid;
-  width: 160px;
+  width: 140px;
   margin: 20px;
 
   @media only screen and (max-width: 1920px) {
-    width: 160px;
+    width: 140px;
     margin: 30px 3px 40px 3px;
 }
 
 @media only screen and (max-width: 1600px) {
-    width: 160px;
+    width: 140px;
     margin: 30px 3px 40px 3px;
 }
 
 @media only screen and (max-width: 1440px) {
-    width: 160px;
+    width: 140px;
     margin: 30px 3px 40px 3px;
 }
 
 @media only screen and (max-width: 1366px) {
-    width: 160px;
+    width: 140px;
     margin: 30px 3px 40px 3px;
 }
 

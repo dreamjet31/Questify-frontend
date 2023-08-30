@@ -23,7 +23,7 @@ const routes: RouteProps[] = [
   },
   {
     element: <DoubleJumpPage />,
-    path: "/doublejump",
+    path: "/double-jump",
   },
   {
     element: <Quests />,
