@@ -51,9 +51,9 @@ const Quests = () => {
           </Grid>
           <Grid item xl={9} lg={9} md={8} sm={4} xs={4}>
             <GeneralPanel>
-              <div className="sticky top-20 z-20 ml-2">
+              {/* <div className="sticky top-20 z-20 ml-2">
                 {isSmallDevice && <QuestProgress />}
-              </div>
+              </div> */}
               <div>{isSmallDevice && <CompassBannerMobile />}</div>
               <QuestBanner
                 title="Community Quests"

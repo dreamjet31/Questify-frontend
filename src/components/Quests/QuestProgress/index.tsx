@@ -4,11 +4,6 @@ import Grid from "@mui/material/Grid";
 import { WalletWindowKey } from "@sei-js/core";
 import { SeiWalletContext } from "@sei-js/react";
 import { LEVEL_PASS_NUMS } from "../../../data";
-import {
-  setMyInfo,
-  setPercent,
-  setMyXP,
-} from "../../../redux/slices/tetrisSlice";
 
 export type levelPassType = {
   number: number;

@@ -1,19 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { BorderPanel, GeneralPanel } from "../../Common/Panels";
+import { useSelector } from "react-redux";
 
 const CompassLogo = () => {
+  const level = useSelector((state: any) => state.tetris.myInfo.level);
+  const myXP = useSelector((state: any) => state.tetris.myXP);
+
   return (
     <div className="w-[350px]">
       <div className=" ml-[110px] flex flex-col font-[Outfit-Regular]">
         <div className="flex flex-row items-center justify-between">
-          <div className="text-sm">Season 1</div>
-          <div className="text-xs opacity-50">1/24 day</div>
+          <div className="text-sm">Level {level}</div>
+
+          <div className="text-xs opacity-50">
+            {myXP}/{level === 5 ? 2000 : level * 500}
+          </div>
+          <div className="text-sm opacity-50">
+            Level {level === 5 ? 5 : level + 1}
+          </div>
         </div>
         <div className="w-full  mb-2 mt-[-10px]">
           <div className="parent_div w-full h-1 rounded-sm">
             <div
               className={`flex absolute child_div rounded-sm`}
-              style={{ width: "10%" }}
+              style={{
+                width: `${
+                  level == 5 ? 100 : ((myXP - (level - 1) * 500) / 500) * 100
+                }%`,
+              }}
             ></div>
           </div>
         </div>
