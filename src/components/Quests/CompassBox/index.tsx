@@ -9,6 +9,8 @@ export type CompassBoxType = {
   inactiveThumbnail: string;
   style?: string;
   className?: string;
+  value?: number;
+  rewardID?: number;
 };
 
 const CompassBox = (props: CompassBoxType) => {

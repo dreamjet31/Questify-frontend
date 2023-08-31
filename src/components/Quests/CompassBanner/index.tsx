@@ -65,7 +65,7 @@ const CompassBanner = () => {
                                       : i.inactiveThumbnail
                                     : i.inactiveThumbnail
                                 }
-                                className="self-center mx-auto"
+                                className="rounded-full self-center mx-auto"
                                 width={"70px"}
                               />
 
@@ -168,7 +168,7 @@ const CompassBanner = () => {
                                     ? i.activeThumbnail
                                     : i.inactiveThumbnail
                                 }
-                                className="self-center mx-auto"
+                                className="self-center mx-auto rounded-full"
                                 width={"70px"}
                               />
                               <div className="flex justify-center text-[14px]">
@@ -197,7 +197,7 @@ const CompassBanner = () => {
                   </div>
                 </div>
 
-                <div className="mt-[194px] w-[50px] flex justify-center cursor-pointer">
+                {/* <div className="mt-[194px] w-[50px] flex justify-center cursor-pointer">
                   <div
                     onClick={() => {
                       setState(!state);
@@ -215,7 +215,7 @@ const CompassBanner = () => {
                       />
                     )}
                   </div>
-                </div>
+                </div> */}
 
                 <div className="w-[450px] flex justify-center relative mr-5 my-8">
                   <div className="absolute top-[20%] w-full h-0 pb-[100%] items-center justify-center align-middle">

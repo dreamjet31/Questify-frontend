@@ -11,7 +11,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 const CompassBannerMobile = () => {
   const levelNumbers: number[] = Array.from(
-    { length: 10 },
+    { length: 5 },
     (_, index) => index + 1
   );
 
@@ -62,7 +62,7 @@ const CompassBannerMobile = () => {
                                     ? i.activeThumbnail
                                     : i.inactiveThumbnail
                                 }
-                                className="self-center mx-auto"
+                                className="self-center mx-auto rounded-full"
                                 width={"80px"}
                               />
                             </div>
@@ -116,7 +116,7 @@ const CompassBannerMobile = () => {
                                     ? i.activeThumbnail
                                     : i.inactiveThumbnail
                                 }
-                                className="self-center mx-auto"
+                                className="self-center mx-auto rounded-full"
                                 width={"80px"}
                               />
                             </div>
