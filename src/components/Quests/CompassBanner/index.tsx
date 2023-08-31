@@ -2,23 +2,59 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BorderPanel, GeneralPanel } from "../../Common/Panels";
 import CompassLogo from "../CompassLogo";
-import { ProgressBar } from "react-toastify/dist/components";
 import { COMPASS_BOX_FREE, COMPASS_BOX_COMPASS } from "../../../data";
 import CheckIcon from "@mui/icons-material/Check";
 import LockIcon from "@mui/icons-material/Lock";
-import ArrowCircleRightTwoToneIcon from "@mui/icons-material/ArrowCircleRightTwoTone";
-import ArrowCircleLeftTwoToneIcon from "@mui/icons-material/ArrowCircleLeftTwoTone";
-import { LEVEL_PASS_NUMS } from "../../../data";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
+import { LoadingButton } from "@mui/lab";
+import { apiCaller } from "../../../utils/fetcher";
+import { darkTheme } from "../../../pages/Lootbox";
+import { modalStyle } from "../../../pages/Lootbox";
+import { toast } from "react-toastify";
+import { setMyInfo } from "../../../redux/slices/tetrisSlice";
 
 const CompassBanner = () => {
-  const [state, setState] = useState(true);
-  const startIndex = state ? 0 : 5;
-  const endIndex = state ? 5 : 10;
+  const dispatch = useDispatch();
   const level = useSelector((state: any) => state.tetris.myInfo.level);
   const levelNumbers: number[] = Array.from(
-    { length: 10 },
+    { length: 5 },
     (_, index) => index + 1
   );
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const [loadingState, setLoadingState] = useState(false);
+  const { compass } = useSelector((state: any) => ({
+    compass: state.tetris?.myInfo?.compass,
+  }));
+
+  const { myInfo } = useSelector((state: any) => ({
+    myInfo: state.tetris?.myInfo,
+  }));
+
+  const compassUnlock = async () => {
+    if (myInfo.totalBalance < 20)
+      toast.warn("Sorry, Your balance is not enough!");
+    else {
+      try {
+        const result = await apiCaller.post("users/compassUnlock", {
+          wallet: myInfo.wallet,
+        });
+        dispatch(setMyInfo({ myInfo: result.data.existingUser }));
+      } catch (err: any) {
+        throw new Error();
+      }
+    }
+  };
 
   return (
     <div className="w-full">
@@ -31,191 +67,152 @@ const CompassBanner = () => {
                 <div className="w-40 flex flex-col justify-between items-center content-center">
                   <div className="-rotate-90 mt-24">Free</div>
 
-                  <div className="flex flex-col mb-12">
-                    <div className="-rotate-90 ">Compass</div>
-                    <div className="w-10 mt-8 ml-4">
-                      <img src="/images/quests/compass_box/compass_lock.png" />
+                  {!compass ? (
+                    <div className="flex flex-col mb-12">
+                      <div className="-rotate-90 ">Compass</div>
+                      <div
+                        className="w-10 mt-8 ml-4 cursor-pointer"
+                        onClick={() => {
+                          handleOpen();
+                        }}
+                      >
+                        <img src="/images/quests/compass_box/compass_lock.png" />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="flex flex-col mb-20">
+                      <div className="-rotate-90 ">Compass</div>
+                    </div>
+                  )}
                 </div>
-
                 <div className="col2">
                   <div className="flex flex-row justify-around">
-                    {COMPASS_BOX_FREE.slice(startIndex, endIndex).map(
-                      (i, index) => (
-                        <div
-                          className={`col2_item${
-                            state
-                              ? index < level
-                                ? "_opened"
-                                : ""
-                              : index + 5 < level
-                              ? "_opened"
-                              : ""
-                          }`}
-                          key={index}
-                        >
-                          <div className="relative">
-                            <div className="p-2">
-                              <img
-                                src={
-                                  state
-                                    ? index < level || index + 5 < level
-                                      ? i.activeThumbnail
-                                      : i.inactiveThumbnail
-                                    : i.inactiveThumbnail
-                                }
-                                className="rounded-full self-center mx-auto"
-                                width={"70px"}
-                              />
+                    {COMPASS_BOX_FREE.map((i, index) => (
+                      <div
+                        className={`col2_item${index < level ? "_opened" : ""}`}
+                        key={index}
+                      >
+                        <div className="relative">
+                          <div className="p-2">
+                            <img
+                              src={
+                                index < level
+                                  ? i.activeThumbnail
+                                  : i.inactiveThumbnail
+                              }
+                              className="self-center mx-auto"
+                              width={"70px"}
+                            />
 
-                              <div className="flex justify-center text-[14px]">
-                                {i.title}
-                              </div>
-                              <div
-                                className="flex justify-center text-[12px] text-[#51B09F]"
-                                style={{
-                                  color: state
-                                    ? index < level || index + 5 < level
-                                      ? "#51B09F"
-                                      : "#18191C"
-                                    : "#18191C",
-                                }}
-                              >
-                                <CheckIcon fontSize="small" />
-                                Complete
-                              </div>
+                            <div className="flex justify-center text-[14px]">
+                              {i.title}
+                            </div>
+                            <div
+                              className="flex justify-center text-[12px] text-[#51B09F]"
+                              style={{
+                                color: index < level ? "#51B09F" : "#18191C",
+                              }}
+                            >
+                              <CheckIcon fontSize="small" />
+                              Complete
                             </div>
                           </div>
                         </div>
-                      )
-                    )}
+                      </div>
+                    ))}
                   </div>
 
                   <div>
                     <div className="relative bg-gray-800 flex items-center">
                       <div className="flex flex-row justify-between absolute z-20 w-full mt-4">
-                        {levelNumbers
-                          .slice(startIndex, endIndex)
-                          .map((i, index) => (
-                            <div
-                              key={index}
-                              className="flex relative h-40 w-full justify-around items-center"
-                            >
-                              <div className="absolute z-10">
-                                {i <= level ? (
-                                  <div>
-                                    <img
-                                      src="/images/quests/number-container.svg"
-                                      width="30px"
-                                      height="30px"
-                                    />
-                                  </div>
-                                ) : (
-                                  <div>
-                                    <img
-                                      src="/images/quests/number-container-inactive.svg"
-                                      width="30px"
-                                      height="30px"
-                                    />
-                                  </div>
-                                )}
-                              </div>
-
-                              <span className="absolute text-white text-center mt-1 z-10">
-                                {i}
-                              </span>
+                        {levelNumbers.map((i, index) => (
+                          <div
+                            key={index}
+                            className="flex relative h-40 w-full justify-around items-center"
+                          >
+                            <div className="absolute z-10">
+                              {i <= level ? (
+                                <div>
+                                  <img
+                                    src="/images/quests/number-container.svg"
+                                    width="30px"
+                                    height="30px"
+                                  />
+                                </div>
+                              ) : (
+                                <div>
+                                  <img
+                                    src="/images/quests/number-container-inactive.svg"
+                                    width="30px"
+                                    height="30px"
+                                  />
+                                </div>
+                              )}
                             </div>
-                          ))}
+
+                            <span className="absolute text-white text-center mt-1 z-10">
+                              {i}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
 
                   <div className="parent_line h-3 rounded-sm">
-                    {state ? (
-                      <div
-                        className={`flex absolute child_line rounded-sm`}
-                        style={{ width: (level / 5) * 100 + "%" }}
-                      ></div>
-                    ) : (
-                      level > 5 && (
-                        <div
-                          className={`flex absolute child_line rounded-sm`}
-                          style={{ width: ((level - 5) / 5) * 100 + "%" }}
-                        ></div>
-                      )
-                    )}
+                    <div
+                      className={`flex absolute child_line rounded-sm`}
+                      style={{ width: (level / 5) * 100 + "%" }}
+                    ></div>
                   </div>
 
                   <div className="flex flex-row justify-around ">
-                    {COMPASS_BOX_COMPASS.slice(startIndex, endIndex).map(
-                      (i, index) => (
-                        <div
-                          className={
-                            !i.free
-                              ? `col2_item_locked`
-                              : i < level
-                              ? `col2_item`
-                              : `col2_item_opened`
-                          }
-                          key={index}
-                        >
-                          <div>
-                            <div className="p-2">
-                              <img
-                                src={
-                                  i < level
-                                    ? i.activeThumbnail
-                                    : i.inactiveThumbnail
-                                }
-                                className="self-center mx-auto rounded-full"
-                                width={"70px"}
-                              />
-                              <div className="flex justify-center text-[14px]">
-                                {i.title}
-                              </div>
-                              {i.free == true ? (
-                                <div
-                                  className="flex justify-center text-[12px] text-[#51B09F]"
-                                  style={{
-                                    color: i.opened ? "#51B09F" : "#18191C",
-                                  }}
-                                >
-                                  <CheckIcon fontSize="small" />
-                                  Complete
-                                </div>
-                              ) : (
-                                <div className="flex justify-center text-[black]">
-                                  <LockIcon />
-                                </div>
-                              )}
+                    {COMPASS_BOX_COMPASS.map((i, index) => (
+                      <div
+                        className={
+                          !compass
+                            ? `col2_item_locked`
+                            : index < level
+                            ? `col2_item_opened`
+                            : `col2_item`
+                        }
+                        key={index}
+                      >
+                        <div>
+                          <div className="p-2">
+                            <img
+                              src={
+                                index < level && compass
+                                  ? i.activeThumbnail
+                                  : i.inactiveThumbnail
+                              }
+                              className="self-center mx-auto"
+                              width={"70px"}
+                            />
+                            <div className="flex justify-center text-[14px]">
+                              {i.title}
                             </div>
+                            {compass ? (
+                              <div
+                                className="flex justify-center text-[12px] text-[#51B09F]"
+                                style={{
+                                  color: index < level ? "#51B09F" : "#18191C",
+                                }}
+                              >
+                                <CheckIcon fontSize="small" />
+                                Complete
+                              </div>
+                            ) : (
+                              <div className="flex justify-center text-[black]">
+                                <LockIcon />
+                              </div>
+                            )}
                           </div>
                         </div>
-                      )
-                    )}
+                      </div>
+                    ))}
                   </div>
                 </div>
-
-                {/* <div className="mt-[194px] w-[50px] flex justify-center cursor-pointer">
-                  <div
-                    onClick={() => {
-                      setState(!state);
-                    }}
-                  >
-                    {state ? (
-                      <ArrowCircleRightTwoToneIcon
-                        color="success"
-                        fontSize="large"
-                      />
-                    ) : (
-                      <ArrowCircleLeftTwoToneIcon
-                        color="success"
-                        fontSize="large"
-                      />
-                    )}
-                  </div>
-                </div> */}
 
                 <div className="w-[450px] flex justify-center relative mr-5 my-8">
                   <div className="absolute top-[20%] w-full h-0 pb-[100%] items-center justify-center align-middle">
@@ -238,6 +235,53 @@ const CompassBanner = () => {
           </div>
         </BorderPanel>
       </GeneralPanel>
+
+      <ThemeProvider theme={darkTheme}>
+        <Modal open={open} onClose={handleClose}>
+          <Box sx={modalStyle}>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              sx={{ textAlign: "center" }}
+              color="white"
+            >
+              <div className="flex flex-row justify-center gap-2">
+                <div>Unlock Compass with 20 </div>
+                <img
+                  src="/images/logos/main-logo.png"
+                  className="w-[30px] h-[30px]"
+                />
+              </div>
+            </Typography>
+            <div className="mt-5 flex flex-row justify-between mx-3">
+              <LoadingButton
+                color="success"
+                sx={{ textTransform: "none" }}
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                Cancel
+              </LoadingButton>
+              <LoadingButton
+                variant="contained"
+                color="success"
+                loading={loadingState}
+                sx={{ textTransform: "none" }}
+                onClick={() => {
+                  setLoadingState(true);
+                  compassUnlock();
+                  setLoadingState(false);
+                  handleClose();
+                }}
+              >
+                Unlock
+              </LoadingButton>
+            </div>
+          </Box>
+        </Modal>
+      </ThemeProvider>
     </div>
   );
 };

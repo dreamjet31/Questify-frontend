@@ -26,9 +26,9 @@ const QuestBanner = (props: QuestBannerProps) => {
 
   const [questifyCount, setQuestifyCount] = useState(new Array(4).fill(0));
   const [communityCount, setCommunityCount] = useState(new Array(4).fill(0));
+  const [djCount, setDjCount] = useState(new Array(4).fill(0));
   const [tetrisCount, setTetrisCount] = useState(new Array(7).fill(0));
-
-  // console.log(questifyCount);
+  const [lootboxCount, setLootboxCount] = useState(new Array(4).fill(0));
 
   const countOfTwos = (arr: number[]): number =>
     arr.filter((num) => num === 2).length;
@@ -36,32 +36,22 @@ const QuestBanner = (props: QuestBannerProps) => {
     myInfo: state.tetris?.myInfo,
   }));
 
-  useEffect(() => {
-    // console.log("🙌", myInfo);
-  }, []);
-
   const wallet = localStorage.getItem("connectedAddress");
 
   const setInitial = async () => {
     try {
       if (wallet) {
-        // console.log("😘", wallet);
         const result = await apiCaller.post("users/getMyInfo", {
           wallet,
         });
-        // console.log("👌", result.data.data);
         await dispatch(setMyInfo({ myInfo: result.data.data }));
       } else {
-        // toast.warn("You should connect wallet first!");
-        // console.log("😘 else", wallet);
         const result = await apiCaller.post("users/getMyInfo", {
           wallet: "template",
         });
-        // console.log("👌", result.data.data);
         await dispatch(setMyInfo({ myInfo: result.data.data }));
       }
     } catch (error) {
-      // toast.error("Cannot fetch Data!");
       console.log("Cannot fetch data");
     }
   };
@@ -75,56 +65,50 @@ const QuestBanner = (props: QuestBannerProps) => {
       setQuestifyCount(myInfo.achievedQuests?.questify);
       setTetrisCount(myInfo.achievedQuests?.tetris);
       setCommunityCount(myInfo.achievedQuests?.community);
+      setDjCount(myInfo.achievedQuests?.doublejump);
+      setLootboxCount(myInfo.achievedQuests?.lootbox);
     }
   }, [myInfo]);
 
   useEffect(() => {
     // console.log("💕", myInfo);
+    let statusArray = new Array(18).fill(0);
     try {
-      let statusArray = new Array(15).fill(0);
-      // let myArray: number[][] = [
-      //   [...Array(4)].fill(0),
-      //   [...Array(4)].fill(0),
-      //   [...Array(7)].fill(0),
-      // ];
-      // console.log("💕1", myInfo.claimedQuests);
-      // console.log("💕2", myInfo.achievedQuests);
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 18; i++) {
+        // console.log(i);
         if (i < 4) {
-          myInfo?.claimedQuests?.community[i] == 1
+          myInfo?.claimedQuests?.questify[i] == 1
             ? (statusArray[i] = 2)
-            : myInfo?.achievedQuests?.community[i] ==
+            : myInfo?.achievedQuests?.questify[i] ==
               QUESTIFY_QUESTS[i].untilClaim
             ? (statusArray[i] = 1)
             : (statusArray[i] = 0);
-        } else if (i < 8) {
-          myInfo.claimedQuests?.questify[i - 4] == 1
+        } else if (i < 11) {
+          myInfo.claimedQuests?.tetris[i - 4] == 1
             ? (statusArray[i] = 2)
-            : myInfo.achievedQuests?.questify[i - 4] ==
+            : myInfo.achievedQuests?.tetris[i - 4] ==
+              QUESTIFY_QUESTS[i].untilClaim
+            ? (statusArray[i] = 1)
+            : (statusArray[i] = 0);
+        } else if (i < 15) {
+          myInfo.claimedQuests?.doublejump[i - 11] == 1
+            ? (statusArray[i] = 2)
+            : myInfo.achievedQuests?.doublejump[i - 11] ==
               QUESTIFY_QUESTS[i].untilClaim
             ? (statusArray[i] = 1)
             : (statusArray[i] = 0);
         } else {
-          myInfo.claimedQuests?.tetris[i - 8] == 1
+          myInfo.claimedQuests?.lootbox[i - 15] == 1
             ? (statusArray[i] = 2)
-            : myInfo.achievedQuests?.tetris[i - 8] ==
-              QUESTIFY_QUESTS[i].untilClaim
+            : myInfo.achievedQuests?.lootbox[i - 15] == 1
             ? (statusArray[i] = 1)
             : (statusArray[i] = 0);
         }
       }
-
-      // console.log(QUESTIFY_QUESTS);
-      // console.log("🥲", myInfo.claimedQuests.tetris);
-      // console.log("😊", myInfo.achievedQuests.questify);
-      // console.log(QUESTIFY_QUESTS[8].untilClaim);
-      // console.log("🤣", statusArray);
-
       setQuestStatus(statusArray);
+      // console.log(statusArray);
     } catch (error) {}
   }, [myInfo]);
-
-  // console.log(questStatus);
 
   return (
     <div className="w-full">
@@ -132,7 +116,7 @@ const QuestBanner = (props: QuestBannerProps) => {
         <div className="flex w-full px-6 py-2 bg-sky-600/5 border-[#132236] border-b justify-between">
           <div className="flex items-center font-[Outfit-Regular]">
             <div className="w-[30px] mr-3">
-              <img src={props.icon}></img>
+              <img src={props.icon} className="rounded-full"></img>
             </div>
             <div className="quest_banner_title mr-10">{props.title}</div>
             <div>
@@ -140,9 +124,9 @@ const QuestBanner = (props: QuestBannerProps) => {
               {props.id == 0 ? (
                 <>{countOfTwos(questStatus.slice(0, 4))} / 4</>
               ) : props.id == 1 ? (
-                <>{countOfTwos(questStatus.slice(4, 8))} / 4</>
+                <>{countOfTwos(questStatus.slice(4, 11))} / 7</>
               ) : (
-                <>{countOfTwos(questStatus.slice(8))} / 7</>
+                <>{countOfTwos(questStatus.slice(11, 15))} / 4</>
               )}
             </div>
           </div>
@@ -150,13 +134,13 @@ const QuestBanner = (props: QuestBannerProps) => {
             <div className="flex items-center">
               <span className="text-[#8D8D8D] mr-1">Reward:</span>
               {props.reward}
-              <img
+              {/* <img
                 src="/images/quests/xp.png"
                 className="h-[16px] rounded-full ml-1"
                 alt="icon"
                 width={16}
                 height={16}
-              />
+              /> */}
             </div>
           )}
         </div>
@@ -182,7 +166,7 @@ const QuestBanner = (props: QuestBannerProps) => {
                   </div>
                 ))}
               {props.id == 1 &&
-                QUESTIFY_QUESTS.slice(4, 8).map((quest, index) => (
+                QUESTIFY_QUESTS.slice(4, 11).map((quest, index) => (
                   <QuestBox
                     key={index}
                     {...quest}
@@ -191,12 +175,12 @@ const QuestBanner = (props: QuestBannerProps) => {
                   />
                 ))}
               {props.id == 2 &&
-                QUESTIFY_QUESTS.slice(8).map((quest, index) => (
+                QUESTIFY_QUESTS.slice(11).map((quest, index) => (
                   <QuestBox
                     key={index}
                     {...quest}
-                    index={index + 8}
-                    active={questStatus[index + 8]}
+                    index={index + 11}
+                    active={questStatus[index + 11]}
                   />
                 ))}
             </div>
@@ -207,13 +191,13 @@ const QuestBanner = (props: QuestBannerProps) => {
                   : "xl:min-w-[210px] 2xl:min-w-[240px] flex justify-end items-center"
               }
             >
-              {/* <div className="w-[100] flex">asdfasdf</div> */}
               <ClaimBox
-                title="Compass!"
+                title="Lootbox key!"
                 description="You won a passport, claim it now!"
-                amount={50}
-                active={1}
-                thumbnail="/images/logos/departLogo.png"
+                amount={1}
+                active={questStatus.slice(15, 17)[props.id]}
+                thumbnail="/images/Lootbox/big_sparrow_key.png"
+                id={props.id}
               ></ClaimBox>
             </div>
           </div>

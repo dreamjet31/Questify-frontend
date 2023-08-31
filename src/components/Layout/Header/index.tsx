@@ -43,6 +43,7 @@ import {
 } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
+import { modalStyle } from "../../../pages/Lootbox";
 
 const Header = () => {
   const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
@@ -143,22 +144,6 @@ const Header = () => {
   };
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const modalStyle = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    fontFamily: "IBMPlexMono-Regular",
-    p: 4,
-    border: 1,
-    borderColor: "#6C9C6E",
-    borderRadius: "20px",
-    font: "IBMPlexMono-Regular",
-    boxShadow: "0 0 10px 0 rgb(43, 100, 50)",
   };
 
   // End Modal

@@ -8,15 +8,56 @@ import CheckIcon from "@mui/icons-material/Check";
 import LockIcon from "@mui/icons-material/Lock";
 import Grid from "@mui/material/Grid";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
+import { LoadingButton } from "@mui/lab";
+import { apiCaller } from "../../../utils/fetcher";
+import { darkTheme } from "../../../pages/Lootbox";
+import { modalStyle } from "../../../pages/Lootbox";
+import { toast } from "react-toastify";
+import { setMyInfo } from "../../../redux/slices/tetrisSlice";
 
 const CompassBannerMobile = () => {
+  const dispatch = useDispatch();
   const levelNumbers: number[] = Array.from(
     { length: 5 },
     (_, index) => index + 1
   );
 
   const level = useSelector((state: any) => state.tetris.myInfo.level);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const [loadingState, setLoadingState] = useState(false);
+  const { compass } = useSelector((state: any) => ({
+    compass: state.tetris?.myInfo?.compass,
+  }));
 
+  const { myInfo } = useSelector((state: any) => ({
+    myInfo: state.tetris?.myInfo,
+  }));
+
+  const compassUnlock = async () => {
+    if (myInfo.totalBalance < 20)
+      toast.warn("Sorry, Your balance is not enough!");
+    else {
+      try {
+        const result = await apiCaller.post("users/compassUnlock", {
+          wallet: myInfo.wallet,
+        });
+        dispatch(setMyInfo({ myInfo: result.data.existingUser }));
+      } catch (err: any) {
+        throw new Error();
+      }
+    }
+  };
   return (
     <div className="w-full mt-12">
       <GeneralPanel>
@@ -33,9 +74,16 @@ const CompassBannerMobile = () => {
                 </Grid>
                 <Grid item md={1} sm={1} xs={1}>
                   <div className="flex flex-row items-center justify-center">
-                    <div className="w-8 rotate-90">
-                      <img src="/images/quests/compass_box/compass_lock.png" />
-                    </div>
+                    {!compass && (
+                      <div
+                        className="w-8 rotate-90 cursor-pointer"
+                        onClick={() => {
+                          handleOpen();
+                        }}
+                      >
+                        <img src="/images/quests/compass_box/compass_lock.png" />
+                      </div>
+                    )}
                     <div className="ml-1">Compass</div>
                   </div>
                 </Grid>
@@ -80,7 +128,7 @@ const CompassBannerMobile = () => {
                   </div>
                 </Grid>
                 <Grid item md={1} sm={1} xs={1}>
-                  <div className="flex flex-col mt-6  justify-center ml-[-5px]">
+                  <div className="flex flex-col mt-4  justify-center ml-[-5px]">
                     {levelNumbers.map((i, index) => (
                       <BorderPanel
                         className={`rotate-45 rounded-1 w-12 h-12 mt-[27px] mb-[27px] ${
@@ -100,11 +148,11 @@ const CompassBannerMobile = () => {
                       <div className="flex justify-center mr-5">
                         <div
                           className={
-                            !i.free
+                            !compass
                               ? `col2_item_mobile_locked`
-                              : !i.opened
-                              ? `col2_item_mobile`
-                              : `col2_item_mobile_opened`
+                              : index < level
+                              ? `col2_item_mobile_opened`
+                              : `col2_item_mobile`
                           }
                           key={index}
                         >
@@ -112,7 +160,7 @@ const CompassBannerMobile = () => {
                             <div className="p-2">
                               <img
                                 src={
-                                  i.opened == true
+                                  index < level && compass
                                     ? i.activeThumbnail
                                     : i.inactiveThumbnail
                                 }
@@ -122,15 +170,15 @@ const CompassBannerMobile = () => {
                             </div>
                           </div>
                         </div>
-                        {!i.free ? (
+                        {!compass ? (
                           <div className="z-5 ml-[-25px] mt-[-8px]">
                             <LockIcon fontSize="large" />
                           </div>
                         ) : (
                           <div></div>
                         )}
-                        {i.opened ? (
-                          <div className="z-5 ml-[-25px] mt-[-8px]">
+                        {index < level ? (
+                          <div className="z-5 ml-[-30px] mt-[-8px]">
                             <CheckBoxIcon color="success" fontSize="large" />
                           </div>
                         ) : (
@@ -164,6 +212,53 @@ const CompassBannerMobile = () => {
           </div>
         </BorderPanel>
       </GeneralPanel>
+
+      <ThemeProvider theme={darkTheme}>
+        <Modal open={open} onClose={handleClose}>
+          <Box sx={modalStyle}>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              sx={{ textAlign: "center" }}
+              color="white"
+            >
+              <div className="flex flex-row justify-center gap-2">
+                <div>Unlock Compass with 20 </div>
+                <img
+                  src="/images/logos/main-logo.png"
+                  className="w-[30px] h-[30px]"
+                />
+              </div>
+            </Typography>
+            <div className="mt-5 flex flex-row justify-between mx-3">
+              <LoadingButton
+                color="success"
+                sx={{ textTransform: "none" }}
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                Cancel
+              </LoadingButton>
+              <LoadingButton
+                variant="contained"
+                color="success"
+                loading={loadingState}
+                sx={{ textTransform: "none" }}
+                onClick={() => {
+                  setLoadingState(true);
+                  compassUnlock();
+                  setLoadingState(false);
+                  handleClose();
+                }}
+              >
+                Unlock
+              </LoadingButton>
+            </div>
+          </Box>
+        </Modal>
+      </ThemeProvider>
     </div>
   );
 };

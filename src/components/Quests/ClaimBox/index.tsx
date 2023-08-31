@@ -14,6 +14,7 @@ export type ClaimBoxType = {
   description: string;
   category?: string;
   thumbnail: string;
+  id?: number;
 };
 
 const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
@@ -47,7 +48,7 @@ const ClaimBox = (props: ClaimBoxType) => {
       }
     >
       <div className="relative flex justify-center pt-1 border-b-2 rounded-t-2xl border-blue-400 bg-gradient-to-b from-green-900">
-        <img src={props.thumbnail} width={70} alt="thumbnail" />
+        <img src={props.thumbnail} width={90} alt="thumbnail" />
         <div className="absolute top-[50px] bottom-0 left-0 right-0 rounded-[10px] bg-green linearGradient"></div>
         <div className="absolute left-[12px] bottom-[4px] right-[12px] flex">
           <div className="text-[14px] flex items-center pl-2">
@@ -63,37 +64,41 @@ const ClaimBox = (props: ClaimBoxType) => {
         </div>
         <div className="flex flex-row justify-center">
           <div className="flex w-full justify-center bottom-1">
-            {activeState !== 2 ? (
-              <div className="flex flex-row items-center gap-2 ">
-                <img
-                  src="/images/quests/xp.png"
-                  className="h-[16px] rounded-full"
-                  alt="icon"
-                  width={16}
-                  height={16}
-                />
-                <div className="text-[#F3F3F3] text-[16px]">{props.amount}</div>
-                <div>
-                  <ThemeProvider theme={theme}>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      style={{ textTransform: "none", padding: "0px" }}
-                      onClick={() => {
-                        // window.open(
-                        //   "https://questify-tetrisk.web.app",
-                        //   "_blank"
-                        // );
-                      }}
-                    >
-                      Claim
-                    </Button>
-                  </ThemeProvider>
-                </div>
-              </div>
-            ) : (
+            {activeState == 2 ? (
               <div className="flex items-center">
                 <CheckCircleOutlineIcon color="success" />
+              </div>
+            ) : activeState !== 2 && activeState !== 1 ? (
+              <div className="flex flex-row items-center gap-2 ">
+                <img
+                  src="/images/Lootbox/gold_key.png"
+                  className="h-[16px]"
+                  alt="icon"
+                />
+                <div className="text-[#F3F3F3] text-[16px]">{props.amount}</div>
+              </div>
+            ) : (
+              <div className="flex flex-row items-center gap-5 ">
+                <div className="flex flex-row gap-2 items-center">
+                  <img
+                    src="/images/Lootbox/gold_key.png"
+                    className="h-[16px]"
+                    alt="icon"
+                  />
+                  <div className="text-[#F3F3F3] text-[16px]">
+                    {props.amount}
+                  </div>
+                </div>
+                <ThemeProvider theme={theme}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    style={{ textTransform: "none", padding: "0px" }}
+                    onClick={() => {}}
+                  >
+                    Claim
+                  </Button>
+                </ThemeProvider>
               </div>
             )}
           </div>

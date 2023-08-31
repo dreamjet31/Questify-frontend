@@ -27,6 +27,31 @@ export type GameContentType = {
   link?: string;
 };
 
+export const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+  typography: {
+    fontFamily: "Inter-Regular",
+  },
+});
+
+export const modalStyle = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  fontFamily: "IBMPlexMono-Regular",
+  p: 4,
+  border: 1,
+  borderColor: "#6C9C6E",
+  borderRadius: "20px",
+  font: "IBMPlexMono-Regular",
+  boxShadow: "0 0 10px 0 rgb(43, 100, 50)",
+};
+
 const Lootbox = () => {
   const [iframeID, setIframeID] = useState("");
   const dispatch = useDispatch();
@@ -54,31 +79,6 @@ const Lootbox = () => {
   }));
 
   // console.log("😰", rewards);
-
-  const darkTheme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-    typography: {
-      fontFamily: "Inter-Regular",
-    },
-  });
-
-  const modalStyle = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    fontFamily: "IBMPlexMono-Regular",
-    p: 4,
-    border: 1,
-    borderColor: "#6C9C6E",
-    borderRadius: "20px",
-    font: "IBMPlexMono-Regular",
-    boxShadow: "0 0 10px 0 rgb(43, 100, 50)",
-  };
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {

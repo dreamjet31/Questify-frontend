@@ -56,22 +56,22 @@ const Quests = () => {
               </div> */}
               <div>{isSmallDevice && <CompassBannerMobile />}</div>
               <QuestBanner
-                title="Community Quests"
+                title="Questify Quests"
                 id={0}
                 icon="/images/logos/main-logo.png"
-                reward="Compass NFT + 550"
-              />
-              <QuestBanner
-                title="Questify Quests"
-                id={1}
-                icon="/images/logos/main-logo.png"
-                reward="Compass NFT + 550"
+                reward="Sparrow Key"
               />
               <QuestBanner
                 title="Tetrisk Quests"
+                id={1}
+                icon="/images/betting/week/game1.png"
+                reward="Sparrow Key"
+              />
+              <QuestBanner
+                title="Double Jump Quests"
                 id={2}
-                icon="/images/logos/tetris-logo.png"
-                reward="Tetrisk WL + 550"
+                icon="/images/betting/week/game2.png"
+                reward="Sparrow Key"
               />
             </GeneralPanel>
           </Grid>

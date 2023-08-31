@@ -54,25 +54,24 @@ const QuestBox = (props: QuestBoxType) => {
   const [communityCount, setCommunityCount] = useState(new Array(4).fill(0));
   const [questifyCount, setQuestifyCount] = useState(new Array(4).fill(0));
   const [tetrisCount, setTetrisCount] = useState(new Array(8).fill(0));
+  const [djCount, setDjCount] = useState(new Array(4).fill(0));
+  const [lootboxCount, setLootboxCount] = useState(new Array(3).fill(0));
 
   useEffect(() => {
     if (myInfo.achievedQuests?.questify !== undefined) {
       setQuestifyCount(myInfo.achievedQuests?.questify);
       setTetrisCount(myInfo.achievedQuests?.tetris);
       setCommunityCount(myInfo.achievedQuests?.community);
+      setDjCount(myInfo.achievedQuests?.doublejump);
+      setLootboxCount(myInfo.achievedQuests?.lootbox);
     }
-
-    // console.log("🚀❤️", communityCount, questifyCount, tetrisCount);
   }, [myInfo]);
-
-  // console.log(communityCount, questifyCount, tetrisCount);
 
   let theme = createTheme({
     shape: {
       borderRadius: 10,
     },
   });
-  // console.log("🚀", activeState);
 
   return (
     <div
@@ -100,10 +99,10 @@ const QuestBox = (props: QuestBoxType) => {
           <div className="px-2 py-3 flex flex-col justify-between bg-[#040A12] rounded-b-2xl">
             <div className="text-[#F3F3F3] text-[13px] mb-4">
               {Number(props.index) < 4
-                ? communityCount[Number(props.index)]
-                : Number(props.index) < 8
-                ? questifyCount[Number(props.index) - 4]
-                : tetrisCount[Number(props.index) - 8]}
+                ? questifyCount[Number(props.index)]
+                : Number(props.index) < 11
+                ? tetrisCount[Number(props.index) - 4]
+                : djCount[Number(props.index) - 11]}
               / {QUESTIFY_QUESTS[Number(props.index)].untilClaim}:&nbsp;
               <span className="text-[#929298]">
                 {minifyString(props.description, 50)}
@@ -134,7 +133,7 @@ const QuestBox = (props: QuestBoxType) => {
                   <div>
                     <ThemeProvider theme={theme}>
                       {activeState !== 1 && activeState !== 2 ? (
-                        Number(props.index) >= 8 && (
+                        Number(props.index) >= 4 && (
                           <Button
                             variant="contained"
                             size="small"
@@ -145,10 +144,17 @@ const QuestBox = (props: QuestBoxType) => {
                               fontFamily: "Outfit-Regular",
                             }}
                             onClick={() => {
-                              window.open(
-                                "https://questify-tetrisk.web.app",
-                                "_blank"
-                              );
+                              if (Number(props.index) >= 11) {
+                                window.open(
+                                  "https://www.doublejump.wtf",
+                                  "_blank"
+                                );
+                              } else {
+                                window.open(
+                                  "https://questify-tetrisk.web.app",
+                                  "_blank"
+                                );
+                              }
                             }}
                           >
                             Play
@@ -173,6 +179,7 @@ const QuestBox = (props: QuestBoxType) => {
                             setClaimLoading(true);
 
                             let index = Number(props.index);
+                            console.log(index);
                             let result;
                             if (index < 4) {
                               result = await apiCaller.post(
@@ -183,9 +190,9 @@ const QuestBox = (props: QuestBoxType) => {
                                   index: props.index,
                                 }
                               );
-                            } else if (index < 8) {
+                            } else if (index < 11) {
                               result = await apiCaller.post(
-                                "users/claimQuest",
+                                "tetrises/claimQuest",
                                 {
                                   wallet:
                                     localStorage.getItem("connectedAddress"),
@@ -194,7 +201,7 @@ const QuestBox = (props: QuestBoxType) => {
                               );
                             } else {
                               result = await apiCaller.post(
-                                "tetrises/claimQuest",
+                                "doublejump/claimQuest",
                                 {
                                   wallet:
                                     localStorage.getItem("connectedAddress"),
