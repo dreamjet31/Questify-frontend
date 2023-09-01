@@ -68,6 +68,16 @@
   src: url('/fonts/Selobae/selobaerough.otf') format("woff2");
 }
 
+@font-face {
+  font-family: 'SpaceGrotesk-Light';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Light.ttf');
+}
+@font-face {
+  font-family: 'RussoOne-Regular';
+  src: url('/fonts/RussoOne/RussoOne-Regular.ttf');
+}
+
+
 
 body {
   margin: 0;

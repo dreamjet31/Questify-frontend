@@ -69,7 +69,7 @@ const Header = () => {
   const timer = React.useRef<number>();
 
   const myStar = useSelector((state: any) => ({
-    myStar: state.tetris.myInfo.totalStar,
+    myStar: state.tetris.myInfo?.totalStar,
   }));
 
   React.useEffect(() => {

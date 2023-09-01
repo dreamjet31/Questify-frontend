@@ -27,7 +27,7 @@ const CompassBannerMobile = () => {
     (_, index) => index + 1
   );
 
-  const level = useSelector((state: any) => state.tetris.myInfo.level);
+  const level = useSelector((state: any) => state.tetris.myInfo?.level);
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);

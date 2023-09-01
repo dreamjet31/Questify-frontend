@@ -15,7 +15,7 @@ const widthFull = window.innerWidth;
 const QuestProgress = () => {
   const dispatch = useDispatch();
   const myXP = useSelector((state: any) => state.tetris.myXP);
-  const level = useSelector((state: any) => state.tetris.myInfo.level);
+  const level = useSelector((state: any) => state.tetris.myInfo?.level);
   const percent = useSelector((state: any) => state.tetris.percent);
 
   const { supportedWallets, connect, disconnect, installedWallets } =
@@ -38,7 +38,7 @@ const QuestProgress = () => {
     myInfo: state.tetris.myInfo,
   }));
 
-  const walletAddress = myInfo.wallet;
+  const walletAddress = myInfo?.wallet;
 
   return (
     <div className="flex flex-row justify-center mb-3 mt-5">

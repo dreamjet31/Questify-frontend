@@ -16,7 +16,7 @@ const KeysContent = () => {
   // }));
 
   const keyNumber = Number(localStorage.getItem("keyNumber"));
-
+  const premium = localStorage.getItem("premium");
   // const rewardKey = useSelector((state: any) => ({
   //   rewardKey: state.tetris.myInfo.rewardKey,
   // }));
@@ -38,7 +38,9 @@ const KeysContent = () => {
             <div
               key={index}
               className={`bg-sky-600/5 border  ${
-                item.id === keyNumber ? "border-green-600" : "border-sky-950"
+                item.id === keyNumber && premium !== "true"
+                  ? "border-green-600"
+                  : "border-sky-950"
               } rounded-lg bg-[#091017] text-center cursor-pointer`}
             >
               <div>
@@ -57,6 +59,24 @@ const KeysContent = () => {
             </div>
           </Grid>
         ))}
+        {premium == "true" && (
+          <Grid item xl={1.5} lg={2} md={3} sm={4} xs={4}>
+            <div
+              className={`bg-sky-600/5 border  ${"border-green-600"} rounded-lg bg-[#091017] text-center cursor-pointer`}
+            >
+              <div>
+                <div
+                  className={`py-2 flex justify-around gap-2 rounded-lg  ${`bg-[#0C1620]`}`}
+                >
+                  <p>Premium Key</p>
+                  <div className="flex flex-row gap-1">
+                    <p>{Number(myInfo?.myInfo?.premiumKey) || 0}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Grid>
+        )}
       </Grid>
     </div>
   );

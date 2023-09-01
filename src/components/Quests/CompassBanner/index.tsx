@@ -19,7 +19,7 @@ import { setMyInfo } from "../../../redux/slices/tetrisSlice";
 
 const CompassBanner = () => {
   const dispatch = useDispatch();
-  const level = useSelector((state: any) => state.tetris.myInfo.level);
+  const level = useSelector((state: any) => state.tetris.myInfo?.level);
   const levelNumbers: number[] = Array.from(
     { length: 5 },
     (_, index) => index + 1

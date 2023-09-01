@@ -59,19 +59,19 @@ const Quests = () => {
                 title="Questify Quests"
                 id={0}
                 icon="/images/logos/main-logo.png"
-                reward="Sparrow Key"
+                reward="Compass Key"
               />
               <QuestBanner
                 title="Tetrisk Quests"
                 id={1}
                 icon="/images/betting/week/game1.png"
-                reward="Sparrow Key"
+                reward="Compass Key"
               />
               <QuestBanner
                 title="Double Jump Quests"
                 id={2}
                 icon="/images/betting/week/game2.png"
-                reward="Sparrow Key"
+                reward="Compass Key"
               />
             </GeneralPanel>
           </Grid>

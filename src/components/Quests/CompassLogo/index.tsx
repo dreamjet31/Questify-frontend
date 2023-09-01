@@ -3,7 +3,7 @@ import { BorderPanel, GeneralPanel } from "../../Common/Panels";
 import { useSelector } from "react-redux";
 
 const CompassLogo = () => {
-  const level = useSelector((state: any) => state.tetris.myInfo.level);
+  const level = useSelector((state: any) => state.tetris.myInfo?.level);
   const myXP = useSelector((state: any) => state.tetris.myXP);
 
   return (

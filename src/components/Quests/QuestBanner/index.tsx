@@ -61,12 +61,12 @@ const QuestBanner = (props: QuestBannerProps) => {
   }, []);
 
   useEffect(() => {
-    if (myInfo.achievedQuests?.questify !== undefined) {
-      setQuestifyCount(myInfo.achievedQuests?.questify);
-      setTetrisCount(myInfo.achievedQuests?.tetris);
-      setCommunityCount(myInfo.achievedQuests?.community);
-      setDjCount(myInfo.achievedQuests?.doublejump);
-      setLootboxCount(myInfo.achievedQuests?.lootbox);
+    if (myInfo?.achievedQuests?.questify !== undefined) {
+      setQuestifyCount(myInfo?.achievedQuests?.questify);
+      setTetrisCount(myInfo?.achievedQuests?.tetris);
+      setCommunityCount(myInfo?.achievedQuests?.community);
+      setDjCount(myInfo?.achievedQuests?.doublejump);
+      setLootboxCount(myInfo?.achievedQuests?.lootbox);
     }
   }, [myInfo]);
 
@@ -84,27 +84,28 @@ const QuestBanner = (props: QuestBannerProps) => {
             ? (statusArray[i] = 1)
             : (statusArray[i] = 0);
         } else if (i < 11) {
-          myInfo.claimedQuests?.tetris[i - 4] == 1
+          myInfo?.claimedQuests?.tetris[i - 4] == 1
             ? (statusArray[i] = 2)
-            : myInfo.achievedQuests?.tetris[i - 4] ==
+            : myInfo?.achievedQuests?.tetris[i - 4] ==
               QUESTIFY_QUESTS[i].untilClaim
             ? (statusArray[i] = 1)
             : (statusArray[i] = 0);
         } else if (i < 15) {
-          myInfo.claimedQuests?.doublejump[i - 11] == 1
+          myInfo?.claimedQuests?.doublejump[i - 11] == 1
             ? (statusArray[i] = 2)
-            : myInfo.achievedQuests?.doublejump[i - 11] ==
+            : myInfo?.achievedQuests?.doublejump[i - 11] ==
               QUESTIFY_QUESTS[i].untilClaim
             ? (statusArray[i] = 1)
             : (statusArray[i] = 0);
         } else {
-          myInfo.claimedQuests?.lootbox[i - 15] == 1
+          myInfo?.claimedQuests?.lootbox[i - 15] == 1
             ? (statusArray[i] = 2)
-            : myInfo.achievedQuests?.lootbox[i - 15] == 1
+            : myInfo?.achievedQuests?.lootbox[i - 15] == 1
             ? (statusArray[i] = 1)
             : (statusArray[i] = 0);
         }
       }
+      // console.log(statusArray);
       setQuestStatus(statusArray);
       // console.log(statusArray);
     } catch (error) {}
@@ -193,10 +194,10 @@ const QuestBanner = (props: QuestBannerProps) => {
             >
               <ClaimBox
                 title="Lootbox key!"
-                description="You won a passport, claim it now!"
+                description="You won the Quest, claim it now!"
                 amount={1}
                 active={questStatus.slice(15, 17)[props.id]}
-                thumbnail="/images/Lootbox/big_sparrow_key.png"
+                thumbnail="/images/Lootbox/big_compass_key.png"
                 id={props.id}
               ></ClaimBox>
             </div>

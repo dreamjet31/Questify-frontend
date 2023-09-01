@@ -58,12 +58,12 @@ const QuestBox = (props: QuestBoxType) => {
   const [lootboxCount, setLootboxCount] = useState(new Array(3).fill(0));
 
   useEffect(() => {
-    if (myInfo.achievedQuests?.questify !== undefined) {
-      setQuestifyCount(myInfo.achievedQuests?.questify);
-      setTetrisCount(myInfo.achievedQuests?.tetris);
-      setCommunityCount(myInfo.achievedQuests?.community);
-      setDjCount(myInfo.achievedQuests?.doublejump);
-      setLootboxCount(myInfo.achievedQuests?.lootbox);
+    if (myInfo?.achievedQuests?.questify !== undefined) {
+      setQuestifyCount(myInfo?.achievedQuests?.questify);
+      setTetrisCount(myInfo?.achievedQuests?.tetris);
+      setCommunityCount(myInfo?.achievedQuests?.community);
+      setDjCount(myInfo?.achievedQuests?.doublejump);
+      setLootboxCount(myInfo?.achievedQuests?.lootbox);
     }
   }, [myInfo]);
 

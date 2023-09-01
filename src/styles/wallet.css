@@ -234,7 +234,7 @@
 /* The Transformation */
 .img-hover-zoom--brightness:hover img {
   filter: brightness(100%);
-  transform: scale(1.3);
+  transform: scale(1.15);
 }
 
 
@@ -245,20 +245,20 @@
   font-weight: 1000;
   font-size: 30px;
   /* color: green; */
-  background: linear-gradient(to right, green, blue);
+  /* background: linear-gradient(to right, green, blue);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px green;
+  text-shadow: 0 0 30px green; */
 }
 
 .paragraph-shadow-text{
   font-size: 13px;
   font-weight: 500;
-  background: linear-gradient(to right, green, blue);
+  /* background: linear-gradient(to right, green, blue);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent; */
   margin-top: 2rem;
-  text-shadow: 0 0 30px green;
+  /* text-shadow: 0 0 30px green; */
 }
 
 
@@ -526,4 +526,32 @@
   color:white;
 }
 
+.border-gradient-green {
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 5px;
+  border-radius: 10px !important;
+  border-image-source: linear-gradient(to left, #065f46, #0c4a6e);
+}
 
+.gradient-box {
+  --border: 5px;
+  color: #FFF;
+  background: #000;
+  background-clip: padding-box;
+  border: solid var(--border) transparent;
+  border-radius: 1em;
+}
+
+.gradient-box:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  margin: calc(-1 * var(--border));
+  border-radius: inherit;
+  background: linear-gradient(to right, red, orange);
+}

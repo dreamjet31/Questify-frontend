@@ -17,10 +17,13 @@ import { toast } from "react-toastify";
 import { apiCaller } from "../../../utils/fetcher";
 import { setMyInfo, setRewards } from "../../../redux/slices/tetrisSlice";
 
+const premium = localStorage.getItem("premium");
+
 const shuffle = (array: Object[]) => {
   const shuffled = [...array].slice();
   let currentIndex = shuffled.length;
   let temporaryValue: Object, randomIndex: number;
+
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
@@ -63,7 +66,7 @@ const LootboxPlay = () => {
   const keyNumber = Number(localStorage.getItem("keyNumber"));
 
   const rewardKey = useSelector((state: any) => ({
-    rewardKey: state.tetris.myInfo.rewardKey,
+    rewardKey: state.tetris.myInfo?.rewardKey,
   }));
 
   const fetchLeaderboard = async () => {
@@ -297,6 +300,7 @@ const LootboxPlay = () => {
         keyID: Number(keyNumber),
         rewardID: selected,
         rewardAmount: lootboxCard[selected].amount,
+        premiumState: premium,
       });
       dispatch(setMyInfo({ myInfo: result.data.user }));
       dispatch(setRewards({ rewards: result.data.data.totalKeyInfo[0] }));
@@ -305,38 +309,50 @@ const LootboxPlay = () => {
     }
   };
 
+  const runSpinning = () => {
+    setTranslateXNum(0);
+    setBtnDisabled(true);
+    setIsReseted(false);
+    setTryBtnDisabled(true);
+
+    if (
+      rewards.claimedRewards[selected] + lootboxCard[selected].amount >
+      rewards.totalRewards[selected]
+    ) {
+      setTimeout(
+        () =>
+          toast.warn(
+            "You are a bit too late! This went away, roll again for free"
+          ),
+        4500
+      );
+    } else {
+      sendRewards();
+      setTimeout(
+        () =>
+          toast.info(
+            `Congrats! you have rewarded ${lootboxCard[selected].value} ${lootboxCard[selected].name}`
+          ),
+        4500
+      );
+    }
+  };
+
   const hadleClickBtn = () => {
     if (connected_wallet == null) {
       toast.warn("Connect the wallet first");
     } else {
-      if (rewardKey.rewardKey[Number(keyNumber)] <= 0) {
-        toast.warn("You don't have enough keys");
+      console.log(premium);
+      if (premium == "true") {
+        if (myInfo?.myInfo?.premiumKey <= 0) {
+          toast.warn("You don't have enough premium keys");
+        } else runSpinning();
       } else {
-        console.log("success");
-        setTranslateXNum(0);
-        setBtnDisabled(true);
-        setIsReseted(false);
-        setTryBtnDisabled(true);
-        if (
-          rewards.claimedRewards[selected] + lootboxCard[selected].amount >
-          rewards.totalRewards[selected]
-        ) {
-          setTimeout(
-            () =>
-              toast.warn(
-                "You are a bit too late! This went away, roll again for free"
-              ),
-            4500
-          );
+        if (rewardKey.rewardKey[Number(keyNumber)] <= 0) {
+          toast.warn("You don't have enough keys");
         } else {
-          sendRewards();
-          setTimeout(
-            () =>
-              toast.info(
-                `Congrats! you have rewarded ${lootboxCard[selected].value} ${lootboxCard[selected].name}`
-              ),
-            4500
-          );
+          console.log("success");
+          runSpinning();
         }
       }
     }

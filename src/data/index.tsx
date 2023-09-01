@@ -548,7 +548,7 @@ export const BETTING_BANNER_ITEMS: BettingBannerType[] = [
   {
     index: 1,
     title: "Tetrisk is here!",
-    backgroundImage: "/images/betting/sub-bet.png",
+    backgroundImage: "/images/betting/tile.svg",
     icon: "/images/betting/tile.svg",
     content:
       "Damage with Legendary Weapons. Play now to earn infinite rewards, and claim your airdrop!",

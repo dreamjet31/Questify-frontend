@@ -6,6 +6,9 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { BorderPanel } from "../../Common/Panels";
 import { Button, styled } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { apiCaller } from "../../../utils/fetcher";
+import { setMyInfo } from "../../../redux/slices/tetrisSlice";
+import { LoadingButton } from "@mui/lab";
 
 export type ClaimBoxType = {
   active: number;
@@ -26,18 +29,35 @@ let theme = createTheme({
 });
 
 const ClaimBox = (props: ClaimBoxType) => {
+  const dispatch = useDispatch();
   const [activeState, setActiveState] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const [claimLoading, setClaimLoading] = React.useState(false);
 
   const propsActiveState = props.active || 0;
   const clickedCardNum = useSelector((state: any) => {
     clickedCardNum: state.tetris.clickedCardNum;
   });
+  const myInfo = useSelector((state: any) => ({
+    myInfo: state.tetris.myInfo,
+  }));
 
   useEffect(() => {
     setActiveState(propsActiveState);
   }, [propsActiveState]);
+
+  // const claimBox = async () => {
+  //   let result;
+  //   try {
+  //     result = await apiCaller.post("users/compassKeyRewards", {
+  //       wallet: myInfo.myInfo.wallet,
+  //       questID: props.id,
+  //     });
+  //     dispatch(setMyInfo({ myInfo: result.data.existingUser }));
+  //   } catch (err: any) {
+  //     throw new Error();
+  //   }
+  // };
 
   return (
     <div
@@ -90,14 +110,36 @@ const ClaimBox = (props: ClaimBoxType) => {
                   </div>
                 </div>
                 <ThemeProvider theme={theme}>
-                  <Button
+                  <LoadingButton
                     variant="contained"
                     size="small"
+                    loading={claimLoading}
                     style={{ textTransform: "none", padding: "0px" }}
-                    onClick={() => {}}
+                    onClick={async () => {
+                      // console.log(props.id);
+                      // claimBox();
+                      setClaimLoading(true);
+
+                      let result;
+                      try {
+                        result = await apiCaller.post(
+                          "users/compassKeyRewards",
+                          {
+                            wallet: myInfo?.myInfo?.wallet,
+                            questID: props.id,
+                          }
+                        );
+                        dispatch(
+                          setMyInfo({ myInfo: result.data.existingUser })
+                        );
+                      } catch (err: any) {
+                        throw new Error();
+                      }
+                      setClaimLoading(false);
+                    }}
                   >
                     Claim
-                  </Button>
+                  </LoadingButton>
                 </ThemeProvider>
               </div>
             )}
