@@ -646,7 +646,7 @@ export const COMPASS_BOX_FREE: CompassBoxType[] = [
   {
     index: 1,
     free: true,
-    title: "100 $QST",
+    title: "100 QST Stars",
     activeThumbnail: "/images/Lootbox/tokens/stars.png",
     inactiveThumbnail: "/images/quests/compass_box/stars_black.png",
     value: 100,
@@ -664,7 +664,7 @@ export const COMPASS_BOX_FREE: CompassBoxType[] = [
   {
     index: 3,
     free: true,
-    title: "150 $QST",
+    title: "150 QST Stars",
     activeThumbnail: "/images/Lootbox/tokens/stars.png",
     inactiveThumbnail: "/images/quests/compass_box/stars_black.png",
     value: 150,
@@ -673,7 +673,7 @@ export const COMPASS_BOX_FREE: CompassBoxType[] = [
   {
     index: 4,
     free: true,
-    title: "200 $QST",
+    title: "200 QST Stars",
     activeThumbnail: "/images/Lootbox/tokens/stars.png",
     inactiveThumbnail: "/images/quests/compass_box/stars_black.png",
     value: 200,

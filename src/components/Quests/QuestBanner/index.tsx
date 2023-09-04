@@ -194,7 +194,7 @@ const QuestBanner = (props: QuestBannerProps) => {
             >
               <ClaimBox
                 title="Lootbox key!"
-                description="Win the All the Quests and Claim it now!"
+                description="Win All the Quests and Claim it now!"
                 amount={1}
                 active={questStatus.slice(15, 17)[props.id]}
                 thumbnail="/images/Lootbox/big_compass_key.png"

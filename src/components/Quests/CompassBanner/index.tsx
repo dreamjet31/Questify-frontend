@@ -68,14 +68,14 @@ const CompassBanner = () => {
                   <div className="-rotate-90 mt-24">Free</div>
 
                   {!compass ? (
-                    <div className="flex flex-col mb-12">
+                    <div
+                      className="flex flex-col mb-12 cursor-pointer"
+                      onClick={() => {
+                        handleOpen();
+                      }}
+                    >
                       <div className="-rotate-90 ">Compass</div>
-                      <div
-                        className="w-10 mt-8 ml-4 cursor-pointer"
-                        onClick={() => {
-                          handleOpen();
-                        }}
-                      >
+                      <div className="w-10 mt-8 ml-4">
                         <img src="/images/quests/compass_box/compass_lock.png" />
                       </div>
                     </div>
@@ -100,7 +100,9 @@ const CompassBanner = () => {
                                   ? i.activeThumbnail
                                   : i.inactiveThumbnail
                               }
-                              className="self-center mx-auto"
+                              className={`self-center mx-auto ${
+                                index == 1 ? "rounded-full" : ""
+                              }`}
                               width={"70px"}
                             />
 

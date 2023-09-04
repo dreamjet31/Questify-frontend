@@ -555,3 +555,9 @@
   border-radius: inherit;
   background: linear-gradient(to right, red, orange);
 }
+
+.strike{
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  color:white
+  }
