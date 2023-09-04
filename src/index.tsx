@@ -13,9 +13,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <SeiWalletProvider
       chainConfiguration={{
-        chainId: "atlantic-2",
-        restUrl: "https://rest.atlantic-2.seinetwork.io/",
-        rpcUrl: "https://rpc.atlantic-2.seinetwork.io/",
+        chainId: "pacific-1",
+        restUrl: "https://rest.sei-apis.com/",
+        rpcUrl: "https://rpc.sei-apis.com/",
       }}
     >
       <App />

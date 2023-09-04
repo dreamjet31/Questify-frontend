@@ -18,12 +18,12 @@ function DJSubDescription(props: DescriptionProps) {
         </div>
         <div className="flex flex-row cursor-pointer">
           <div className="mx-1 glow_icon">
-            <a href="https://discord.gg/x6JmdHb5" target={"_blank"}>
+            <a href="https://discord.gg/GvpBQBtEa7" target={"_blank"}>
               <img src="/images/betting/Button2.png"></img>
             </a>
           </div>
           <div className="mx-1 glow_icon">
-            <a href="https://twitter.com/tetriskszn" target={"_blank"}>
+            <a href="https://twitter.com/DoubleJumpWTF" target={"_blank"}>
               <img src="/images/betting/Button3.png"></img>
             </a>
           </div>

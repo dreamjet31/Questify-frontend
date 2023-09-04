@@ -68,7 +68,7 @@ const Quests = () => {
                 reward="Compass Key"
               />
               <QuestBanner
-                title="Double Jump Quests"
+                title="Double Jump Quests (Coming Soon)"
                 id={2}
                 icon="/images/betting/week/game2.png"
                 reward="Compass Key"

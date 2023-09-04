@@ -12,6 +12,7 @@ import { Button } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CircularProgress } from "@mui/material";
+import { toast } from "react-toastify";
 
 export type QuestBoxType = {
   index?: number;
@@ -145,10 +146,11 @@ const QuestBox = (props: QuestBoxType) => {
                             }}
                             onClick={() => {
                               if (Number(props.index) >= 11) {
-                                window.open(
-                                  "https://www.doublejump.wtf",
-                                  "_blank"
-                                );
+                                // window.open(
+                                //   "https://www.doublejump.wtf",
+                                //   "_blank"
+                                // );
+                                toast.info("It's coming soon. Don't worry");
                               } else {
                                 window.open(
                                   "https://questify-tetrisk.web.app",

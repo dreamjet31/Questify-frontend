@@ -34,17 +34,17 @@ export const LEADERBOARD_SUB_MENUITEMS: BorderMenuItemProps[] = [
 
 export const QUEST_LEADERBOARD_SUB_MENUITEMS: BorderMenuItemProps[] = [
   {
-    name: "Today",
+    name: "All Time",
     active: true,
     type: "small",
   },
   {
-    name: "This week",
+    name: "Today",
     active: false,
     type: "small",
   },
   {
-    name: "All Time",
+    name: "This Week",
     active: false,
     type: "small",
   },

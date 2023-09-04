@@ -38,7 +38,7 @@ const SubBettingBannerBox = (props: GameContentType) => {
           <div className="flex justify-start text-[12px] mt-2 items-center">
             Minimum Bet:
             <span className="text-[20px] mx-2 flex flex-row items-center">
-              0.01
+              0.1
               <span className="">
                 <img src="/images/sei-icon.png" />
               </span>

@@ -16,7 +16,8 @@ export default function QuestBorderMenuItem(props: QuestBorderMenuItemProps) {
                   } px-[13px] ${
         props.active
           ? "border-[#29B080] text-[#29B080] bg-[#162724]"
-          : "border-[#272829] text-[#929298] bg-[#131314] hover:border-primary"
+          : "border-[#272829] text-[#929298] bg-[#131314]"
+        // hover:border-primary"
       } `}
     >
       <p className="whitespace-nowrap">{props.name}</p>

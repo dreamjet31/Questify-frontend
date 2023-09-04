@@ -160,14 +160,18 @@ const Header = () => {
     setSending(true);
     const fee = calculateFee(1500000, GasPrice.fromString("3750usei"));
     const transferAmount = { amount: (amount * 1e6).toString(), denom: "usei" };
+    console.log("Deposit start");
+    console.log(transferAmount);
 
     try {
+      // console.log()
       const sendResponse = await signingClient.sendTokens(
         accounts[0].address,
         "sei10cs7ddu93ge6kwfllm24cm20h4j4vx00sfaqh7",
         [transferAmount],
         fee
       );
+      console.log("sendResponse", sendResponse);
 
       if (sendResponse.transactionHash) {
         localStorage.setItem("txHash", sendResponse.transactionHash);

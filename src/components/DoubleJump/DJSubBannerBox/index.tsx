@@ -40,7 +40,7 @@ const DJSubBannerBox = (props: GameContentType) => {
           <div className="flex justify-start text-[12px] mt-2 items-center">
             Minimum Bet:
             <span className="text-[20px] mx-2 flex flex-row items-center">
-              0.01
+              0.1
               <span className="">
                 <img src="/images/sei-icon.png" />
               </span>
@@ -60,10 +60,11 @@ const DJSubBannerBox = (props: GameContentType) => {
             className="octagon bg-[#FE7807] hover:bg-opacity-80 text-black w-[120px] h-[50px] cursor-pointer text-[12px] flex items-center justify-center "
             onClick={() => {
               // dispatch(setIframeMode({ iframeMode: true }));
-              window.open(props.iframeUrl);
+              // window.open(props.iframeUrl);
+              toast.info("It is coming soon. Don't worry");
             }}
           >
-            Play Now
+            Coming Soon
           </div>
         </div>
       </div>

@@ -87,7 +87,7 @@ const QuestLeaderboard = () => {
             className="w-full mt-4 border-t border-[#132236] py-2"
             style={{ marginTop: "15px" }}
           >
-            {sortedWinners.slice(3, 6).map((item, index) => (
+            {sortedWinners.slice(3, 15).map((item, index) => (
               <LeaderXPList key={index} {...{ ...item, no: index + 4 }} />
             ))}
           </ul>

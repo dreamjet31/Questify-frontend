@@ -55,6 +55,7 @@ const LootboxPlay = () => {
   const myInfo = useSelector((state: any) => ({
     myInfo: state.tetris.myInfo,
   }));
+  console.log("🤩", myInfo);
 
   useEffect(() => {
     if (connected) {
@@ -293,6 +294,8 @@ const LootboxPlay = () => {
     setIsChecked(!isChecked);
   };
 
+  console.log(myInfo);
+
   const sendRewards = async () => {
     try {
       const result = await apiCaller.post("users/claimedRewards", {
@@ -342,8 +345,8 @@ const LootboxPlay = () => {
     if (connected_wallet == null) {
       toast.warn("Connect the wallet first");
     } else {
-      console.log(premium);
-      if (premium == "true") {
+      console.log("🗝️", premium);
+      if (premium === "true") {
         if (myInfo?.myInfo?.premiumKey <= 0) {
           toast.warn("You don't have enough premium keys");
         } else runSpinning();
