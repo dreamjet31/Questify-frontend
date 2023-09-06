@@ -412,7 +412,7 @@ const LootboxPlay = () => {
         </div>
         <div className="flex sm:flex-row flex-col">
           {/* Spin button */}
-          <div className="z-[30] mx-8 sm:my-8 my-4">
+          <div className="z-[2] mx-8 sm:my-8 my-4">
             <Button
               caption={
                 isSpinning ? (

@@ -23,7 +23,6 @@ import HeaderMenuItem from "./HeaderMenuItem";
 import { QUESTIFY_QUESTS } from "../../../data";
 import firebase from "../../../firebase";
 import { LOOTBOX_CARD_SILVER } from "../../../data";
-
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -116,9 +115,18 @@ const Header = () => {
   const getBalance = async () => {
     if (accounts.length > 0 && !!queryClient) {
       setConnected(true);
+      //@ts-ignore
       const { balances } = await queryClient.cosmos.bank.v1beta1.allBalances({
         address: accounts[0].address,
+        // pagination: {
+        //   // key: [10, 20, 30],
+        //   offset: 0.0,
+        //   limit: 1000000,
+        //   // countTotal: true,
+        //   // reverse: false,
+        // },
       });
+      console.log("🪪🪪", balances);
 
       const result = await apiCaller.post("users/walletConnectByDouble", {
         wallet: accounts[0].address,
