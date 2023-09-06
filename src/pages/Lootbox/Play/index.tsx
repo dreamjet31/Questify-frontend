@@ -11,12 +11,11 @@ import {
 import KeysContent from "../../../components/Lootbox/KeysContent";
 import RewardsContent from "../../../components/Lootbox/RewardsContent";
 import { useDispatch, useSelector } from "react-redux";
-import { WalletWindowKey } from "@sei-js/core";
 import { SeiWalletContext } from "@sei-js/react";
 import { toast } from "react-toastify";
 import { apiCaller } from "../../../utils/fetcher";
 import { setMyInfo, setRewards } from "../../../redux/slices/tetrisSlice";
-
+import { useWallet } from "@sei-js/react";
 const premium = localStorage.getItem("premium");
 
 const shuffle = (array: Object[]) => {
@@ -35,33 +34,11 @@ const shuffle = (array: Object[]) => {
 };
 
 const LootboxPlay = () => {
-  const { supportedWallets, connect, disconnect, installedWallets } =
-    useContext(SeiWalletContext);
-  const [connected, setConnected] = useState(false);
-
-  const connected_wallet = localStorage.getItem(
-    "connectedWallet"
-  ) as WalletWindowKey;
-
-  useEffect(() => {
-    const connected = localStorage.getItem(
-      "connectedWallet"
-    ) as WalletWindowKey;
-    if (connected) {
-      connect(connected);
-    }
-  }, []);
-
+  const { connectedWallet, offlineSigner, accounts } = useWallet();
   const myInfo = useSelector((state: any) => ({
     myInfo: state.tetris.myInfo,
   }));
   console.log("🤩", myInfo);
-
-  useEffect(() => {
-    if (connected) {
-      connect(connected_wallet);
-    }
-  }, []);
 
   const [key, setKey] = useState("gold");
   const keyNumber = Number(localStorage.getItem("keyNumber"));
@@ -342,7 +319,7 @@ const LootboxPlay = () => {
   };
 
   const hadleClickBtn = () => {
-    if (connected_wallet == null) {
+    if (connectedWallet == null) {
       toast.warn("Connect the wallet first");
     } else {
       console.log("🗝️", premium);
