@@ -2,9 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { GeneralPanel } from "../../components/Common/Panels";
 import QuestLeaderboard from "../../components/Leaderboard/QuestLeaderboard";
 import QuestBanner from "../../components/Quests/QuestBanner";
-import QuestProgress from "../../components/Quests/QuestProgress";
 import { useSelector, useDispatch } from "react-redux";
-import { WalletWindowKey } from "@sei-js/core";
 import { SeiWalletContext } from "@sei-js/react";
 import Grid from "@mui/material/Grid";
 import CompassBanner from "../../components/Quests/CompassBanner";
@@ -13,28 +11,6 @@ import CompassBannerMobile from "../../components/Quests/CompassBannerMobile";
 const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
 
 const Quests = () => {
-  const { supportedWallets, connect, disconnect, installedWallets } =
-    useContext(SeiWalletContext);
-  const [connected, setConnected] = useState(false);
-
-  const connected_wallet = localStorage.getItem(
-    "connectedWallet"
-  ) as WalletWindowKey;
-
-  useEffect(() => {
-    if (connected) {
-      connect(connected_wallet);
-    }
-  }, []);
-
-  const { myInfo } = useSelector((state: any) => ({
-    myInfo: state.tetris.myInfo,
-  }));
-
-  const { myXP } = useSelector((state: any) => ({
-    myXP: state.tetris.myXP,
-  }));
-
   return (
     <div>
       <div
@@ -51,9 +27,6 @@ const Quests = () => {
           </Grid>
           <Grid item xl={9} lg={9} md={8} sm={4} xs={4}>
             <GeneralPanel>
-              {/* <div className="sticky top-20 z-20 ml-2">
-                {isSmallDevice && <QuestProgress />}
-              </div> */}
               <div>{isSmallDevice && <CompassBannerMobile />}</div>
               <QuestBanner
                 title="Questify Quests"
@@ -77,8 +50,6 @@ const Quests = () => {
           </Grid>
           <Grid item xl={3} lg={3} md={4} sm={4} xs={4}>
             <GeneralPanel>
-              {/* {!isSmallDevice && <QuestProgress />} */}
-
               <QuestLeaderboard />
             </GeneralPanel>
           </Grid>

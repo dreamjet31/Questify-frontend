@@ -11,7 +11,6 @@ import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import HomeIcon from "@mui/icons-material/Home";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import { levelPassType } from "../components/Quests/QuestProgress";
 import { CompassBoxType } from "../components/Quests/CompassBox";
 
 export const LEADERBOARD_SUB_MENUITEMS: BorderMenuItemProps[] = [
@@ -632,14 +631,6 @@ export const CLAIM_BOX_ITEMS: ClaimBoxType[] = [
     description: "You won a passport, claim it now!",
     thumbnail: "/images/logos/departLogo.png",
   },
-];
-
-export const LEVEL_PASS_NUMS: levelPassType[] = [
-  // { number: 1, passed: true },
-  { number: 2, passed: true },
-  { number: 3, passed: true },
-  { number: 4, passed: true },
-  { number: 5, passed: true },
 ];
 
 export const COMPASS_BOX_FREE: CompassBoxType[] = [

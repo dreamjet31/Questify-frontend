@@ -4,15 +4,12 @@ import { useSelector } from "react-redux";
 import { useWallet } from "@sei-js/react";
 // import { WalletWindowKey } from "@sei-js/core";
 import { SeiWalletContext } from "@sei-js/react";
-import { LEVEL_PASS_NUMS } from "../../../data";
 
 const CompassLogo = () => {
   const level = useSelector((state: any) => state.tetris.myInfo?.level);
   const myXP = useSelector((state: any) => state.tetris.myXP);
-  // const { supportedWallets, connect, disconnect, installedWallets } =
-  //   useContext(SeiWalletContext);
-  const [connected, setConnected] = useState(false);
-  const { connectedWallet, offlineSigner, accounts } = useWallet();
+
+  const { connectedWallet } = useWallet();
 
   const { myInfo } = useSelector((state: any) => ({
     myInfo: state.tetris.myInfo,
@@ -33,9 +30,9 @@ const CompassLogo = () => {
         <div className="mt-2 ml-3">
           <div className="text-[24px] text-white font-[Outfit-Regular]">
             {connectedWallet
-              ? myAddress.substring(0, 6) +
+              ? myAddress?.substring(0, 6) +
                 "..." +
-                myAddress.substring(myAddress.length - 5)
+                myAddress?.substring(myAddress.length - 5)
               : "Connect Wallet"}
           </div>
           <div className="text-[#FDFDFD] opacity-80 text-sm font-[Outfit-Regular]">
