@@ -2,29 +2,17 @@ import React, { useEffect, useState, useContext } from "react";
 import { BorderPanel, GeneralPanel } from "../../Common/Panels";
 import { useSelector } from "react-redux";
 import { useWallet } from "@sei-js/react";
-import { WalletWindowKey } from "@sei-js/core";
+// import { WalletWindowKey } from "@sei-js/core";
 import { SeiWalletContext } from "@sei-js/react";
 import { LEVEL_PASS_NUMS } from "../../../data";
 
 const CompassLogo = () => {
   const level = useSelector((state: any) => state.tetris.myInfo?.level);
   const myXP = useSelector((state: any) => state.tetris.myXP);
-  const { supportedWallets, connect, disconnect, installedWallets } =
-    useContext(SeiWalletContext);
+  // const { supportedWallets, connect, disconnect, installedWallets } =
+  //   useContext(SeiWalletContext);
   const [connected, setConnected] = useState(false);
   const { connectedWallet, offlineSigner, accounts } = useWallet();
-
-  const connected_wallet = localStorage.getItem(
-    "connectedWallet"
-  ) as WalletWindowKey;
-
-  useEffect(() => {
-    if (connected) {
-      connect(connected_wallet);
-    }
-  }, []);
-
-  console.log(connected_wallet);
 
   const { myInfo } = useSelector((state: any) => ({
     myInfo: state.tetris.myInfo,
@@ -35,7 +23,7 @@ const CompassLogo = () => {
   return (
     <div className="w-[350px]">
       <div className="w-[360px] h-[70px] rounded-tl-[40px] rounded-tr-[20px] rounded-bl-[10px] bg-[#4D9B6C] flex flex-row">
-        <div className=" z-10">
+        <div className=" z-[1]">
           <img
             src="/images/quests/Avatar.png"
             width={"100px"}

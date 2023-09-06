@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { HeaderMenuTitles } from "../../../data";
-import { WalletWindowKey } from "@sei-js/core";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -14,7 +13,9 @@ import {
   useWallet,
   useSigningClient,
   useQueryClient,
+  WalletConnectButton,
 } from "@sei-js/react";
+import { SeiWallet } from "@sei-js/core";
 import { calculateFee, GasPrice } from "@cosmjs/stargate";
 import { apiCaller } from "../../../utils/fetcher";
 import LogoComp from "../LogoComp";
@@ -45,13 +46,15 @@ import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import { modalStyle } from "../../../pages/Lootbox";
 
+import { SUPPORTED_WALLETS } from "@sei-js/core";
+import { chainId } from "../../..";
+
 const Header = () => {
   const isSmallDevice = window.matchMedia("(max-width: 600px)").matches;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { supportedWallets, connect, disconnect, installedWallets } =
-    useContext(SeiWalletContext);
+  const { disconnect } = useContext(SeiWalletContext);
   const { connectedWallet, offlineSigner, accounts } = useWallet();
   const [active, setActive] = useState(0);
 
@@ -61,12 +64,26 @@ const Header = () => {
   const [withdrawAmount, setWithdrawAmount] = useState(0);
   const [currentAmount, setCurrentAmount] = useState(0);
   const [sending, setSending] = useState(false);
-  const { signingClient } = useSigningClient();
+  const { signingClient, isLoading } = useSigningClient();
   const { queryClient } = useQueryClient();
   const [myAddress, setMyAddress] = useState("");
   const [depositLoading, setDepositLoading] = React.useState(false);
   const [claimLoading, setClaimLoading] = React.useState(false);
   const timer = React.useRef<number>();
+
+  const [selectedID, setSelectedID] = useState(0);
+  const [disabledButton, setDisabledButton] = useState(false);
+  const [selectedWallet, setSelectedWallet] = useState(0);
+
+  const [filter, setFilter] = useState("");
+  const item_names = [
+    ...LOOTBOX_CARD_SILVER.filter((item) => item.id >= 1 && item.id <= 7).map(
+      (item) => item.name
+    ),
+    ...LOOTBOX_CARD_SILVER.filter((item) => item.id > 7).map(
+      (item) => item.value
+    ),
+  ];
 
   const myStar = useSelector((state: any) => ({
     myStar: state.tetris.myInfo?.totalStar,
@@ -79,13 +96,18 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    const connected = localStorage.getItem(
-      "connectedWallet"
-    ) as WalletWindowKey;
-    if (connected) {
-      connect(connected);
+    console.log(connectedWallet);
+    if (connectedWallet) {
+      localStorage.setItem("connectedAddress", accounts[0].address);
+      localStorage.setItem(
+        "connectedWallet",
+        connectedWallet.walletInfo.windowKey
+      );
+    } else {
+      localStorage.removeItem("connectedAddress");
+      // localStorage.removeItem("connectedWallet");
     }
-  }, []);
+  }, [connectedWallet]);
 
   useEffect(() => {
     localStorage.setItem("betAmount", betAmount);
@@ -121,18 +143,6 @@ const Header = () => {
       fontFamily: "Inter-Regular",
     },
   });
-
-  const [filter, setFilter] = useState("");
-  const item_names = [
-    ...LOOTBOX_CARD_SILVER.filter((item) => item.id >= 1 && item.id <= 7).map(
-      (item) => item.name
-    ),
-    ...LOOTBOX_CARD_SILVER.filter((item) => item.id > 7).map(
-      (item) => item.value
-    ),
-  ];
-  const [selectedID, setSelectedID] = useState(0);
-  const [disabledButton, setDisabledButton] = useState(false);
 
   useEffect(() => {
     setDisabledButton(selectedID == 5 ? false : true);
@@ -239,14 +249,11 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (connectedWallet) {
-      localStorage.setItem("connectedWallet", connectedWallet);
-      localStorage.setItem("connectedAddress", accounts[0].address);
-    } else {
-      localStorage.removeItem("connectedWallet");
-      localStorage.removeItem("connectedAddress");
+    getBalance();
+    if (accounts && accounts.length) {
+      getMyInfo(accounts[0].address);
     }
-  }, [connectedWallet]);
+  }, [queryClient, accounts]);
 
   useEffect(() => {
     getBalance();
@@ -316,7 +323,7 @@ const Header = () => {
                             custom-2xl:w-fit xl:w-fit lg:w-fit md:w-fit sm:w-fit"
         >
           <div className="flex flex-row items-center md:justify-end sm:justify-end">
-            {connected && (
+            {connectedWallet && (
               <div className="flex flex-row mr-2">
                 <Menu
                   menuButton={
@@ -399,43 +406,32 @@ const Header = () => {
               </div>
             )}
 
-            <div className="flex wallet-adapter-button justify-end items-center mr-2">
-              {connectedWallet != ("keplr" as WalletWindowKey) ? (
-                <div className="flex items-center justify-center ">
-                  <div
-                    className="flex flex-row justify-center items-center"
-                    onClick={async () => {
-                      if (!window.keplr) {
-                        toast.warn("Please install keplr extension");
-                      } else {
-                        await connect("keplr");
-                        // console.log("asdfhasjdhfkaljsdhfkljasd");
-                      }
-                    }}
-                  >
-                    <img src="/images/SEI.svg"></img>
-                    <p className="sm:text-[12px] text-[10px] flex items-center justify-center">
-                      &nbsp;Connect Wallet
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div
-                  className="flex flex-row"
-                  onClick={() => {
-                    disconnect();
-                  }}
-                >
-                  <img src="/images/SEI.svg"></img>
-                  <p className="sm:text-[12px] text-[10px] flex items-center">
-                    &nbsp;{" "}
-                    {myAddress.substring(0, 6) +
-                      "..." +
-                      myAddress.substring(myAddress.length - 3)}
-                  </p>
-                </div>
-              )}
-            </div>
+            {!connectedWallet ? (
+              <div className="text-white wallet-adapter-button justify-end items-center mr-2 gap-1">
+                <img src="/images/SEI.svg"></img>
+                <WalletConnectButton />
+              </div>
+            ) : (
+              <div
+                className="flex flex-row cursor-pointer wallet-adapter-button"
+                onClick={async () => {
+                  // await KEPLR_WALLET.disconnect;
+                  // setConnected(false);
+                  // console.log(connectedWallet);
+                  disconnect();
+                  localStorage.removeItem("connectedWallet");
+                }}
+              >
+                <img src="/images/SEI.svg"></img>
+                <p className="sm:text-[12px] text-[10px] flex items-center text-white">
+                  &nbsp;{" "}
+                  {myAddress.substring(0, 6) +
+                    "..." +
+                    myAddress.substring(myAddress.length - 3)}
+                </p>
+              </div>
+            )}
+
             <ThemeProvider theme={darkTheme}>
               <Modal open={open} onClose={handleClose}>
                 <Box sx={modalStyle}>
@@ -457,10 +453,6 @@ const Header = () => {
                     </div>
                   </Typography>
                   {selectedID != 5 && (
-                    // <SnackbarContent
-                    //   message="Note: This token is still not live"
-
-                    // />
                     <div className="flex justify-center">
                       <Alert severity="info">
                         Sorry, This token is not live yet
@@ -535,6 +527,7 @@ const Header = () => {
                         shrink: true,
                       }}
                     />
+
                     <div className="flex justify-end ml-3 text-[16px] h-10 cursor-pointer text-white font-mono w-30">
                       <LoadingButton
                         variant="contained"

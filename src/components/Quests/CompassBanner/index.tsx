@@ -126,13 +126,13 @@ const CompassBanner = () => {
 
                   <div>
                     <div className="relative bg-gray-800 flex items-center">
-                      <div className="flex flex-row justify-between absolute z-20 w-full mt-4">
+                      <div className="flex flex-row justify-between absolute z-[1] w-full mt-4">
                         {levelNumbers.map((i, index) => (
                           <div
                             key={index}
                             className="flex relative h-40 w-full justify-around items-center"
                           >
-                            <div className="absolute z-10">
+                            <div className="absolute z-[1]">
                               {i <= level ? (
                                 <div>
                                   <img
@@ -152,7 +152,7 @@ const CompassBanner = () => {
                               )}
                             </div>
 
-                            <span className="absolute text-white text-center mt-1 z-10">
+                            <span className="absolute text-white text-center mt-1 z-[1]">
                               {i}
                             </span>
                           </div>
