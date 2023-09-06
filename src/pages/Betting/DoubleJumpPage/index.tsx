@@ -22,8 +22,17 @@ import { Button } from "@mui/material";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { setIframeMode } from "../../../redux/slices/tetrisSlice";
 import DJSubBannerBox from "../../../components/Betting/SubBettingBannerBox";
+import { useLocation } from "react-router-dom";
 
 const DoubleJumpPage = (props: GameContentType) => {
+  const location = useLocation();
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get("access-token");
+    localStorage.setItem("accessTokenByEmail", String(id));
+    // console.log("🪪", id);
+  }, [location]);
+
   const [loading, setIsloading] = useState(true);
   const { winners } = useSelector((state: any) => ({
     winners: state.tetris.winners,
