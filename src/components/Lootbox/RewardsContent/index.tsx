@@ -79,7 +79,7 @@ const RewardsContent = () => {
                   <p>{item.percent}</p>
                 </div>
                 <div className="flex flex-col space-y-4 items-center my-10 px-5">
-                  <div className="z-[20]">
+                  <div className="z-[1]">
                     {item.name === "NFT" ? (
                       <img src={item.img} alt="logo" className="w-[100%]" />
                     ) : (

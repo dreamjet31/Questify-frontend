@@ -50,7 +50,7 @@ const KeysContent = () => {
                   <p>{item.name}</p>
                   <div className="flex flex-row gap-1">
                     <p>{Number(myInfo?.myInfo?.rewardKey?.[index]) || 0}</p>
-                    <div className="z-[20]">
+                    <div className="z-[1]">
                       <img src={item.img} alt="logo" width={24} height={24} />
                     </div>
                   </div>
