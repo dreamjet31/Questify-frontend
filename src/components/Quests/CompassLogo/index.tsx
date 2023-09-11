@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useWallet } from "@sei-js/react";
 // import { WalletWindowKey } from "@sei-js/core";
 import { SeiWalletContext } from "@sei-js/react";
+import { WalletConnectButton } from "@sei-js/react";
 
 const CompassLogo = () => {
   const level = useSelector((state: any) => state.tetris.myInfo?.level);
@@ -29,12 +30,17 @@ const CompassLogo = () => {
         </div>
         <div className="mt-2 ml-3">
           <div className="text-[24px] text-white font-[Outfit-Regular]">
-            {connectedWallet
-              ? myAddress?.substring(0, 6) +
-                "..." +
-                myAddress?.substring(myAddress.length - 5)
-              : "Connect Wallet"}
+            {connectedWallet ? (
+              myAddress?.substring(0, 6) +
+              "..." +
+              myAddress?.substring(myAddress.length - 5)
+            ) : (
+              <div className="hover:opacity-80">
+                <WalletConnectButton />
+              </div>
+            )}
           </div>
+
           <div className="text-[#FDFDFD] opacity-80 text-sm font-[Outfit-Regular]">
             Buy compass to unlock more rewards
           </div>
@@ -47,20 +53,28 @@ const CompassLogo = () => {
               className={`flex absolute child_div rounded-sm`}
               style={{
                 width: `${
-                  level == 5 ? 100 : ((myXP - (level - 1) * 500) / 500) * 100
+                  level == 5
+                    ? 100
+                    : level == 0
+                    ? 0
+                    : ((myXP - (level - 1) * 500) / 500) * 100
                 }%`,
               }}
             ></div>
           </div>
         </div>
         <div className="flex flex-row items-center justify-between">
-          <div className="text-sm">Level {level}</div>
-          <div className="text-xs opacity-50">
-            {myXP}/{level === 5 ? 2000 : level * 500}
-          </div>
-          <div className="text-sm opacity-50">
-            Level {level === 5 ? 5 : level + 1}
-          </div>
+          {level !== 0 && <div className="text-sm">Level {level}</div>}
+          {level !== 0 && (
+            <div className="text-xs opacity-50">
+              {myXP}/{level === 5 ? 2000 : level * 500}
+            </div>
+          )}
+          {level !== 0 && (
+            <div className="text-sm opacity-50">
+              Level {level === 5 ? 5 : level + 1}
+            </div>
+          )}
         </div>
       </div>
     </div>
